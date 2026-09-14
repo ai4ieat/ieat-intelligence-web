@@ -32,6 +32,7 @@ let currentCategory = "";
 let newsDetailOrigin = "home";
 let kriDetailReturnView = "home";
 let grcActiveTab = "categories";
+let grcValuePerformanceType = "VC";
 let grcExpandedCategoryCode = "";
 let grcSearchQuery = "";
 let grcCategoryFilter = "";
@@ -1008,6 +1009,7 @@ function showReports() {
 function showGrcPage(updateHash = true) {
   resetSwipeBackGesture();
   grcActiveTab = "categories";
+  grcValuePerformanceType = "VC";
   grcExpandedCategoryCode = "";
   grcSearchQuery = "";
   grcCategoryFilter = "";
@@ -1346,10 +1348,21 @@ function bindNavigation() {
     const tab = event.target.closest("[role='tab']");
     if (!tab) return;
 
-    setGrcActiveTab(tab.id === "grc-tab-indicators" ? "indicators" : "categories");
+    const tabById = {
+      "grc-tab-categories": "categories",
+      "grc-tab-indicators": "indicators",
+      "grc-tab-value": "value"
+    };
+    setGrcActiveTab(tabById[tab.id] || "categories");
   });
 
   document.querySelector("#grc-category-list").addEventListener("click", (event) => {
+    const valueLink = event.target.closest("[data-grc-value-open]");
+    if (valueLink) {
+      openGrcValuePerformance(valueLink.dataset.grcValueOpen);
+      return;
+    }
+
     const toggle = event.target.closest("[data-grc-category-toggle]");
     if (!toggle) return;
 
@@ -1371,6 +1384,14 @@ function bindNavigation() {
   document.querySelector("#grc-status-filter").addEventListener("change", (event) => {
     grcStatusFilter = event.target.value;
     renderGrcAllIndicators();
+  });
+
+  document.querySelector("#grc-value-panel").addEventListener("click", (event) => {
+    const selector = event.target.closest("[data-grc-value-type]");
+    if (!selector) return;
+
+    grcValuePerformanceType = selector.dataset.grcValueType === "VE" ? "VE" : "VC";
+    renderGrcValuePerformance();
   });
 
   document.querySelector("#watchlist-items").addEventListener("click", (event) => {
@@ -2736,12 +2757,52 @@ function normalizeGrcIndicators(indicators) {
     .sort((a, b) => a.display_order - b.display_order);
 }
 
+function normalizeGrcNullableNumber(value) {
+  if (
+    value === null ||
+    value === undefined ||
+    (typeof value === "string" && !value.trim())
+  ) {
+    return null;
+  }
+
+  const number = Number(String(value).replaceAll(",", "").trim());
+  return Number.isFinite(number) ? number : null;
+}
+
+function normalizeGrcValuePerformance(metrics) {
+  if (!Array.isArray(metrics)) return [];
+
+  return metrics
+    .map((metric, index) => ({
+      ...metric,
+      metric_id: normalizeGrcText(metric?.metric_id),
+      indicator_id: normalizeGrcText(metric?.indicator_id),
+      value_type: normalizeGrcText(metric?.value_type).toUpperCase(),
+      metric_group: normalizeGrcText(metric?.metric_group).toLowerCase(),
+      metric_name: normalizeGrcText(metric?.metric_name),
+      target_value: normalizeGrcNullableNumber(metric?.target_value),
+      target_note: normalizeGrcText(metric?.target_note),
+      performance_value: normalizeGrcNullableNumber(metric?.performance_value),
+      performance_note: normalizeGrcText(metric?.performance_note),
+      unit: normalizeGrcText(metric?.unit),
+      performance_direction: normalizeGrcText(metric?.performance_direction).toLowerCase(),
+      update_date: normalizeGrcText(metric?.update_date),
+      display_order: normalizeGrcDisplayOrder(
+        metric?.display_order,
+        metrics.length + index + 1
+      )
+    }))
+    .sort((a, b) => a.display_order - b.display_order);
+}
+
 function normalizeGrcData(grc) {
   const source = grc && typeof grc === "object" ? grc : {};
 
   return {
     categories: normalizeGrcCategories(source.categories),
-    indicators: normalizeGrcIndicators(source.indicators)
+    indicators: normalizeGrcIndicators(source.indicators),
+    value_performance: normalizeGrcValuePerformance(source.value_performance)
   };
 }
 
@@ -2762,6 +2823,19 @@ function getGrcIndicatorsByCode(grcCode) {
   if (!code) return [];
 
   return getGrcIndicators().filter((indicator) => indicator.grc_code === code);
+}
+
+function getGrcValuePerformance() {
+  return Array.isArray(briefingData?.grc?.value_performance)
+    ? [...briefingData.grc.value_performance]
+    : [];
+}
+
+function getGrcValuePerformanceByType(valueType) {
+  const type = normalizeGrcText(valueType).toUpperCase();
+  if (!type) return [];
+
+  return getGrcValuePerformance().filter((metric) => metric.value_type === type);
 }
 
 function parseGrcUpdateDate(value) {
@@ -3101,6 +3175,263 @@ function renderGrcPageSummary(categories, indicators) {
   `;
 }
 
+function formatGrcValueNumber(value) {
+  if (!Number.isFinite(value)) return "—";
+
+  return new Intl.NumberFormat("en-US", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 3
+  }).format(value);
+}
+
+function formatGrcValueWithUnit(value, unit) {
+  const formatted = formatGrcValueNumber(value);
+  const cleanUnit = normalizeGrcText(unit);
+  return cleanUnit ? `${formatted} ${cleanUnit}` : formatted;
+}
+
+function getGrcValuePresentation(metric) {
+  const actual = metric.performance_value;
+  const target = metric.target_value;
+  const hasActual = Number.isFinite(actual);
+  const hasTarget = Number.isFinite(target);
+  const direction = metric.performance_direction === "lower" ? "lower" : "higher";
+
+  if (!hasActual) {
+    return { key: "pending", label: "รอผลการดำเนินงาน", delta: "" };
+  }
+
+  if (!hasTarget) {
+    return { key: "neutral", label: "ยังไม่มีค่าเป้าหมาย", delta: "" };
+  }
+
+  const met = direction === "lower" ? actual <= target : actual >= target;
+  let delta = "";
+
+  if (target !== 0) {
+    const percent = Math.abs((actual - target) / target) * 100;
+    const percentText = `${percent.toFixed(1)}%`;
+
+    if (direction === "lower") {
+      delta = actual === target
+        ? "เท่ากับ Target"
+        : `${actual < target ? "ต่ำกว่า" : "สูงกว่า"} Target ${percentText}`;
+    } else {
+      const signedPercent = ((actual - target) / Math.abs(target)) * 100;
+      delta = `${signedPercent >= 0 ? "+" : ""}${signedPercent.toFixed(1)}% จาก Target`;
+    }
+  }
+
+  return {
+    key: met ? "met" : "below",
+    label: met ? "บรรลุเป้าหมาย" : direction === "lower" ? "ยังสูงกว่าเป้าหมาย" : "ยังต่ำกว่าเป้าหมาย",
+    delta
+  };
+}
+
+function getGrcValueChart(metric) {
+  const actual = metric.performance_value;
+  const target = metric.target_value;
+  const values = [actual, target].filter(Number.isFinite).map((value) => Math.max(0, value));
+  const scaleMax = Math.max(...values, 1) * 1.1;
+
+  return {
+    actualPercent: Number.isFinite(actual)
+      ? Math.min(100, Math.max(0, (actual / scaleMax) * 100))
+      : null,
+    targetPercent: Number.isFinite(target)
+      ? Math.min(100, Math.max(0, (target / scaleMax) * 100))
+      : null
+  };
+}
+
+function renderGrcValueBar(metric, compact = false) {
+  const presentation = getGrcValuePresentation(metric);
+  const chart = getGrcValueChart(metric);
+  const actualStyle = chart.actualPercent === null ? "" : ` style="width:${chart.actualPercent.toFixed(2)}%"`;
+  const targetStyle = chart.targetPercent === null ? "" : ` style="left:${chart.targetPercent.toFixed(2)}%"`;
+
+  return `
+    <div class="grc-value-bar grc-value-state-${presentation.key}${compact ? " grc-value-bar-compact" : ""}" aria-label="Actual ${escapeHtml(formatGrcValueNumber(metric.performance_value))}; Target ${escapeHtml(formatGrcValueNumber(metric.target_value))}">
+      <span class="grc-value-bar-track">
+        ${chart.actualPercent === null ? "" : `<span class="grc-value-bar-fill"${actualStyle}></span>`}
+        ${chart.targetPercent === null ? "" : `<span class="grc-value-target-marker"${targetStyle}></span>`}
+      </span>
+      ${compact ? "" : `<span class="grc-value-bar-labels"><small>0</small>${chart.targetPercent === null ? "" : `<small class="grc-value-target-label"${targetStyle}>Target</small>`}</span>`}
+    </div>
+  `;
+}
+
+function renderGrcCompactValuePreview(metrics, valueType) {
+  const label = valueType === "VE" ? "Value Enhancement" : "Value Creation";
+  const previewMetrics = metrics.slice(0, 2);
+
+  return `
+    <div class="grc-compact-value-preview">
+      <span class="grc-compact-value-heading">ผลการดำเนินงาน</span>
+      <div class="grc-compact-value-list">
+        ${previewMetrics.map((metric) => `
+          <div class="grc-compact-value-row">
+            <strong>${escapeHtml(metric.metric_name || metric.metric_id || "ไม่ระบุ")}</strong>
+            <span>
+              <b>${escapeHtml(formatGrcValueWithUnit(metric.performance_value, metric.unit))}</b>
+              <small>Target ${escapeHtml(formatGrcValueWithUnit(metric.target_value, metric.unit))}</small>
+            </span>
+            ${renderGrcValueBar(metric, true)}
+          </div>
+        `).join("")}
+      </div>
+      <div class="grc-compact-value-footer">
+        <span>${label}: ${metrics.length} metrics</span>
+        <button type="button" data-grc-value-open="${valueType}">ดูรายละเอียด <span aria-hidden="true">→</span></button>
+      </div>
+    </div>
+  `;
+}
+
+function renderGrcFullValueMetricRow(metric) {
+  const presentation = getGrcValuePresentation(metric);
+  const hasActual = Number.isFinite(metric.performance_value);
+  const actualText = hasActual
+    ? formatGrcValueWithUnit(metric.performance_value, metric.unit)
+    : metric.performance_note || "ยังไม่มีผลตัวเลข";
+
+  return `
+    <div class="grc-full-value-row grc-value-state-${presentation.key}">
+      <div class="grc-full-value-row-header">
+        <strong>${escapeHtml(metric.metric_name || metric.metric_id || "ไม่ระบุ")}</strong>
+        <span>${escapeHtml(presentation.label)}</span>
+      </div>
+      <div class="grc-full-value-comparison">
+        <b class="${hasActual ? "" : "is-pending"}">${escapeHtml(actualText)}</b>
+        <small>Target ${escapeHtml(formatGrcValueWithUnit(metric.target_value, metric.unit))}</small>
+      </div>
+      ${renderGrcValueBar(metric, true)}
+      ${metric.target_note ? `<p class="grc-full-value-note"><span>ที่มาเป้าหมาย</span>${escapeHtml(metric.target_note)}</p>` : ""}
+    </div>
+  `;
+}
+
+function renderGrcFullValuePreview(metrics, valueType) {
+  const label = valueType === "VE" ? "Value Enhancement" : "Value Creation";
+  const groupLabels = {
+    financial: { title: "ด้านการเงิน", subtitle: "Financial" },
+    non_financial: { title: "ด้านที่ไม่ใช่การเงิน", subtitle: "Non-Financial" }
+  };
+
+  const content = valueType === "VE"
+    ? [
+        ...Object.keys(groupLabels),
+        ...new Set(metrics.map((metric) => metric.metric_group).filter((group) => !groupLabels[group]))
+      ]
+        .map((group) => {
+          const groupMetrics = metrics.filter((metric) => metric.metric_group === group);
+          if (groupMetrics.length === 0) return "";
+          const groupLabel = groupLabels[group] || { title: group || "อื่น ๆ", subtitle: "Other" };
+
+          return `
+            <section class="grc-full-value-group">
+              <h4>${escapeHtml(groupLabel.title)} <small>${escapeHtml(groupLabel.subtitle)}</small></h4>
+              <div class="grc-full-value-list">${groupMetrics.map(renderGrcFullValueMetricRow).join("")}</div>
+            </section>
+          `;
+        })
+        .join("")
+    : `<div class="grc-full-value-list">${metrics.map(renderGrcFullValueMetricRow).join("")}</div>`;
+
+  return `
+    <div class="grc-full-value-preview">
+      <span class="grc-full-value-heading">ผลการดำเนินงาน ${label}</span>
+      ${content}
+    </div>
+  `;
+}
+
+function renderGrcValueMetricCard(metric) {
+  const presentation = getGrcValuePresentation(metric);
+  const actualText = Number.isFinite(metric.performance_value)
+    ? formatGrcValueNumber(metric.performance_value)
+    : "ยังไม่มีผลตัวเลข";
+  const date = formatGrcUpdateDate(parseGrcUpdateDate(metric.update_date));
+
+  return `
+    <article class="grc-value-card grc-value-state-${presentation.key}">
+      <header class="grc-value-card-header">
+        <span class="grc-value-metric-id">${escapeHtml(metric.metric_id || "—")}</span>
+        <span class="grc-value-state-label">${escapeHtml(presentation.label)}</span>
+      </header>
+      <h3>${escapeHtml(metric.metric_name || "ไม่ระบุชื่อตัวชี้วัด")}</h3>
+      <div class="grc-value-actual${Number.isFinite(metric.performance_value) ? "" : " is-pending"}">
+        <strong>${escapeHtml(actualText)}</strong>
+        ${Number.isFinite(metric.performance_value) && metric.unit ? `<span>${escapeHtml(metric.unit)}</span>` : ""}
+      </div>
+      ${presentation.delta ? `<p class="grc-value-delta">${escapeHtml(presentation.delta)}</p>` : ""}
+      ${!Number.isFinite(metric.performance_value) && metric.performance_note ? `<p class="grc-value-pending-note">${escapeHtml(metric.performance_note)}</p>` : ""}
+      ${renderGrcValueBar(metric)}
+      <dl class="grc-value-card-meta">
+        <div><dt>Target</dt><dd>${escapeHtml(formatGrcValueWithUnit(metric.target_value, metric.unit))}</dd></div>
+        ${metric.target_note ? `<div><dt>ที่มาเป้าหมาย</dt><dd>${escapeHtml(metric.target_note)}</dd></div>` : ""}
+        ${Number.isFinite(metric.performance_value) && metric.performance_note ? `<div><dt>หมายเหตุผลการดำเนินงาน</dt><dd>${escapeHtml(metric.performance_note)}</dd></div>` : ""}
+      </dl>
+      ${date !== "—" ? `<time class="grc-value-update" datetime="${escapeHtml(metric.update_date)}">อัปเดตล่าสุด ${escapeHtml(date)}</time>` : ""}
+    </article>
+  `;
+}
+
+function renderGrcValuePerformance() {
+  const container = document.querySelector("#grc-value-performance-content");
+  if (!container) return;
+
+  const type = grcValuePerformanceType === "VE" ? "VE" : "VC";
+  const metrics = getGrcValuePerformanceByType(type);
+  document.querySelectorAll("[data-grc-value-type]").forEach((button) => {
+    const active = button.dataset.grcValueType === type;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-pressed", String(active));
+  });
+
+  if (metrics.length === 0) {
+    container.innerHTML = '<p class="grc-value-empty">ยังไม่มีข้อมูล Value Performance สำหรับแสดงผล</p>';
+    return;
+  }
+
+  if (type === "VC") {
+    container.innerHTML = `<div class="grc-value-card-grid grc-value-card-grid-vc">${metrics.map(renderGrcValueMetricCard).join("")}</div>`;
+    return;
+  }
+
+  const groupLabels = {
+    financial: { title: "ด้านการเงิน", subtitle: "Financial Performance" },
+    non_financial: { title: "ด้านที่ไม่ใช่การเงิน", subtitle: "Non-Financial Performance" }
+  };
+  const orderedGroups = [
+    ...Object.keys(groupLabels),
+    ...new Set(metrics.map((metric) => metric.metric_group).filter((group) => !groupLabels[group]))
+  ];
+
+  container.innerHTML = orderedGroups
+    .map((group) => {
+      const groupMetrics = metrics.filter((metric) => metric.metric_group === group);
+      if (groupMetrics.length === 0) return "";
+      const label = groupLabels[group] || { title: group || "อื่น ๆ", subtitle: "Other Performance" };
+      return `
+        <section class="grc-value-group">
+          <header><h3>${escapeHtml(label.title)}</h3><p>${escapeHtml(label.subtitle)}</p></header>
+          <div class="grc-value-card-grid">${groupMetrics.map(renderGrcValueMetricCard).join("")}</div>
+        </section>
+      `;
+    })
+    .join("");
+}
+
+function openGrcValuePerformance(valueType) {
+  grcValuePerformanceType = valueType === "VE" ? "VE" : "VC";
+  setGrcActiveTab("value");
+  requestAnimationFrame(() => {
+    document.querySelector("#grc-value-panel")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+}
+
 function renderGrcIndicatorCard(indicator, categoryLookup, compact = false) {
   const status = getGrcStatusMeta(indicator.performance_level);
   const statusLabel = indicator.performance_label || status.labelTh;
@@ -3109,6 +3440,10 @@ function renderGrcIndicatorCard(indicator, categoryLookup, compact = false) {
   const target = normalizeGrcText(indicator.target);
   const performanceDetail = normalizeGrcText(indicator.performance_detail);
   const lastUpdate = formatGrcIndicatorDate(indicator.last_update);
+  const valueType = indicator.indicator_id === "7" ? "VE" : indicator.indicator_id === "8" ? "VC" : "";
+  const valueMetrics = valueType
+    ? getGrcValuePerformance().filter((metric) => metric.indicator_id === indicator.indicator_id && metric.value_type === valueType)
+    : [];
 
   return `
     <article class="grc-indicator-card${compact ? " grc-indicator-card-compact" : ""}">
@@ -3130,11 +3465,13 @@ function renderGrcIndicatorCard(indicator, categoryLookup, compact = false) {
             ? `<div class="grc-indicator-field"><span>เป้าหมาย</span><p>${formatGrcDetailText(target)}</p></div>`
             : ""
         }
-        ${
-          performanceDetail
+        ${valueMetrics.length > 0
+          ? compact
+            ? renderGrcCompactValuePreview(valueMetrics, valueType)
+            : renderGrcFullValuePreview(valueMetrics, valueType)
+          : performanceDetail
             ? `<div class="grc-indicator-field grc-indicator-detail"><span>ผลการดำเนินงาน</span><p>${formatGrcDetailText(performanceDetail)}</p></div>`
-            : ""
-        }
+            : ""}
         <div class="grc-indicator-field grc-indicator-date"><span>อัปเดตล่าสุด</span><p>${escapeHtml(lastUpdate)}</p></div>
       </div>
     </article>
@@ -3341,23 +3678,32 @@ function renderGrcLatestUpdates(indicators) {
 }
 
 function setGrcActiveTab(tabName) {
-  grcActiveTab = tabName === "indicators" ? "indicators" : "categories";
-  const categoryTab = document.querySelector("#grc-tab-categories");
-  const indicatorTab = document.querySelector("#grc-tab-indicators");
-  const categoryPanel = document.querySelector("#grc-category-panel");
-  const indicatorPanel = document.querySelector("#grc-indicator-panel");
-  const showIndicators = grcActiveTab === "indicators";
+  grcActiveTab = ["categories", "indicators", "value"].includes(tabName) ? tabName : "categories";
+  const views = {
+    categories: {
+      tab: document.querySelector("#grc-tab-categories"),
+      panel: document.querySelector("#grc-category-panel")
+    },
+    indicators: {
+      tab: document.querySelector("#grc-tab-indicators"),
+      panel: document.querySelector("#grc-indicator-panel")
+    },
+    value: {
+      tab: document.querySelector("#grc-tab-value"),
+      panel: document.querySelector("#grc-value-panel")
+    }
+  };
 
-  categoryTab.classList.toggle("active", !showIndicators);
-  categoryTab.setAttribute("aria-selected", String(!showIndicators));
-  categoryTab.tabIndex = showIndicators ? -1 : 0;
-  indicatorTab.classList.toggle("active", showIndicators);
-  indicatorTab.setAttribute("aria-selected", String(showIndicators));
-  indicatorTab.tabIndex = showIndicators ? 0 : -1;
-  categoryPanel.hidden = showIndicators;
-  indicatorPanel.hidden = !showIndicators;
+  Object.entries(views).forEach(([name, view]) => {
+    const active = name === grcActiveTab;
+    view.tab.classList.toggle("active", active);
+    view.tab.setAttribute("aria-selected", String(active));
+    view.tab.tabIndex = active ? 0 : -1;
+    view.panel.hidden = !active;
+  });
 
-  if (showIndicators) renderGrcAllIndicators();
+  if (grcActiveTab === "indicators") renderGrcAllIndicators();
+  if (grcActiveTab === "value") renderGrcValuePerformance();
 }
 
 function renderGrcPage() {

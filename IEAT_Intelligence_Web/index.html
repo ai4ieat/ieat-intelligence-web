@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#f5f7fb">
   <meta name="description" content="IEAT Daily Intelligence executive briefing dashboard">
   <title>IEAT Intelligence</title>
-  <link rel="stylesheet" href="./style.css?v=78">
+  <link rel="stylesheet" href="./style.css?v=80">
 </head>
 <body>
   <div class="app-shell">
@@ -331,6 +331,10 @@
                   <strong>รายการตัวชี้วัดทั้งหมด</strong>
                   <small>All Indicators</small>
                 </button>
+                <button id="grc-tab-value" class="grc-view-tab" type="button" role="tab" aria-selected="false" aria-controls="grc-value-panel" tabindex="-1">
+                  <strong>Value Performance</strong>
+                  <small>Value Creation &amp; Enhancement</small>
+                </button>
               </div>
 
               <div id="grc-category-panel" class="grc-tab-panel" role="tabpanel" aria-labelledby="grc-tab-categories">
@@ -367,6 +371,20 @@
                   <span id="grc-indicator-result-count">แสดง 0 ตัวชี้วัด</span>
                 </div>
                 <div id="grc-indicator-list" class="grc-indicator-list" aria-live="polite"></div>
+              </div>
+
+              <div id="grc-value-panel" class="grc-tab-panel grc-value-panel" role="tabpanel" aria-labelledby="grc-tab-value" hidden>
+                <div class="grc-value-heading">
+                  <div>
+                    <h2>Value Creation &amp; Enhancement</h2>
+                    <p>ผลการดำเนินงานเทียบกับเป้าหมาย Value Creation และ Value Enhancement</p>
+                  </div>
+                  <div class="grc-value-selector" role="group" aria-label="เลือกประเภท Value Performance">
+                    <button class="active" type="button" data-grc-value-type="VC" aria-pressed="true">Value Creation</button>
+                    <button type="button" data-grc-value-type="VE" aria-pressed="false">Value Enhancement</button>
+                  </div>
+                </div>
+                <div id="grc-value-performance-content" class="grc-value-performance-content" aria-live="polite"></div>
               </div>
             </section>
 
@@ -512,6 +530,6 @@
     </nav>
   </div>
 
-  <script src="./app.js?v=50" defer></script>
+  <script src="./app.js?v=52" defer></script>
 </body>
 </html>
