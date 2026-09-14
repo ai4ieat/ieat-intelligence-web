@@ -1636,23 +1636,40 @@ const KRI_HOME_ORDER = [
   "O5"
 ];
 
-const KRI_PERFORMANCE_ORDER = ["appetite", "tolerance", "in_progress", "not_meet"];
+const KRI_PERFORMANCE_ORDER = [
+  "appetite",
+  "tolerance",
+  "in_progress",
+  "pending_confirmation",
+  "not_meet_ra",
+  "not_meet"
+];
 
 const KRI_PERFORMANCE_COPY = {
   appetite: {
     label: "Risk Appetite",
-    summary: "บรรลุเป้าหมาย",
+    summary: "บรรลุเป้าหมาย Risk Appetite",
     insight: "จำนวนที่บรรลุ Risk Appetite"
   },
   tolerance: {
     label: "Risk Tolerance",
-    summary: "อยู่ในระดับที่ยอมรับได้",
+    summary: "บรรลุเป้าหมาย Risk Tolerance",
     insight: "จำนวนที่อยู่ใน Risk Tolerance"
   },
   in_progress: {
     label: "On Track",
     summary: "ดำเนินงานได้ตามแผน",
     insight: "จำนวนที่ดำเนินงานได้ตามแผน"
+  },
+  pending_confirmation: {
+    label: "Pending Confirmation",
+    summary: "อยู่ระหว่างตรวจสอบ/ยืนยันผล",
+    insight: "จำนวนที่อยู่ระหว่างตรวจสอบหรือยืนยันผล"
+  },
+  not_meet_ra: {
+    label: "Not Meet RA",
+    summary: "คาดว่าไม่บรรลุ RA แต่สถานะ RT รอการยืนยัน",
+    insight: "จำนวนที่คาดว่าไม่บรรลุ RA และรอยืนยัน RT"
   },
   not_meet: {
     label: "Not Meet",
@@ -1780,7 +1797,7 @@ function getKriRiskVisualFromFields(colorHex, riskColor) {
 
 function normalizePerformanceLevel(value) {
   const level = safeText(value, "in_progress").toLowerCase();
-  return ["appetite", "tolerance", "not_meet", "in_progress"].includes(level)
+  return KRI_PERFORMANCE_ORDER.includes(level)
     ? level
     : "in_progress";
 }
@@ -1794,6 +1811,14 @@ function kriPerformanceIcon(level) {
     return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 18.5 6v5.2c0 4.1-2.6 7.8-6.5 9.3-3.9-1.5-6.5-5.2-6.5-9.3V6L12 3.5Z"></path><path d="M12 7.2 15.6 8.6v2.9c0 2.1-1.4 4.2-3.6 5.2-2.2-1-3.6-3.1-3.6-5.2V8.6L12 7.2Z"></path></svg>';
   }
 
+  if (level === "pending_confirmation") {
+    return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10M7 21h10"></path><path d="M8 3c0 4 1.5 6 4 9-2.5 3-4 5-4 9M16 3c0 4-1.5 6-4 9 2.5 3 4 5 4 9"></path></svg>';
+  }
+
+  if (level === "not_meet_ra") {
+    return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 18.5 6v5.2c0 4.1-2.6 7.8-6.5 9.3-3.9-1.5-6.5-5.2-6.5-9.3V6L12 3.5Z"></path><path d="M12 8v5M12 16.5h.01"></path></svg>';
+  }
+
   if (level === "not_meet") {
     return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 10 18H2L12 3Z"></path><path d="M12 9v4M12 17h.01"></path></svg>';
   }
@@ -1802,23 +1827,19 @@ function kriPerformanceIcon(level) {
 }
 
 function getCompactPerformanceLabel(level, fallbackLabel) {
-  const labels = {
-    appetite: "Risk Appetite",
-    tolerance: "Risk Tolerance",
-    in_progress: "On Track",
-    not_meet: "Not Meet"
-  };
-  return labels[level] || safeText(fallbackLabel, "On Track");
+  return KRI_PERFORMANCE_COPY[level]?.label || safeText(fallbackLabel, "On Track");
 }
 
 function getThaiPerformanceLabel(level, fallbackLabel) {
-  const labels = {
-    appetite: "บรรลุเป้าหมาย",
-    tolerance: "อยู่ในระดับที่ยอมรับได้",
-    in_progress: "ดำเนินงานได้ตามแผน",
-    not_meet: "ไม่บรรลุเป้าหมาย RA / RT"
-  };
-  return labels[level] || safeText(fallbackLabel, "ไม่ระบุ");
+  return safeText(
+    fallbackLabel,
+    KRI_PERFORMANCE_COPY[level]?.summary || "ไม่ระบุ"
+  );
+}
+
+function getKriItemPerformanceLabel(item) {
+  const level = normalizePerformanceLevel(item?.performance_level);
+  return getThaiPerformanceLabel(level, item?.performance_label);
 }
 
 function getKriItems() {
@@ -1915,7 +1936,14 @@ function getKriPerformanceCounts(items) {
       counts[level] += 1;
       return counts;
     },
-    { appetite: 0, tolerance: 0, in_progress: 0, not_meet: 0 }
+    {
+      appetite: 0,
+      tolerance: 0,
+      in_progress: 0,
+      pending_confirmation: 0,
+      not_meet_ra: 0,
+      not_meet: 0
+    }
   );
 }
 
@@ -2386,7 +2414,8 @@ function renderKriOverviewList(items) {
       .map((item) => {
         const riskMeta = getKriRiskLevelMeta(item);
         const level = normalizePerformanceLevel(item.performance_level);
-        const performanceLabel = getThaiPerformanceLabel(level, item.performance_label);
+        const performanceCategory = getCompactPerformanceLabel(level, item.performance_label);
+        const performanceLabel = getKriItemPerformanceLabel(item);
         const trend = getKriTrendMeta(item.trend);
         const kriCode = safeText(item.kri_code, "KRI");
         const riskName = safeText(item.risk_name, "ไม่มีชื่อความเสี่ยง");
@@ -2403,7 +2432,10 @@ function renderKriOverviewList(items) {
             <span>
               <b class="kri-performance-pill kri-performance-${level}">
                 <span class="kri-performance-icon">${kriPerformanceIcon(level)}</span>
-                ${escapeHtml(performanceLabel)}
+                <span class="kri-performance-pill-copy">
+                  <strong>${escapeHtml(performanceCategory)}</strong>
+                  <small>${escapeHtml(performanceLabel)}</small>
+                </span>
               </b>
             </span>
             <span>
@@ -2475,7 +2507,8 @@ function renderKriDetail(item) {
   const riskKey = getKriRiskKey(item);
   const riskLabel = getKriRiskLevelLabel(item);
   const performanceLevel = normalizePerformanceLevel(item.performance_level);
-  const performanceLabel = getCompactPerformanceLabel(performanceLevel, item.performance_label);
+  const performanceCategory = getCompactPerformanceLabel(performanceLevel, item.performance_label);
+  const performanceLabel = getKriItemPerformanceLabel(item);
   const trend = getKriTrendMeta(item.trend);
   const impact = item.impact === null || item.impact === undefined || item.impact === "" ? "ไม่ระบุ" : String(item.impact);
   const likelihood =
@@ -2583,8 +2616,8 @@ function renderKriDetail(item) {
         <aside class="kri-detail-status-card kri-performance-${performanceLevel}" aria-label="KRI performance level">
           <span class="kri-performance-icon">${kriPerformanceIcon(performanceLevel)}</span>
           <span>Performance Level</span>
-          <strong>${escapeHtml(performanceLabel)}</strong>
-          <p>${escapeHtml(KRI_PERFORMANCE_COPY[performanceLevel]?.summary || "")}</p>
+          <strong>${escapeHtml(performanceCategory)}</strong>
+          <p>${escapeHtml(performanceLabel)}</p>
         </aside>
         <section class="kri-detail-metrics" aria-label="KRI context metrics">
           ${metricItems
@@ -2665,14 +2698,7 @@ function renderKriSnapshot() {
     .map((item) => {
       const riskVisual = getKriRiskVisual(item);
       const performanceLevel = normalizePerformanceLevel(item.performance_level);
-      const performanceLabel = safeText(
-        item.performance_label,
-        "อยู่ระหว่างติดตาม"
-      );
-      const compactPerformanceLabel = getThaiPerformanceLabel(
-        performanceLevel,
-        performanceLabel
-      );
+      const compactPerformanceLabel = getKriItemPerformanceLabel(item);
       const kriCode = safeText(item.kri_code, "KRI");
       const riskName = safeText(item.risk_name, "ไม่มีชื่อความเสี่ยง");
       const riskLabel = getKriRiskLevelLabel(item);
@@ -2787,6 +2813,9 @@ function normalizeGrcValuePerformance(metrics) {
       performance_note: normalizeGrcText(metric?.performance_note),
       unit: normalizeGrcText(metric?.unit),
       performance_direction: normalizeGrcText(metric?.performance_direction).toLowerCase(),
+      parent_metric_id: normalizeGrcText(metric?.parent_metric_id),
+      parent_metric_name: normalizeGrcText(metric?.parent_metric_name),
+      submetric_order: normalizeGrcNullableNumber(metric?.submetric_order),
       update_date: normalizeGrcText(metric?.update_date),
       display_order: normalizeGrcDisplayOrder(
         metric?.display_order,
@@ -2836,6 +2865,70 @@ function getGrcValuePerformanceByType(valueType) {
   if (!type) return [];
 
   return getGrcValuePerformance().filter((metric) => metric.value_type === type);
+}
+
+function groupGrcValuePerformance(metrics) {
+  const source = Array.isArray(metrics) ? metrics : [];
+  const parentCounts = source.reduce((counts, metric) => {
+    const parentId = normalizeGrcText(metric?.parent_metric_id);
+    if (!parentId) return counts;
+
+    const key = `${normalizeGrcText(metric?.value_type)}|${normalizeGrcText(metric?.indicator_id)}|${parentId}`;
+    counts.set(key, (counts.get(key) || 0) + 1);
+    return counts;
+  }, new Map());
+  const compositeGroups = new Map();
+  const displayGroups = [];
+
+  source.forEach((metric, sourceIndex) => {
+    const parentId = normalizeGrcText(metric?.parent_metric_id);
+    const parentKey = `${normalizeGrcText(metric?.value_type)}|${normalizeGrcText(metric?.indicator_id)}|${parentId}`;
+    const isComposite = parentId && parentCounts.get(parentKey) > 1;
+
+    if (!isComposite) {
+      displayGroups.push({
+        display_metric_id: metric.metric_id,
+        display_name: metric.metric_name,
+        is_composite: false,
+        metric_group: metric.metric_group,
+        display_order: metric.display_order,
+        source_index: sourceIndex,
+        submetrics: [metric]
+      });
+      return;
+    }
+
+    let group = compositeGroups.get(parentKey);
+    if (!group) {
+      group = {
+        display_metric_id: parentId,
+        display_name: metric.parent_metric_name || metric.metric_name || parentId,
+        is_composite: true,
+        metric_group: metric.metric_group,
+        display_order: metric.display_order,
+        source_index: sourceIndex,
+        submetrics: []
+      };
+      compositeGroups.set(parentKey, group);
+      displayGroups.push(group);
+    }
+
+    group.submetrics.push(metric);
+    if (!group.display_name && metric.parent_metric_name) group.display_name = metric.parent_metric_name;
+    if (metric.display_order < group.display_order) group.display_order = metric.display_order;
+  });
+
+  displayGroups.forEach((group) => {
+    group.submetrics.sort((a, b) => {
+      const orderA = Number.isFinite(a.submetric_order) ? a.submetric_order : a.display_order;
+      const orderB = Number.isFinite(b.submetric_order) ? b.submetric_order : b.display_order;
+      return orderA - orderB || a.display_order - b.display_order;
+    });
+  });
+
+  return displayGroups.sort(
+    (a, b) => a.display_order - b.display_order || a.source_index - b.source_index
+  );
 }
 
 function parseGrcUpdateDate(value) {
@@ -3229,18 +3322,79 @@ function getGrcValuePresentation(metric) {
   };
 }
 
+function getGrcValueGroupPresentation(group) {
+  const submetrics = Array.isArray(group?.submetrics) ? group.submetrics : [];
+  const states = submetrics.map((metric) => getGrcValuePresentation(metric).key);
+  const metCount = states.filter((state) => state === "met").length;
+  const hasFailure = states.includes("below");
+  const hasPending = states.some((state) => state === "pending" || state === "neutral");
+  const key = hasFailure ? "below" : hasPending || states.length === 0 ? "pending" : "met";
+
+  return {
+    key,
+    label: key === "met"
+      ? "บรรลุเป้าหมาย"
+      : key === "below"
+        ? "ยังไม่บรรลุเป้าหมาย"
+        : "รอผลบางองค์ประกอบ",
+    metCount,
+    totalCount: submetrics.length,
+    summary: `${metCount} / ${submetrics.length} องค์ประกอบบรรลุเป้าหมาย`
+  };
+}
+
+function getGrcValueSubmetricStatusLabel(presentationKey) {
+  if (presentationKey === "met") return "บรรลุเป้าหมาย";
+  if (presentationKey === "below") return "ยังไม่ถึงเป้าหมาย";
+  return "รอผล";
+}
+
+function getLatestGrcValueUpdateDate(metrics) {
+  return (Array.isArray(metrics) ? metrics : []).reduce((latestDate, metric) => {
+    const date = parseGrcUpdateDate(metric?.update_date);
+    return date && (!latestDate || date > latestDate) ? date : latestDate;
+  }, null);
+}
+
 function getGrcValueChart(metric) {
   const actual = metric.performance_value;
   const target = metric.target_value;
-  const values = [actual, target].filter(Number.isFinite).map((value) => Math.max(0, value));
-  const scaleMax = Math.max(...values, 1) * 1.1;
+  const hasActual = Number.isFinite(actual);
+  const hasTarget = Number.isFinite(target);
+  const direction = metric.performance_direction === "lower" ? "lower" : "higher";
+  const safeActual = hasActual ? Math.max(0, actual) : null;
+  const safeTarget = hasTarget ? Math.max(0, target) : null;
+  const isTargetMet = hasActual && hasTarget && (
+    direction === "lower" ? actual <= target : actual >= target
+  );
+  let scaleMax = 1;
+
+  if (hasActual && hasTarget) {
+    if (direction === "lower") {
+      scaleMax = actual > target
+        ? safeActual * 1.08
+        : actual === target
+          ? safeTarget
+          : safeTarget * 1.08;
+    } else {
+      scaleMax = actual < target ? safeTarget : safeActual;
+    }
+  } else if (hasActual) {
+    scaleMax = safeActual * 1.08;
+  } else if (hasTarget) {
+    scaleMax = safeTarget * 1.08;
+  }
+
+  scaleMax = Math.max(scaleMax, 1);
 
   return {
-    actualPercent: Number.isFinite(actual)
-      ? Math.min(100, Math.max(0, (actual / scaleMax) * 100))
+    actualPercent: hasActual
+      ? isTargetMet
+        ? 100
+        : Math.min(100, Math.max(0, (safeActual / scaleMax) * 100))
       : null,
-    targetPercent: Number.isFinite(target)
-      ? Math.min(100, Math.max(0, (target / scaleMax) * 100))
+    targetPercent: hasTarget
+      ? Math.min(100, Math.max(0, (safeTarget / scaleMax) * 100))
       : null
   };
 }
@@ -3250,46 +3404,73 @@ function renderGrcValueBar(metric, compact = false) {
   const chart = getGrcValueChart(metric);
   const actualStyle = chart.actualPercent === null ? "" : ` style="width:${chart.actualPercent.toFixed(2)}%"`;
   const targetStyle = chart.targetPercent === null ? "" : ` style="left:${chart.targetPercent.toFixed(2)}%"`;
+  const targetEdgeClass = chart.targetPercent === null
+    ? ""
+    : chart.targetPercent >= 99
+      ? " is-end"
+      : chart.targetPercent <= 1
+        ? " is-start"
+        : "";
 
   return `
     <div class="grc-value-bar grc-value-state-${presentation.key}${compact ? " grc-value-bar-compact" : ""}" aria-label="Actual ${escapeHtml(formatGrcValueNumber(metric.performance_value))}; Target ${escapeHtml(formatGrcValueNumber(metric.target_value))}">
       <span class="grc-value-bar-track">
         ${chart.actualPercent === null ? "" : `<span class="grc-value-bar-fill"${actualStyle}></span>`}
-        ${chart.targetPercent === null ? "" : `<span class="grc-value-target-marker"${targetStyle}></span>`}
+        ${chart.targetPercent === null ? "" : `<span class="grc-value-target-marker${targetEdgeClass}"${targetStyle}></span>`}
       </span>
-      ${compact ? "" : `<span class="grc-value-bar-labels"><small>0</small>${chart.targetPercent === null ? "" : `<small class="grc-value-target-label"${targetStyle}>Target</small>`}</span>`}
+      ${compact ? "" : `<span class="grc-value-bar-labels"><small>0</small>${chart.targetPercent === null ? "" : `<small class="grc-value-target-label${targetEdgeClass}"${targetStyle}>Target</small>`}</span>`}
+    </div>
+  `;
+}
+
+function renderGrcCompactValueGroup(group) {
+  if (!group.is_composite) {
+    const metric = group.submetrics[0];
+    return `
+      <div class="grc-compact-value-row">
+        <strong>${escapeHtml(metric.metric_name || metric.metric_id || "ไม่ระบุ")}</strong>
+        <span>
+          <b>${escapeHtml(formatGrcValueWithUnit(metric.performance_value, metric.unit))}</b>
+          <small>Target ${escapeHtml(formatGrcValueWithUnit(metric.target_value, metric.unit))}</small>
+        </span>
+        ${renderGrcValueBar(metric, true)}
+      </div>
+    `;
+  }
+
+  const aggregate = getGrcValueGroupPresentation(group);
+  return `
+    <div class="grc-compact-value-row grc-compact-value-composite grc-value-state-${aggregate.key}">
+      <strong>${escapeHtml(group.display_name || group.display_metric_id || "ไม่ระบุ")}</strong>
+      <span class="grc-compact-value-aggregate">
+        <b>${aggregate.metCount}/${aggregate.totalCount} บรรลุเป้าหมาย</b>
+        <small>${escapeHtml(aggregate.label)}</small>
+      </span>
+      <i class="grc-compact-value-status-cue" aria-hidden="true"></i>
     </div>
   `;
 }
 
 function renderGrcCompactValuePreview(metrics, valueType) {
   const label = valueType === "VE" ? "Value Enhancement" : "Value Creation";
-  const previewMetrics = metrics.slice(0, 2);
+  const displayGroups = groupGrcValuePerformance(metrics);
+  const previewGroups = displayGroups.slice(0, 2);
 
   return `
     <div class="grc-compact-value-preview">
       <span class="grc-compact-value-heading">ผลการดำเนินงาน</span>
       <div class="grc-compact-value-list">
-        ${previewMetrics.map((metric) => `
-          <div class="grc-compact-value-row">
-            <strong>${escapeHtml(metric.metric_name || metric.metric_id || "ไม่ระบุ")}</strong>
-            <span>
-              <b>${escapeHtml(formatGrcValueWithUnit(metric.performance_value, metric.unit))}</b>
-              <small>Target ${escapeHtml(formatGrcValueWithUnit(metric.target_value, metric.unit))}</small>
-            </span>
-            ${renderGrcValueBar(metric, true)}
-          </div>
-        `).join("")}
+        ${previewGroups.map(renderGrcCompactValueGroup).join("")}
       </div>
       <div class="grc-compact-value-footer">
-        <span>${label}: ${metrics.length} metrics</span>
+        <span>${label}: ${displayGroups.length} metrics</span>
         <button type="button" data-grc-value-open="${valueType}">ดูรายละเอียด <span aria-hidden="true">→</span></button>
       </div>
     </div>
   `;
 }
 
-function renderGrcFullValueMetricRow(metric) {
+function renderGrcFullValueMetricRow(metric, nested = false) {
   const presentation = getGrcValuePresentation(metric);
   const hasActual = Number.isFinite(metric.performance_value);
   const actualText = hasActual
@@ -3297,10 +3478,10 @@ function renderGrcFullValueMetricRow(metric) {
     : metric.performance_note || "ยังไม่มีผลตัวเลข";
 
   return `
-    <div class="grc-full-value-row grc-value-state-${presentation.key}">
+    <div class="grc-full-value-row grc-value-state-${presentation.key}${nested ? " grc-full-value-submetric" : ""}">
       <div class="grc-full-value-row-header">
         <strong>${escapeHtml(metric.metric_name || metric.metric_id || "ไม่ระบุ")}</strong>
-        <span>${escapeHtml(presentation.label)}</span>
+        <span>${escapeHtml(nested ? getGrcValueSubmetricStatusLabel(presentation.key) : presentation.label)}</span>
       </div>
       <div class="grc-full-value-comparison">
         <b class="${hasActual ? "" : "is-pending"}">${escapeHtml(actualText)}</b>
@@ -3312,8 +3493,27 @@ function renderGrcFullValueMetricRow(metric) {
   `;
 }
 
+function renderGrcFullValueComposite(group) {
+  const aggregate = getGrcValueGroupPresentation(group);
+  return `
+    <section class="grc-full-value-composite grc-value-state-${aggregate.key}">
+      <header class="grc-full-value-composite-header">
+        <span class="grc-value-metric-id">${escapeHtml(group.display_metric_id || "—")}</span>
+        <span class="grc-value-state-label">${escapeHtml(aggregate.label)}</span>
+      </header>
+      <h5>${escapeHtml(group.display_name || group.display_metric_id || "ไม่ระบุ")}</h5>
+      <small class="grc-full-value-composite-count">${aggregate.totalCount} องค์ประกอบ</small>
+      <div class="grc-full-value-composite-list">
+        ${group.submetrics.map((metric) => renderGrcFullValueMetricRow(metric, true)).join("")}
+      </div>
+      <footer><strong>สถานะรวม</strong><span>${escapeHtml(aggregate.summary)}</span></footer>
+    </section>
+  `;
+}
+
 function renderGrcFullValuePreview(metrics, valueType) {
   const label = valueType === "VE" ? "Value Enhancement" : "Value Creation";
+  const displayGroups = groupGrcValuePerformance(metrics);
   const groupLabels = {
     financial: { title: "ด้านการเงิน", subtitle: "Financial" },
     non_financial: { title: "ด้านที่ไม่ใช่การเงิน", subtitle: "Non-Financial" }
@@ -3322,22 +3522,22 @@ function renderGrcFullValuePreview(metrics, valueType) {
   const content = valueType === "VE"
     ? [
         ...Object.keys(groupLabels),
-        ...new Set(metrics.map((metric) => metric.metric_group).filter((group) => !groupLabels[group]))
+        ...new Set(displayGroups.map((group) => group.metric_group).filter((group) => !groupLabels[group]))
       ]
         .map((group) => {
-          const groupMetrics = metrics.filter((metric) => metric.metric_group === group);
+          const groupMetrics = displayGroups.filter((displayGroup) => displayGroup.metric_group === group);
           if (groupMetrics.length === 0) return "";
           const groupLabel = groupLabels[group] || { title: group || "อื่น ๆ", subtitle: "Other" };
 
           return `
             <section class="grc-full-value-group">
               <h4>${escapeHtml(groupLabel.title)} <small>${escapeHtml(groupLabel.subtitle)}</small></h4>
-              <div class="grc-full-value-list">${groupMetrics.map(renderGrcFullValueMetricRow).join("")}</div>
+              <div class="grc-full-value-list">${groupMetrics.map((displayGroup) => displayGroup.is_composite ? renderGrcFullValueComposite(displayGroup) : renderGrcFullValueMetricRow(displayGroup.submetrics[0])).join("")}</div>
             </section>
           `;
         })
         .join("")
-    : `<div class="grc-full-value-list">${metrics.map(renderGrcFullValueMetricRow).join("")}</div>`;
+    : `<div class="grc-full-value-list">${displayGroups.map((displayGroup) => displayGroup.is_composite ? renderGrcFullValueComposite(displayGroup) : renderGrcFullValueMetricRow(displayGroup.submetrics[0])).join("")}</div>`;
 
   return `
     <div class="grc-full-value-preview">
@@ -3378,12 +3578,74 @@ function renderGrcValueMetricCard(metric) {
   `;
 }
 
+function renderGrcValueCompositeSubmetric(metric, index) {
+  const presentation = getGrcValuePresentation(metric);
+  const hasActual = Number.isFinite(metric.performance_value);
+  const actualText = hasActual
+    ? formatGrcValueNumber(metric.performance_value)
+    : "ยังไม่มีผลตัวเลข";
+  const date = formatGrcUpdateDate(parseGrcUpdateDate(metric.update_date));
+
+  return `
+    <section class="grc-value-composite-submetric grc-value-state-${presentation.key}">
+      <header>
+        <span>องค์ประกอบ ${index + 1}</span>
+        <strong>${escapeHtml(metric.metric_name || metric.metric_id || "ไม่ระบุ")}</strong>
+        <em>${escapeHtml(getGrcValueSubmetricStatusLabel(presentation.key))}</em>
+      </header>
+      <div class="grc-value-actual${hasActual ? "" : " is-pending"}">
+        <strong>${escapeHtml(actualText)}</strong>
+        ${hasActual && metric.unit ? `<span>${escapeHtml(metric.unit)}</span>` : ""}
+      </div>
+      ${presentation.delta ? `<p class="grc-value-delta">${escapeHtml(presentation.delta)}</p>` : ""}
+      ${!hasActual && metric.performance_note ? `<p class="grc-value-pending-note">${escapeHtml(metric.performance_note)}</p>` : ""}
+      ${renderGrcValueBar(metric)}
+      <dl class="grc-value-card-meta">
+        <div><dt>Target</dt><dd>${escapeHtml(formatGrcValueWithUnit(metric.target_value, metric.unit))}</dd></div>
+        ${metric.target_note ? `<div><dt>ที่มาเป้าหมาย</dt><dd>${escapeHtml(metric.target_note)}</dd></div>` : ""}
+        ${hasActual && metric.performance_note ? `<div><dt>หมายเหตุผลการดำเนินงาน</dt><dd>${escapeHtml(metric.performance_note)}</dd></div>` : ""}
+      </dl>
+      ${date !== "—" ? `<time class="grc-value-update" datetime="${escapeHtml(metric.update_date)}">อัปเดตล่าสุด ${escapeHtml(date)}</time>` : ""}
+    </section>
+  `;
+}
+
+function renderGrcValueCompositeCard(group) {
+  const aggregate = getGrcValueGroupPresentation(group);
+  const latestDateText = formatGrcUpdateDate(getLatestGrcValueUpdateDate(group.submetrics));
+
+  return `
+    <article class="grc-value-card grc-value-composite-card grc-value-state-${aggregate.key}">
+      <header class="grc-value-card-header">
+        <span class="grc-value-metric-id">${escapeHtml(group.display_metric_id || "—")}</span>
+        <span class="grc-value-state-label">${escapeHtml(aggregate.label)}</span>
+      </header>
+      <h3>${escapeHtml(group.display_name || group.display_metric_id || "ไม่ระบุชื่อตัวชี้วัด")}</h3>
+      <p class="grc-value-composite-count">${aggregate.totalCount} องค์ประกอบ</p>
+      <div class="grc-value-composite-submetrics">
+        ${group.submetrics.map(renderGrcValueCompositeSubmetric).join("")}
+      </div>
+      <footer class="grc-value-composite-summary">
+        <span><strong>สถานะรวม</strong>${escapeHtml(aggregate.summary)}</span>
+        ${latestDateText !== "—" ? `<time>อัปเดตล่าสุด ${escapeHtml(latestDateText)}</time>` : ""}
+      </footer>
+    </article>
+  `;
+}
+
+function renderGrcValueDisplayCard(group) {
+  return group.is_composite
+    ? renderGrcValueCompositeCard(group)
+    : renderGrcValueMetricCard(group.submetrics[0]);
+}
+
 function renderGrcValuePerformance() {
   const container = document.querySelector("#grc-value-performance-content");
   if (!container) return;
 
   const type = grcValuePerformanceType === "VE" ? "VE" : "VC";
   const metrics = getGrcValuePerformanceByType(type);
+  const displayGroups = groupGrcValuePerformance(metrics);
   document.querySelectorAll("[data-grc-value-type]").forEach((button) => {
     const active = button.dataset.grcValueType === type;
     button.classList.toggle("active", active);
@@ -3396,7 +3658,7 @@ function renderGrcValuePerformance() {
   }
 
   if (type === "VC") {
-    container.innerHTML = `<div class="grc-value-card-grid grc-value-card-grid-vc">${metrics.map(renderGrcValueMetricCard).join("")}</div>`;
+    container.innerHTML = `<div class="grc-value-card-grid grc-value-card-grid-vc">${displayGroups.map(renderGrcValueDisplayCard).join("")}</div>`;
     return;
   }
 
@@ -3406,18 +3668,18 @@ function renderGrcValuePerformance() {
   };
   const orderedGroups = [
     ...Object.keys(groupLabels),
-    ...new Set(metrics.map((metric) => metric.metric_group).filter((group) => !groupLabels[group]))
+    ...new Set(displayGroups.map((group) => group.metric_group).filter((group) => !groupLabels[group]))
   ];
 
   container.innerHTML = orderedGroups
     .map((group) => {
-      const groupMetrics = metrics.filter((metric) => metric.metric_group === group);
+      const groupMetrics = displayGroups.filter((displayGroup) => displayGroup.metric_group === group);
       if (groupMetrics.length === 0) return "";
       const label = groupLabels[group] || { title: group || "อื่น ๆ", subtitle: "Other Performance" };
       return `
         <section class="grc-value-group">
           <header><h3>${escapeHtml(label.title)}</h3><p>${escapeHtml(label.subtitle)}</p></header>
-          <div class="grc-value-card-grid">${groupMetrics.map(renderGrcValueMetricCard).join("")}</div>
+          <div class="grc-value-card-grid">${groupMetrics.map(renderGrcValueDisplayCard).join("")}</div>
         </section>
       `;
     })
