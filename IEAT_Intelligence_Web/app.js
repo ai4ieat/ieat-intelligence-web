@@ -2099,7 +2099,9 @@ function renderFinancialMetricChart(metric) {
   const first = lowerIsBetter ? scale.appetitePct : scale.tolerancePct;
   const second = lowerIsBetter ? scale.tolerancePct : scale.appetitePct;
   const thresholdDistance = Math.abs(scale.appetitePct - scale.tolerancePct);
-  const closeThresholdClass = thresholdDistance < 12 ? " financial-threshold-chart-close" : "";
+  const closeThresholdClass = thresholdDistance < 18 ? " financial-threshold-chart-close" : "";
+  const unit = safeText(metric.unit, "");
+  const ariaUnit = unit === "%" ? "%" : unit ? ` ${unit}` : "";
   const segments = [
     { className: lowerIsBetter ? "zone-appetite" : "zone-not-meet", width: Math.max(first, 0) },
     { className: "zone-tolerance", width: Math.max(second - first, 0) },
@@ -2107,22 +2109,23 @@ function renderFinancialMetricChart(metric) {
   ];
 
   return `
-    <div class="financial-threshold-chart${closeThresholdClass}" style="--actual-pct:${scale.actualPct}%;--ra-pct:${scale.appetitePct}%;--rt-pct:${scale.tolerancePct}%">
-      <div class="financial-threshold-markers" aria-hidden="true">
-        <span class="threshold-marker threshold-marker-rt" style="left:${scale.tolerancePct}%">RT ${escapeHtml(formatMetricValue(scale.tolerance))}</span>
-        <span class="threshold-marker threshold-marker-ra" style="left:${scale.appetitePct}%">RA ${escapeHtml(formatMetricValue(scale.appetite))}</span>
+    <div class="financial-threshold-chart${closeThresholdClass}" role="img" aria-label="Actual ${escapeHtml(formatMetricValue(scale.actual))}${escapeHtml(ariaUnit)}, Risk Appetite ${escapeHtml(formatMetricValue(scale.appetite))}${escapeHtml(ariaUnit)}, Risk Tolerance ${escapeHtml(formatMetricValue(scale.tolerance))}${escapeHtml(ariaUnit)}">
+      <div class="financial-threshold-labels" aria-hidden="true">
+        <span class="financial-threshold-label financial-threshold-label-rt" style="left:${scale.tolerancePct}%">RT ${escapeHtml(formatMetricValue(scale.tolerance))}</span>
+        <span class="financial-threshold-label financial-threshold-label-ra" style="left:${scale.appetitePct}%">RA ${escapeHtml(formatMetricValue(scale.appetite))}</span>
       </div>
-      <div class="financial-threshold-bar">
-        ${segments
-          .map((segment) => `<span class="${segment.className}" style="width:${segment.width}%"></span>`)
-          .join("")}
+      <div class="financial-threshold-rail">
+        <div class="financial-threshold-bar" aria-hidden="true">
+          ${segments
+            .map((segment) => `<span class="${segment.className}" style="width:${segment.width}%"></span>`)
+            .join("")}
+        </div>
+        <span class="financial-threshold-guide financial-threshold-guide-rt" style="left:${scale.tolerancePct}%" aria-hidden="true"></span>
+        <span class="financial-threshold-guide financial-threshold-guide-ra" style="left:${scale.appetitePct}%" aria-hidden="true"></span>
+        <span class="financial-actual-marker" style="left:${scale.actualPct}%" aria-hidden="true"></span>
       </div>
-      <div class="financial-current-track">
-        <span class="financial-current-value" style="width:${scale.actualPct}%"></span>
-      </div>
-      <div class="financial-axis">
-        <span>${escapeHtml(formatMetricValue(scale.min))}</span>
-        <span>${escapeHtml(formatMetricValue(scale.max))}</span>
+      <div class="financial-actual-labels" aria-hidden="true">
+        <span class="financial-actual-label" style="left:${scale.actualPct}%">${escapeHtml(formatMetricValue(scale.actual))}</span>
       </div>
     </div>
   `;
@@ -3283,42 +3286,49 @@ function formatGrcValueWithUnit(value, unit) {
   return cleanUnit ? `${formatted} ${cleanUnit}` : formatted;
 }
 
+function getGrcValueAchievement(metric) {
+  const actual = metric.performance_value;
+  const target = metric.target_value;
+  const direction = metric.performance_direction === "lower" ? "lower" : "higher";
+
+  if (!Number.isFinite(actual) || !Number.isFinite(target) || target <= 0) {
+    return "";
+  }
+
+  if (direction === "lower" && actual <= 0) {
+    return "บรรลุเป้าหมาย";
+  }
+
+  const achievementPercent = direction === "lower"
+    ? (target / actual) * 100
+    : (actual / target) * 100;
+
+  return Number.isFinite(achievementPercent)
+    ? `${achievementPercent.toFixed(1)}% ของเป้าหมาย`
+    : "";
+}
+
 function getGrcValuePresentation(metric) {
   const actual = metric.performance_value;
   const target = metric.target_value;
   const hasActual = Number.isFinite(actual);
-  const hasTarget = Number.isFinite(target);
+  const hasTarget = Number.isFinite(target) && target > 0;
   const direction = metric.performance_direction === "lower" ? "lower" : "higher";
 
   if (!hasActual) {
-    return { key: "pending", label: "รอผลการดำเนินงาน", delta: "" };
+    return { key: "pending", label: "รอผลการดำเนินงาน", achievement: "" };
   }
 
   if (!hasTarget) {
-    return { key: "neutral", label: "ยังไม่มีค่าเป้าหมาย", delta: "" };
+    return { key: "neutral", label: "ยังไม่มีค่าเป้าหมาย", achievement: "" };
   }
 
   const met = direction === "lower" ? actual <= target : actual >= target;
-  let delta = "";
-
-  if (target !== 0) {
-    const percent = Math.abs((actual - target) / target) * 100;
-    const percentText = `${percent.toFixed(1)}%`;
-
-    if (direction === "lower") {
-      delta = actual === target
-        ? "เท่ากับ Target"
-        : `${actual < target ? "ต่ำกว่า" : "สูงกว่า"} Target ${percentText}`;
-    } else {
-      const signedPercent = ((actual - target) / Math.abs(target)) * 100;
-      delta = `${signedPercent >= 0 ? "+" : ""}${signedPercent.toFixed(1)}% จาก Target`;
-    }
-  }
 
   return {
     key: met ? "met" : "below",
     label: met ? "บรรลุเป้าหมาย" : direction === "lower" ? "ยังสูงกว่าเป้าหมาย" : "ยังต่ำกว่าเป้าหมาย",
-    delta
+    achievement: getGrcValueAchievement(metric)
   };
 }
 
@@ -3565,7 +3575,7 @@ function renderGrcValueMetricCard(metric) {
         <strong>${escapeHtml(actualText)}</strong>
         ${Number.isFinite(metric.performance_value) && metric.unit ? `<span>${escapeHtml(metric.unit)}</span>` : ""}
       </div>
-      ${presentation.delta ? `<p class="grc-value-delta">${escapeHtml(presentation.delta)}</p>` : ""}
+      ${presentation.achievement ? `<p class="grc-value-delta">${escapeHtml(presentation.achievement)}</p>` : ""}
       ${!Number.isFinite(metric.performance_value) && metric.performance_note ? `<p class="grc-value-pending-note">${escapeHtml(metric.performance_note)}</p>` : ""}
       ${renderGrcValueBar(metric)}
       <dl class="grc-value-card-meta">
@@ -3597,7 +3607,7 @@ function renderGrcValueCompositeSubmetric(metric, index) {
         <strong>${escapeHtml(actualText)}</strong>
         ${hasActual && metric.unit ? `<span>${escapeHtml(metric.unit)}</span>` : ""}
       </div>
-      ${presentation.delta ? `<p class="grc-value-delta">${escapeHtml(presentation.delta)}</p>` : ""}
+      ${presentation.achievement ? `<p class="grc-value-delta">${escapeHtml(presentation.achievement)}</p>` : ""}
       ${!hasActual && metric.performance_note ? `<p class="grc-value-pending-note">${escapeHtml(metric.performance_note)}</p>` : ""}
       ${renderGrcValueBar(metric)}
       <dl class="grc-value-card-meta">
