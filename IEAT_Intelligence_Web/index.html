@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#f5f7fb">
+  <meta name="theme-color" content="#fcfbfd">
   <meta name="description" content="IEAT Daily Intelligence executive briefing dashboard">
   <title>IEAT Intelligence</title>
-  <link rel="stylesheet" href="./style.css?v=84">
+  <link rel="stylesheet" href="./style.css?v=94">
 </head>
 <body>
   <div class="app-shell">
@@ -18,11 +18,22 @@
       </button>
 
       <div class="brand">
-        <p class="brand-title">IEAT Intelligence</p>
-        <p class="brand-subtitle">EXECUTIVE BRIEFING</p>
+        <img class="brand-logo" src="./assets/ieat_logo.jpg" alt="" aria-hidden="true">
+        <div class="brand-copy">
+          <p class="brand-title">IEAT Intelligence</p>
+          <p class="brand-subtitle">EXECUTIVE BRIEFING</p>
+        </div>
       </div>
 
-      <time id="report-date" datetime="">กำลังโหลดข้อมูล...</time>
+      <nav class="desktop-primary-nav" aria-label="เมนูหลักเดสก์ท็อป">
+        <button class="desktop-nav-item active" type="button" data-shell-nav="home" aria-current="page">Home</button>
+        <button class="desktop-nav-item" type="button" data-shell-nav="erm">ERM</button>
+        <button class="desktop-nav-item" type="button" data-shell-nav="grc">GRC</button>
+        <button class="desktop-nav-item" type="button" data-shell-nav="reports">Reports</button>
+        <button class="desktop-nav-item" type="button" data-shell-nav="watchlist">Watchlist</button>
+      </nav>
+
+      <span class="topbar-end" aria-hidden="true"></span>
     </header>
 
     <div id="menu-backdrop" class="menu-backdrop" hidden></div>
@@ -57,10 +68,19 @@
     <main>
       <div id="home-view">
       <section class="hero" aria-labelledby="brief-title">
-        <h1 id="brief-title">Daily Intelligence Brief</h1>
-        <p id="executive-summary" class="executive-summary">
-          กำลังจัดเตรียมบทสรุปสำหรับผู้บริหาร
-        </p>
+        <div class="hero-content">
+          <div class="hero-meta">
+            <time id="report-date" datetime="">กำลังโหลดข้อมูล...</time>
+            <span class="hero-eyebrow">DAILY EXECUTIVE BRIEFING</span>
+          </div>
+          <h1 id="brief-title">
+            <span class="hero-title-line">Daily</span>
+            <span class="hero-title-line"><span class="hero-title-accent">Intelligence</span> Brief</span>
+          </h1>
+          <p id="executive-summary" class="executive-summary">
+            กำลังจัดเตรียมบทสรุปสำหรับผู้บริหาร
+          </p>
+        </div>
       </section>
 
       <div class="home-dashboard-grid">
@@ -97,19 +117,16 @@
       <section id="grc-snapshot-section" class="content-section grc-snapshot-section" aria-labelledby="grc-snapshot-heading" hidden>
         <div class="grc-snapshot-shell">
           <header class="grc-snapshot-header">
-            <span class="grc-snapshot-header-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24">
-                <path d="M12 3.5 18.5 6v5.2c0 4.1-2.6 7.8-6.5 9.3-3.9-1.5-6.5-5.2-6.5-9.3V6L12 3.5Z"></path>
-                <path d="m9.2 12 1.8 1.8 3.9-4.2"></path>
-              </svg>
-            </span>
             <div class="grc-snapshot-heading-copy">
-              <h2 id="grc-snapshot-heading">GRC SNAPSHOT</h2>
+              <h2 id="grc-snapshot-heading">GRC Snapshot</h2>
               <p>ภาพรวมการกำกับดูแล ความเสี่ยง และการปฏิบัติตามกรอบ GRC</p>
             </div>
-            <button id="view-grc-page" class="grc-snapshot-link" type="button">
-              ดูรายละเอียด GRC <span aria-hidden="true">→</span>
-            </button>
+            <div class="grc-snapshot-header-meta">
+              <span id="grc-snapshot-latest" class="grc-snapshot-latest">ข้อมูลล่าสุด: —</span>
+              <button id="view-grc-page" class="grc-snapshot-link" type="button">
+                ดูรายละเอียด GRC <span aria-hidden="true">→</span>
+              </button>
+            </div>
           </header>
           <div id="grc-snapshot" class="grc-snapshot-body" aria-live="polite"></div>
         </div>
@@ -117,12 +134,16 @@
 
       <section class="content-section kri-snapshot-section" aria-labelledby="kri-snapshot-heading">
         <div class="section-heading">
-          <div>
-            <h2 id="kri-snapshot-heading">ENTERPRISE RISK MANAGEMENT (ERM) SNAPSHOT</h2>
+          <div class="kri-snapshot-heading-copy">
+            <h2 id="kri-snapshot-heading">ERM Snapshot <span>(Key Risk Indicators)</span></h2>
+            <p>ตัวชี้วัดความเสี่ยงที่สำคัญขององค์กร</p>
           </div>
-          <button id="view-kri-dashboard" class="section-link" type="button">
-            ดูรายละเอียดทั้งหมด <span aria-hidden="true">→</span>
-          </button>
+          <div class="kri-snapshot-heading-meta">
+            <span id="kri-snapshot-latest" class="kri-snapshot-latest">ข้อมูลล่าสุด: —</span>
+            <button id="view-kri-dashboard" class="section-link" type="button">
+              ดูรายละเอียด ERM <span aria-hidden="true">→</span>
+            </button>
+          </div>
         </div>
         <div class="kri-snapshot-shell">
           <div id="kri-snapshot-list" class="kri-snapshot-list" aria-live="polite">
@@ -530,6 +551,6 @@
     </nav>
   </div>
 
-  <script src="./app.js?v=58" defer></script>
+  <script src="./app.js?v=63" defer></script>
 </body>
 </html>

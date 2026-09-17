@@ -276,6 +276,43 @@ function directionLabel(direction) {
   }[direction] || "No Recent Signal";
 }
 
+function createRiskDirectionSparkline(direction, index) {
+  const safeValue = safeDirection(direction);
+  const paths = {
+    Rising: {
+      line: "M2 29 C8 30 11 25 17 26 S26 20 32 22 S41 14 48 16 S57 9 66 5",
+      area: "M2 29 C8 30 11 25 17 26 S26 20 32 22 S41 14 48 16 S57 9 66 5 L66 35 L2 35 Z"
+    },
+    Stable: {
+      line: "M2 20 C9 17 14 22 20 19 S29 16 36 19 S46 22 53 18 S61 17 66 19",
+      area: "M2 20 C9 17 14 22 20 19 S29 16 36 19 S46 22 53 18 S61 17 66 19 L66 35 L2 35 Z"
+    },
+    Easing: {
+      line: "M2 6 C9 8 12 13 18 12 S27 20 34 17 S43 25 50 23 S59 29 66 30",
+      area: "M2 6 C9 8 12 13 18 12 S27 20 34 17 S43 25 50 23 S59 29 66 30 L66 35 L2 35 Z"
+    },
+    Unknown: {
+      line: "M2 20 C11 19 16 21 24 20 S38 19 45 20 S58 21 66 20",
+      area: "M2 20 C11 19 16 21 24 20 S38 19 45 20 S58 21 66 20 L66 35 L2 35 Z"
+    }
+  };
+  const path = paths[safeValue] || paths.Unknown;
+  const gradientId = `risk-spark-${className(safeValue)}-${index}`;
+
+  return `
+    <svg class="risk-direction-sparkline risk-direction-sparkline-${className(safeValue)}" viewBox="0 0 68 36" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="${gradientId}" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="currentColor" stop-opacity="0.28"></stop>
+          <stop offset="100%" stop-color="currentColor" stop-opacity="0"></stop>
+        </linearGradient>
+      </defs>
+      <path class="risk-sparkline-area" d="${path.area}" fill="url(#${gradientId})"></path>
+      <path class="risk-sparkline-line" d="${path.line}"></path>
+    </svg>
+  `;
+}
+
 function createCategoryChip(category, options = {}) {
   const displayCategory = normalizeCategory(category);
   if (!displayCategory) return "";
@@ -330,26 +367,39 @@ function renderRiskOverview(items) {
   }
 
   container.innerHTML = visibleItems
-    .map((item) => {
+    .map((item, index) => {
       const category = safeCategory(item.category);
       const riskLevel = safeRisk(item.risk_level);
       const direction = safeDirection(item.risk_direction);
+      const meta = getCategoryMeta(category);
 
       return `
-        <button class="risk-row" type="button" data-category="${escapeHtml(category)}" aria-label="ดูข่าวหมวด ${escapeHtml(category)}">
-          <div class="risk-main">
-            ${createCategoryIcon(category)}
-            <div class="category-copy">
-              <h3 class="category-name">${escapeHtml(category)}</h3>
-              <p class="category-subtitle">${escapeHtml(safeText(item.subtitle_th, "ไม่มีรายละเอียดเพิ่มเติม"))}</p>
+        <button
+          class="risk-row"
+          type="button"
+          data-category="${escapeHtml(category)}"
+          aria-label="ดูข่าวหมวด ${escapeHtml(category)}"
+          style="--risk-category-color:${meta.color};--risk-category-tint:${meta.background};--risk-category-border:${meta.border}"
+        >
+          <div class="risk-card-header">
+            <div class="risk-main">
+              ${createCategoryIcon(category)}
+              <div class="category-copy">
+                <h3 class="category-name">${escapeHtml(category)}</h3>
+              </div>
             </div>
-          </div>
-          <div class="risk-signal">
-            <span class="direction direction-${className(direction)}">${directionLabel(direction)}</span>
-            <span class="direction-note">จากเมื่อวาน</span>
-          </div>
-          <div class="risk-level-cell">
             <span class="risk-badge risk-${className(riskLevel)}">${riskLevel}</span>
+          </div>
+          <p class="category-subtitle">${escapeHtml(safeText(item.subtitle_th, "ไม่มีรายละเอียดเพิ่มเติม"))}</p>
+          <div class="risk-card-footer">
+            <div class="risk-signal">
+              <span class="direction direction-${className(direction)}">${directionLabel(direction)}</span>
+              <span class="direction-note">จากเมื่อวาน</span>
+            </div>
+            <span class="risk-card-visual">
+              ${createRiskDirectionSparkline(direction, index)}
+              <span class="risk-card-chevron" aria-hidden="true">→</span>
+            </span>
           </div>
         </button>
       `;
@@ -874,6 +924,16 @@ function setActiveNav(activeView) {
   } else {
     watchlist.removeAttribute("aria-current");
   }
+
+  document.querySelectorAll("[data-shell-nav]").forEach((item) => {
+    const isActive = item.dataset.shellNav === activeView;
+    item.classList.toggle("active", isActive);
+    if (isActive) {
+      item.setAttribute("aria-current", "page");
+    } else {
+      item.removeAttribute("aria-current");
+    }
+  });
 }
 
 function getWatchlistItems() {
@@ -1026,7 +1086,7 @@ function showGrcPage(updateHash = true) {
   document.querySelector("#kri-detail-view").hidden = true;
   document.querySelector("#grc-page-view").hidden = false;
   document.body.classList.add("detail-open");
-  setActiveNav("");
+  setActiveNav("grc");
   document.title = "GRC | IEAT Intelligence";
   window.scrollTo({ top: 0, behavior: "auto" });
 
@@ -1331,6 +1391,20 @@ function bindNavigation() {
   document.querySelector("#nav-erm").addEventListener("click", showKriDashboard);
   document.querySelector("#nav-reports").addEventListener("click", showReports);
   document.querySelector("#nav-watchlist").addEventListener("click", showWatchlist);
+  document.querySelector(".desktop-primary-nav").addEventListener("click", (event) => {
+    const item = event.target.closest("[data-shell-nav]");
+    if (!item) return;
+
+    const actions = {
+      home: () => showHome(false),
+      erm: showKriDashboard,
+      grc: () => showGrcPage(true),
+      reports: showReports,
+      watchlist: showWatchlist
+    };
+
+    actions[item.dataset.shellNav]?.();
+  });
   document.querySelector("#watchpoint-list").addEventListener("click", (event) => {
     if (!event.target.closest(".watchpoint-card")) return;
 
@@ -1506,17 +1580,17 @@ function renderHeadlines(items) {
 
       return `
         <li class="headline-item" data-headline-index="${originalIndex}" tabindex="0" role="button">
-          <span class="headline-rank">${index + 1}</span>
+          <span class="headline-rank">${String(index + 1).padStart(2, "0")}</span>
           <div class="headline-copy">
             <h3 class="headline-title">${safeText(item.headline_short, "ไม่มีชื่อประเด็นข่าว")}</h3>
             <div class="headline-meta">
               ${categoryChips}
-              <span class="headline-risk text-${className(riskLevel)}">
-                Risk: ${riskLevel}
-              </span>
             </div>
           </div>
-          <span class="headline-chevron" aria-hidden="true">›</span>
+          <span class="headline-risk text-${className(riskLevel)}">
+            Risk: ${riskLevel}
+          </span>
+          <span class="headline-chevron" aria-hidden="true">→</span>
         </li>
       `;
     })
@@ -1927,6 +2001,31 @@ function getKriSnapshotItems() {
   if (orderedItems.length > 0) return orderedItems;
 
   return items;
+}
+
+function getKriUpdateTimestamp(value) {
+  if (value === null || value === undefined || value === "") return NaN;
+
+  const numericValue = typeof value === "number" ? value : Number(String(value).trim());
+  if (Number.isFinite(numericValue) && numericValue > 20000) {
+    return Date.UTC(1899, 11, 30) + numericValue * 86400000;
+  }
+
+  const parsed = new Date(String(value).trim());
+  return Number.isNaN(parsed.getTime()) ? NaN : parsed.getTime();
+}
+
+function getLatestKriUpdateValue(items) {
+  return items.reduce(
+    (latest, item) => {
+      const value = item?.last_update;
+      const timestamp = getKriUpdateTimestamp(value);
+      return Number.isFinite(timestamp) && timestamp > latest.timestamp
+        ? { value, timestamp }
+        : latest;
+    },
+    { value: "", timestamp: -Infinity }
+  ).value;
 }
 
 function getKriPerformanceCounts(items) {
@@ -2689,36 +2788,49 @@ function renderKriDetail(item) {
 
 function renderKriSnapshot() {
   const list = document.querySelector("#kri-snapshot-list");
+  const latestElement = document.querySelector("#kri-snapshot-latest");
   if (!list) return;
 
   const items = getKriSnapshotItems();
   if (items.length === 0) {
+    if (latestElement) latestElement.textContent = "ข้อมูลล่าสุด: —";
     list.innerHTML = '<div class="loading-card">ยังไม่มีข้อมูล KRI สำหรับรอบนี้</div>';
     return;
+  }
+
+  const latestUpdate = getLatestKriUpdateValue(items);
+  if (latestElement) {
+    latestElement.textContent = `ข้อมูลล่าสุด: ${formatKriLastUpdate(latestUpdate)}`;
   }
 
   list.innerHTML = items
     .map((item) => {
       const riskVisual = getKriRiskVisual(item);
       const performanceLevel = normalizePerformanceLevel(item.performance_level);
-      const compactPerformanceLabel = getKriItemPerformanceLabel(item);
+      const performanceCategory = getCompactPerformanceLabel(performanceLevel);
+      const performanceLabel = getKriItemPerformanceLabel(item);
       const kriCode = safeText(item.kri_code, "KRI");
       const riskName = safeText(item.risk_name, "ไม่มีชื่อความเสี่ยง");
       const riskLabel = getKriRiskLevelLabel(item);
 
       return `
-        <article class="kri-tile" role="button" tabindex="0" data-kri-code="${escapeHtml(kriCode)}" aria-label="เปิดรายละเอียด KRI ${escapeHtml(kriCode)} ${escapeHtml(riskName)}" style="--kri-risk-color:${riskVisual.accent};--kri-risk-bg:${riskVisual.background};--kri-risk-border:${riskVisual.border};--kri-risk-accent:${riskVisual.marker}">
+        <article class="kri-tile kri-tile-performance-${performanceLevel}" role="button" tabindex="0" data-kri-code="${escapeHtml(kriCode)}" aria-label="เปิดรายละเอียด KRI ${escapeHtml(kriCode)} ${escapeHtml(riskName)}, ระดับความเสี่ยง ${escapeHtml(riskLabel)}, สถานะ ${escapeHtml(performanceCategory)}" style="--kri-risk-color:${riskVisual.accent};--kri-risk-bg:${riskVisual.background};--kri-risk-border:${riskVisual.border};--kri-risk-accent:${riskVisual.marker}">
           <div class="kri-tile-top">
             <span class="kri-code">${escapeHtml(kriCode)}</span>
             <span class="kri-risk-indicator" aria-label="Risk level ${escapeHtml(riskLabel)}">
               <span class="kri-risk-label">${escapeHtml(riskLabel)}</span>
-              <span class="kri-risk-dot" aria-hidden="true"></span>
             </span>
           </div>
           <h3 class="kri-name">${escapeHtml(riskName)}</h3>
-          <div class="kri-performance kri-performance-${performanceLevel}">
-            <span class="kri-performance-icon">${kriPerformanceIcon(performanceLevel)}</span>
-            <span>${escapeHtml(compactPerformanceLabel)}</span>
+          <div class="kri-tile-footer">
+            <div class="kri-performance kri-performance-${performanceLevel}">
+              <span class="kri-performance-icon">${kriPerformanceIcon(performanceLevel)}</span>
+              <span class="kri-performance-copy">
+                <strong>${escapeHtml(performanceCategory)}</strong>
+                <small>${escapeHtml(performanceLabel)}</small>
+              </span>
+            </div>
+            <span class="kri-tile-chevron" aria-hidden="true">→</span>
           </div>
         </article>
       `;
@@ -2995,9 +3107,18 @@ function grcStatusIcon(status) {
   return icons[status] || icons.other;
 }
 
+function grcSnapshotMetricIcon(type) {
+  if (type === "categories") {
+    return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5h5l1.5 2H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-11a2 2 0 0 1 2-2Z"></path><path d="M7.5 11h9M7.5 15h6"></path></svg>';
+  }
+
+  return '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2.5"></rect><path d="M8 8h8M8 12h8M8 16h5"></path></svg>';
+}
+
 function renderGrcSnapshot() {
   const section = document.querySelector("#grc-snapshot-section");
   const container = document.querySelector("#grc-snapshot");
+  const latestElement = document.querySelector("#grc-snapshot-latest");
   if (!section || !container) return;
 
   const categories = getGrcCategories();
@@ -3005,56 +3126,55 @@ function renderGrcSnapshot() {
 
   if (categories.length === 0 && indicators.length === 0) {
     container.innerHTML = "";
+    if (latestElement) latestElement.textContent = "ข้อมูลล่าสุด: —";
     section.hidden = true;
     return;
   }
 
-  const primaryStatuses = [
-    { key: "achieved", label: "Achieved", labelTh: "บรรลุเป้าหมาย" },
-    { key: "on_track", label: "On Track", labelTh: "เป็นไปตามเป้าหมาย" },
-    { key: "mixed", label: "Mixed", labelTh: "ต้องติดตาม" },
-    { key: "not_meet", label: "Not Meet", labelTh: "ไม่เป็นไปตามเป้าหมาย" }
-  ];
-  const primaryKeys = new Set(primaryStatuses.map((status) => status.key));
-  const statusCounts = indicators.reduce((counts, indicator) => {
-    const level = indicator.performance_level;
-    counts[level] = (counts[level] || 0) + 1;
-    return counts;
-  }, {});
-  const otherCount = indicators.reduce(
-    (count, indicator) => count + (primaryKeys.has(indicator.performance_level) ? 0 : 1),
-    0
-  );
-  const statuses = otherCount > 0
-    ? [...primaryStatuses, { key: "other", label: "Other", labelTh: "ไม่ระบุ", count: otherCount }]
-    : primaryStatuses;
+  const statuses = getGrcDisplayStatuses(indicators);
+  const statusCounts = getGrcStatusCounts(indicators);
+  const statusData = statuses.map((status) => ({
+    ...status,
+    count: status.count ?? statusCounts[status.key] ?? 0
+  }));
+  const totalIndicators = indicators.length;
   const latestUpdate = formatGrcUpdateDate(getLatestGrcUpdateDate(indicators));
+  const distributionLabel = statusData
+    .map((status) => `${status.label} ${status.count}`)
+    .join(", ");
+
+  if (latestElement) latestElement.textContent = `ข้อมูลล่าสุด: ${latestUpdate}`;
 
   container.innerHTML = `
-    <div class="grc-snapshot-panel grc-snapshot-counts" aria-label="GRC data totals">
-      <div class="grc-count-metric">
-        <strong>${categories.length}</strong>
-        <span>หมวด GRC</span>
-        <small>Categories</small>
-      </div>
-      <div class="grc-count-metric">
-        <strong>${indicators.length}</strong>
-        <span>ตัวชี้วัด</span>
-        <small>Indicators</small>
-      </div>
+    <div class="grc-snapshot-counts" aria-label="GRC data totals">
+      <article class="grc-count-metric grc-count-categories">
+        <span class="grc-count-icon">${grcSnapshotMetricIcon("categories")}</span>
+        <span class="grc-count-copy">
+          <strong>${categories.length}</strong>
+          <b>Categories</b>
+          <small>หมวดการกำกับดูแล</small>
+        </span>
+      </article>
+      <article class="grc-count-metric grc-count-indicators">
+        <span class="grc-count-icon">${grcSnapshotMetricIcon("indicators")}</span>
+        <span class="grc-count-copy">
+          <strong>${indicators.length}</strong>
+          <b>Indicators</b>
+          <small>ตัวชี้วัดสำคัญ</small>
+        </span>
+      </article>
     </div>
 
-    <div class="grc-snapshot-panel grc-snapshot-status-summary">
-      <p class="grc-snapshot-panel-label">ภาพรวมสถานะ</p>
+    <div class="grc-snapshot-status-summary">
+      <p class="grc-snapshot-panel-label">Status Overview</p>
       <div class="grc-snapshot-statuses">
-        ${statuses
+        ${statusData
           .map((status) => {
-            const count = status.count ?? statusCounts[status.key] ?? 0;
             return `
               <div class="grc-status-item grc-status-${status.key.replaceAll("_", "-")}">
                 <span class="grc-status-icon">${grcStatusIcon(status.key)}</span>
                 <span class="grc-status-copy">
-                  <strong>${count}</strong>
+                  <strong>${status.count}</strong>
                   <b>${escapeHtml(status.label)}</b>
                   <small>${escapeHtml(status.labelTh)}</small>
                 </span>
@@ -3063,20 +3183,17 @@ function renderGrcSnapshot() {
           })
           .join("")}
       </div>
-    </div>
-
-    <div class="grc-snapshot-panel grc-snapshot-update">
-      <span class="grc-update-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24">
-          <rect x="3.5" y="5" width="17" height="15" rx="3"></rect>
-          <path d="M7.5 3v4M16.5 3v4M3.5 9.5h17"></path>
-          <path d="M8 13h3M8 16h6"></path>
-        </svg>
-      </span>
-      <span class="grc-update-copy">
-        <small>อัปเดตล่าสุด</small>
-        <strong>${escapeHtml(latestUpdate)}</strong>
-      </span>
+      <div class="grc-status-distribution" role="img" aria-label="สัดส่วนสถานะ GRC: ${escapeHtml(distributionLabel)}">
+        ${totalIndicators > 0
+          ? statusData
+              .map((status) => {
+                const percentage = (status.count / totalIndicators) * 100;
+                const visibleLabel = percentage >= 8 ? `${Math.round(percentage)}%` : "";
+                return `<span class="grc-status-segment grc-status-segment-${status.key.replaceAll("_", "-")}" style="--grc-segment-size:${percentage}%" title="${escapeHtml(status.label)} ${Math.round(percentage)}%">${visibleLabel}</span>`;
+              })
+              .join("")
+          : '<span class="grc-status-distribution-empty">ยังไม่มีข้อมูลสถานะ</span>'}
+      </div>
     </div>
   `;
 
