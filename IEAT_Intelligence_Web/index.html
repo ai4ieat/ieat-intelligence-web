@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#fcfbfd">
   <meta name="description" content="IEAT Daily Intelligence executive briefing dashboard">
   <title>IEAT Intelligence</title>
-  <link rel="stylesheet" href="./style.css?v=94">
+  <link rel="stylesheet" href="./style.css?v=103">
 </head>
 <body>
   <div class="app-shell">
@@ -154,30 +154,13 @@
 
       <section class="content-section watchpoint-section" aria-labelledby="watchpoint-heading">
         <div class="section-heading">
-          <h2 id="watchpoint-heading">WATCHPOINT TODAY</h2>
+          <div class="watchpoint-heading-copy">
+            <h2 id="watchpoint-heading">Watchpoint Today</h2>
+            <p>ประเด็นที่ต้องติดตามเป็นพิเศษจากข้อมูลล่าสุด</p>
+          </div>
         </div>
         <div id="watchpoint-list" class="watchpoint-list" aria-live="polite">
-          <article class="watchpoint-card" role="button" tabindex="0" aria-label="เปิด Watchpoint Today">
-          <div class="watchpoint-icon" aria-hidden="true">
-            <svg class="radar-eye-icon" viewBox="0 0 24 24">
-              <path class="radar-orbit" d="M5.2 7.7a8.8 8.8 0 0 1 13.6 0"></path>
-              <path class="radar-orbit" d="M5.2 16.3a8.8 8.8 0 0 0 13.6 0"></path>
-              <path d="M3.8 12s3.1-4.4 8.2-4.4 8.2 4.4 8.2 4.4-3.1 4.4-8.2 4.4S3.8 12 3.8 12Z"></path>
-              <circle cx="12" cy="12" r="2.6"></circle>
-              <circle class="radar-dot" cx="12" cy="5.2" r="0.7"></circle>
-              <circle class="radar-dot" cx="18.9" cy="8" r="0.55"></circle>
-              <circle class="radar-dot" cx="18.9" cy="16" r="0.55"></circle>
-              <circle class="radar-dot" cx="12" cy="18.8" r="0.7"></circle>
-              <circle class="radar-dot" cx="5.1" cy="16" r="0.55"></circle>
-              <circle class="radar-dot" cx="5.1" cy="8" r="0.55"></circle>
-            </svg>
-          </div>
-          <div>
-            <p class="section-kicker">WATCHPOINT TODAY</p>
-            <p id="watchpoint-text">กำลังโหลดประเด็นที่ต้องติดตาม...</p>
-          </div>
-          <span class="card-chevron" aria-hidden="true">›</span>
-        </article>
+          <div class="loading-card">กำลังโหลดประเด็นที่ต้องติดตาม...</div>
         </div>
       </section>
 
@@ -450,9 +433,10 @@
 
         <header class="kri-dashboard-header">
           <div class="kri-dashboard-header-copy">
-            <p class="section-kicker">ENTERPRISE RISK MONITORING</p>
-            <h1 id="kri-dashboard-title">ENTERPRISE RISK MANAGEMENT (ERM) DASHBOARD</h1>
-            <p>ภาพรวมตัวชี้วัดความเสี่ยงสำคัญของ กนอ. ตามระดับความเสี่ยงและผลการดำเนินงาน</p>
+            <p class="section-kicker">ENTERPRISE RISK MANAGEMENT</p>
+            <h1 id="kri-dashboard-title">Enterprise Risk Management</h1>
+            <p>ภาพรวมความเสี่ยงองค์กร ติดตามตัวชี้วัดความเสี่ยงสำคัญและสถานะการดำเนินงาน เพื่อสนับสนุนการตัดสินใจอย่างมั่นคงและยั่งยืน</p>
+            <p id="kri-dashboard-latest" class="kri-dashboard-latest">ข้อมูลล่าสุด: —</p>
           </div>
           <div id="kri-dashboard-summary" class="kri-dashboard-summary" aria-live="polite"></div>
         </header>
@@ -465,14 +449,8 @@
           <section class="kri-matrix-section" aria-labelledby="kri-matrix-heading">
             <div class="section-heading">
               <div>
-                <h2 id="kri-matrix-heading">RISK MATRIX OVERVIEW</h2>
-                <p class="section-subtitle">ตำแหน่งของ KRI ใน Risk Matrix</p>
-              </div>
-              <div class="kri-risk-legend" aria-label="Risk matrix legend">
-                <span><i class="risk-dot risk-dot-low"></i>Low</span>
-                <span><i class="risk-dot risk-dot-medium"></i>Medium</span>
-                <span><i class="risk-dot risk-dot-high"></i>High</span>
-                <span><i class="risk-dot risk-dot-extreme"></i>Extreme</span>
+                <h2 id="kri-matrix-heading">Risk Matrix Overview</h2>
+                <p class="section-subtitle">ตำแหน่งของ KRI ตาม Likelihood × Impact</p>
               </div>
             </div>
 
@@ -481,28 +459,34 @@
                 <div id="kri-risk-matrix" class="kri-risk-matrix" aria-live="polite"></div>
               </div>
 
-              <aside class="kri-performance-legend" aria-labelledby="kri-performance-legend-heading">
-                <h3 id="kri-performance-legend-heading">KRI PERFORMANCE LEVEL</h3>
-                <div id="kri-performance-legend-list"></div>
-              </aside>
+              <div class="kri-matrix-side">
+                <aside class="kri-risk-level-legend" aria-labelledby="kri-risk-legend-heading">
+                  <h3 id="kri-risk-legend-heading">Risk Level Legend</h3>
+                  <p>ระดับความเสี่ยงจาก Likelihood × Impact</p>
+                  <div id="kri-risk-legend-list"></div>
+                </aside>
+
+                <aside class="kri-performance-legend" aria-labelledby="kri-performance-legend-heading">
+                  <h3 id="kri-performance-legend-heading">KRI Performance Status</h3>
+                  <p class="kri-legend-intro">สถานะผลการดำเนินงานของ KRI</p>
+                  <div id="kri-performance-legend-list"></div>
+                </aside>
+              </div>
             </div>
           </section>
 
           <section class="kri-overview-section" aria-labelledby="kri-overview-heading">
             <div class="section-heading">
-              <h2 id="kri-overview-heading">KRI OVERVIEW LIST</h2>
+              <div>
+                <h2 id="kri-overview-heading">KRI Overview</h2>
+                <p class="section-subtitle">รายการตัวชี้วัดความเสี่ยงสำคัญทั้งหมด</p>
+              </div>
             </div>
             <div class="kri-overview-table-shell">
               <div id="kri-overview-list" class="kri-overview-table" aria-live="polite"></div>
             </div>
           </section>
 
-          <section class="kri-insights-section" aria-labelledby="kri-insights-heading">
-            <div class="section-heading">
-              <h2 id="kri-insights-heading">INSIGHTS SUMMARY</h2>
-            </div>
-            <div id="kri-insights-summary" class="kri-insights-summary" aria-live="polite"></div>
-          </section>
         </div>
       </section>
 
@@ -551,6 +535,6 @@
     </nav>
   </div>
 
-  <script src="./app.js?v=63" defer></script>
+  <script src="./app.js?v=69" defer></script>
 </body>
 </html>

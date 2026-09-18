@@ -31,6 +31,7 @@ let briefingData = null;
 let currentCategory = "";
 let newsDetailOrigin = "home";
 let kriDetailReturnView = "home";
+let selectedF1MetricKey = "";
 let grcActiveTab = "categories";
 let grcValuePerformanceType = "VC";
 let grcExpandedCategoryCode = "";
@@ -1517,6 +1518,39 @@ function bindNavigation() {
     showKriDetail(row.dataset.kriCode, "kri-dashboard");
   });
 
+  document.querySelector("#kri-risk-matrix").addEventListener("click", (event) => {
+    const marker = event.target.closest("[data-kri-code]");
+    if (!marker) return;
+
+    showKriDetail(marker.dataset.kriCode, "kri-dashboard");
+  });
+
+  document.querySelector("#kri-detail-content").addEventListener("click", (event) => {
+    const tab = event.target.closest(".f1-metric-tab");
+    if (!tab) return;
+
+    selectF1Metric(tab.dataset.metricKey);
+  });
+
+  document.querySelector("#kri-detail-content").addEventListener("keydown", (event) => {
+    const tab = event.target.closest(".f1-metric-tab");
+    if (!tab || !["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+
+    const tabs = [...tab.closest(".f1-metric-tabs").querySelectorAll(".f1-metric-tab")];
+    const currentIndex = tabs.indexOf(tab);
+    if (currentIndex < 0) return;
+
+    event.preventDefault();
+    let nextIndex = currentIndex;
+    if (event.key === "ArrowLeft") nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+    if (event.key === "ArrowRight") nextIndex = (currentIndex + 1) % tabs.length;
+    if (event.key === "Home") nextIndex = 0;
+    if (event.key === "End") nextIndex = tabs.length - 1;
+
+    tabs[nextIndex].focus();
+    selectF1Metric(tabs[nextIndex].dataset.metricKey);
+  });
+
   document.querySelector("#menu-toggle").addEventListener("click", openMenu);
   document.querySelector("#menu-close").addEventListener("click", closeMenu);
   document.querySelector("#menu-backdrop").addEventListener("click", closeMenu);
@@ -1604,21 +1638,43 @@ function getHomepageWatchpoints(value) {
     : [];
   const currentWatchpoints = watchlistItems
     .filter((item) => !reportDate || safeText(item.report_date, "") === reportDate)
-    .map((item) => ({
-      category: getPrimaryCategory(item),
-      text: safeText(item.watchpoint_detail, safeText(item.watchpoint_short, ""))
-    }))
-    .filter((item) => item.text);
+    .map((item) => {
+      const news = findFullNews(item);
+      const detail = safeText(
+        item.watchpoint_detail,
+        safeText(item.watchpoint_short, "")
+      );
+      const title = safeText(news?.headline_short, detail);
+      const tags = safeText(news?.topic_tags_joined, "")
+        .split("|")
+        .map((tag) => tag.trim())
+        .filter(Boolean)
+        .slice(0, 3);
+
+      return {
+        category: getPrimaryCategory(item),
+        title,
+        detail: detail !== title ? detail : "",
+        tags,
+        riskLevel: VALID_RISK_LEVELS.has(item.risk_level) ? item.risk_level : "",
+        reportDate: safeText(item.report_date, "")
+      };
+    })
+    .filter((item) => item.title);
 
   if (currentWatchpoints.length > 0) return currentWatchpoints;
 
   return [
     {
       category: "",
-      text: safeText(
+      title: safeText(
         value,
         "ยังไม่มีประเด็นเฝ้าระวังเพิ่มเติมสำหรับวันนี้"
-      )
+      ),
+      detail: "",
+      tags: [],
+      riskLevel: "",
+      reportDate: ""
     }
   ];
 }
@@ -1628,29 +1684,60 @@ function renderWatchpoint(value) {
   const watchpoints = getHomepageWatchpoints(value);
 
   watchpointList.innerHTML = watchpoints
-    .map((item, index) => `
-      <article class="watchpoint-card" role="button" tabindex="0" aria-label="เปิด Watchpoint Today">
-        <div class="watchpoint-icon" aria-hidden="true">
-          <svg class="radar-eye-icon" viewBox="0 0 24 24">
-            <path class="radar-orbit" d="M5.2 7.7a8.8 8.8 0 0 1 13.6 0"></path>
-            <path class="radar-orbit" d="M5.2 16.3a8.8 8.8 0 0 0 13.6 0"></path>
-            <path d="M3.8 12s3.1-4.4 8.2-4.4 8.2 4.4 8.2 4.4-3.1 4.4-8.2 4.4S3.8 12 3.8 12Z"></path>
-            <circle cx="12" cy="12" r="2.6"></circle>
-            <circle class="radar-dot" cx="12" cy="5.2" r="0.7"></circle>
-            <circle class="radar-dot" cx="18.9" cy="8" r="0.55"></circle>
-            <circle class="radar-dot" cx="18.9" cy="16" r="0.55"></circle>
-            <circle class="radar-dot" cx="12" cy="18.8" r="0.7"></circle>
-            <circle class="radar-dot" cx="5.1" cy="16" r="0.55"></circle>
-            <circle class="radar-dot" cx="5.1" cy="8" r="0.55"></circle>
-          </svg>
-        </div>
-        <div>
-          <p class="section-kicker">${escapeHtml(item.category || "WATCHPOINT TODAY")}</p>
-          <p${index === 0 ? ' id="watchpoint-text"' : ' class="watchpoint-text"'}>${escapeHtml(item.text)}</p>
-        </div>
-        <span class="card-chevron" aria-hidden="true">›</span>
-      </article>
-    `)
+    .map((item, index) => {
+      const category = item.category || "Watchpoint Today";
+      const meta = getCategoryMeta(category);
+      const tags = item.tags.length
+        ? `<div class="watchpoint-tags" aria-label="ประเด็นที่เกี่ยวข้อง">
+            ${item.tags
+              .map((tag) => `<span class="watchpoint-tag">${escapeHtml(tag)}</span>`)
+              .join("")}
+          </div>`
+        : "";
+      const updated = item.reportDate
+        ? `<time class="watchpoint-updated" datetime="${escapeHtml(item.reportDate)}">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="8.5"></circle>
+              <path d="M12 7.5V12l3 2"></path>
+            </svg>
+            <span>อัปเดต ${escapeHtml(formatThaiDate(item.reportDate))}</span>
+          </time>`
+        : "";
+
+      return `
+        <article
+          class="watchpoint-card"
+          role="button"
+          tabindex="0"
+          aria-label="เปิด Watchlist: ${escapeHtml(item.title)}"
+          style="--watchpoint-category-color:${meta.color};--watchpoint-category-bg:${meta.background};--watchpoint-category-border:${meta.border}"
+        >
+          <span class="watchpoint-rank" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>
+          <div class="watchpoint-identity">
+            ${createCategoryIcon(category)}
+            <div class="watchpoint-identity-copy">
+              ${
+                item.riskLevel
+                  ? `<span class="risk-badge risk-${className(item.riskLevel)}">${escapeHtml(item.riskLevel)}</span>`
+                  : ""
+              }
+              <span class="watchpoint-category">${escapeHtml(category)}</span>
+            </div>
+          </div>
+          <div class="watchpoint-copy">
+            <h3 class="watchpoint-title">${escapeHtml(item.title)}</h3>
+            ${
+              item.detail
+                ? `<p${index === 0 ? ' id="watchpoint-text"' : ' class="watchpoint-text"'}>${escapeHtml(item.detail)}</p>`
+                : ""
+            }
+            ${tags}
+          </div>
+          ${updated}
+          <span class="watchpoint-chevron" aria-hidden="true">→</span>
+        </article>
+      `;
+    })
     .join("");
 }
 
@@ -1669,32 +1756,39 @@ const KRI_RISK_COLOR_MAP = {
 const KRI_RISK_LEVEL_META = {
   low: {
     label: "Low",
-    accent: "#16A34A",
-    background: "rgba(22, 163, 74, 0.1)",
-    border: "rgba(22, 163, 74, 0.26)",
-    matrix: "linear-gradient(135deg, #BFEFD8 0%, #76CFA1 100%)"
+    accent: "#3F7C68",
+    background: "rgba(63, 124, 104, 0.1)",
+    border: "rgba(63, 124, 104, 0.3)",
+    matrix: "#3F7C68"
   },
   medium: {
     label: "Medium",
-    accent: "#D97706",
-    background: "rgba(234, 179, 8, 0.11)",
-    border: "rgba(234, 179, 8, 0.28)",
-    matrix: "linear-gradient(135deg, #FFF0B8 0%, #FFD66B 100%)"
+    accent: "#B7831D",
+    background: "rgba(210, 164, 59, 0.12)",
+    border: "rgba(183, 131, 29, 0.3)",
+    matrix: "#D2A43B"
   },
   high: {
     label: "High",
-    accent: "#F97316",
-    background: "rgba(249, 115, 22, 0.1)",
-    border: "rgba(249, 115, 22, 0.28)",
-    matrix: "linear-gradient(135deg, #FFD5A8 0%, #FFA14D 100%)"
+    accent: "#B9562D",
+    background: "rgba(204, 106, 55, 0.11)",
+    border: "rgba(185, 86, 45, 0.3)",
+    matrix: "#CC6A37"
   },
   extreme: {
     label: "Extreme",
-    accent: "#DC2626",
-    background: "rgba(220, 38, 38, 0.1)",
-    border: "rgba(220, 38, 38, 0.28)",
-    matrix: "linear-gradient(135deg, #FFB6B6 0%, #F95F67 100%)"
+    accent: "#95263D",
+    background: "rgba(168, 50, 72, 0.1)",
+    border: "rgba(149, 38, 61, 0.3)",
+    matrix: "#A83248"
   }
+};
+
+const KRI_RISK_LEVEL_DESCRIPTIONS = {
+  low: "ความเสี่ยงอยู่ในระดับต่ำ",
+  medium: "ความเสี่ยงอยู่ในระดับปานกลาง",
+  high: "ความเสี่ยงอยู่ในระดับสูง",
+  extreme: "ความเสี่ยงอยู่ในระดับสูงมาก"
 };
 
 const KRI_HOME_ORDER = [
@@ -1867,6 +1961,14 @@ function getKriRiskVisualFromFields(colorHex, riskColor) {
     border: meta.border,
     marker: hexToRgba(meta.accent, 0.72)
   };
+}
+
+function getKriRiskKeyFromFields(colorHex, riskColor) {
+  return (
+    normalizeKriRiskKey(riskColor) ||
+    inferKriRiskKeyFromColor(colorHex) ||
+    "medium"
+  );
 }
 
 function normalizePerformanceLevel(value) {
@@ -2202,9 +2304,21 @@ function renderFinancialMetricChart(metric) {
   const unit = safeText(metric.unit, "");
   const ariaUnit = unit === "%" ? "%" : unit ? ` ${unit}` : "";
   const segments = [
-    { className: lowerIsBetter ? "zone-appetite" : "zone-not-meet", width: Math.max(first, 0) },
-    { className: "zone-tolerance", width: Math.max(second - first, 0) },
-    { className: lowerIsBetter ? "zone-not-meet" : "zone-appetite", width: Math.max(100 - second, 0) }
+    {
+      className: lowerIsBetter ? "zone-appetite" : "zone-not-meet",
+      label: lowerIsBetter ? "Appetite" : "Not Meet",
+      width: Math.max(first, 0)
+    },
+    {
+      className: "zone-tolerance",
+      label: "Tolerance",
+      width: Math.max(second - first, 0)
+    },
+    {
+      className: lowerIsBetter ? "zone-not-meet" : "zone-appetite",
+      label: lowerIsBetter ? "Not Meet" : "Appetite",
+      width: Math.max(100 - second, 0)
+    }
   ];
 
   return `
@@ -2216,15 +2330,18 @@ function renderFinancialMetricChart(metric) {
       <div class="financial-threshold-rail">
         <div class="financial-threshold-bar" aria-hidden="true">
           ${segments
-            .map((segment) => `<span class="${segment.className}" style="width:${segment.width}%"></span>`)
+            .map(
+              (segment) =>
+                `<span class="${segment.className}" style="width:${segment.width}%"><small>${segment.width >= 16 ? segment.label : ""}</small></span>`
+            )
             .join("")}
         </div>
         <span class="financial-threshold-guide financial-threshold-guide-rt" style="left:${scale.tolerancePct}%" aria-hidden="true"></span>
         <span class="financial-threshold-guide financial-threshold-guide-ra" style="left:${scale.appetitePct}%" aria-hidden="true"></span>
-        <span class="financial-actual-marker" style="left:${scale.actualPct}%" aria-hidden="true"></span>
+        <span class="financial-actual-marker" style="left:${scale.actualPct}%" aria-hidden="true"><i></i></span>
       </div>
       <div class="financial-actual-labels" aria-hidden="true">
-        <span class="financial-actual-label" style="left:${scale.actualPct}%">${escapeHtml(formatMetricValue(scale.actual))}</span>
+        <span class="financial-actual-label" style="left:${scale.actualPct}%">Actual ${escapeHtml(formatMetricValue(scale.actual))}</span>
       </div>
     </div>
   `;
@@ -2233,47 +2350,307 @@ function renderFinancialMetricChart(metric) {
 function renderFinancialMetricRow(metric, index) {
   const status = getMetricStatusDisplay(metric);
   const unit = safeText(metric.unit, "");
+  const direction = safeText(metric.direction, "higher_is_better");
+  const directionCopy =
+    direction === "lower_is_better"
+      ? { icon: "↓", label: "Lower is better" }
+      : { icon: "↑", label: "Higher is better" };
   return `
     <article class="financial-metric-row">
       <div class="financial-metric-heading">
         <span class="financial-metric-icon">${getMetricIcon(metric.metric_key)}</span>
         <div>
-          <h3>${index + 1}. ${escapeHtml(safeText(metric.metric_name, "Metric"))}</h3>
+          <span class="financial-metric-index">Metric ${String(index + 1).padStart(2, "0")}</span>
+          <h3>${escapeHtml(safeText(metric.metric_name, "Metric"))}</h3>
         </div>
       </div>
-      <strong class="financial-metric-value">${formatMetricValueWithUnit(metric.actual_value, unit)}</strong>
-      ${renderFinancialMetricChart(metric)}
-      <div class="financial-status financial-status-${status.status}">
-        <strong>${escapeHtml(status.label)}</strong>
-        <span>${escapeHtml(status.labelTh)}</span>
+      <span class="financial-direction financial-direction-${direction}">
+        <b aria-hidden="true">${directionCopy.icon}</b>${directionCopy.label}
+      </span>
+      <div class="financial-metric-visual">
+        ${renderFinancialMetricChart(metric)}
+      </div>
+      <div class="financial-metric-values">
+        <div class="financial-value financial-value-actual">
+          <span>Actual</span>
+          <strong>${formatMetricValueWithUnit(metric.actual_value, unit)}</strong>
+        </div>
+        <div class="financial-value financial-value-ra">
+          <span>Risk Appetite (RA)</span>
+          <strong>${formatMetricValueWithUnit(metric.risk_appetite_value, unit)}</strong>
+        </div>
+        <div class="financial-value financial-value-rt">
+          <span>Risk Tolerance (RT)</span>
+          <strong>${formatMetricValueWithUnit(metric.risk_tolerance_value, unit)}</strong>
+        </div>
+        <div class="financial-status financial-status-${status.status}">
+          <strong>${escapeHtml(status.label)}</strong>
+          <span>${escapeHtml(status.labelTh)}</span>
+        </div>
       </div>
     </article>
   `;
 }
 
-function renderFinancialThresholdCard(item) {
-  const code = normalizeKriCode(item.kri_code);
-  const metrics = Array.isArray(item.metrics) ? item.metrics : [];
-  if (code !== "F1" || metrics.length === 0) return "";
-
-  const sortedMetrics = [...metrics].sort(
+function getSortedFinancialMetrics(item) {
+  const metrics = Array.isArray(item?.metrics) ? item.metrics : [];
+  return [...metrics].sort(
     (a, b) => Number(a.display_order || 999) - Number(b.display_order || 999)
   );
+}
+
+function getF1MetricByKey(item, metricKey) {
+  const metrics = getSortedFinancialMetrics(item);
+  const key = safeText(metricKey, "");
+  return metrics.find((metric) => safeText(metric.metric_key, "") === key) || metrics[0] || null;
+}
+
+function getF1ThresholdMarkerLanes(scale) {
+  const lanes = { appetite: 0, tolerance: 0 };
+  const thresholdDistance = Math.abs(scale.appetitePct - scale.tolerancePct);
+  if (thresholdDistance >= 16) return lanes;
+
+  const appetiteIsLeft = scale.appetitePct <= scale.tolerancePct;
+  lanes[appetiteIsLeft ? "tolerance" : "appetite"] = 1;
+  return lanes;
+}
+
+function renderF1ThresholdRail(metric) {
+  const scale = getMetricChartScale(metric);
+  if (!scale) {
+    return '<div class="f1-metric-empty">ไม่พบข้อมูล Actual, RA และ RT ที่เพียงพอ</div>';
+  }
+
+  const lowerIsBetter = safeText(metric.direction, "higher_is_better") === "lower_is_better";
+  const firstThreshold = lowerIsBetter ? scale.appetitePct : scale.tolerancePct;
+  const secondThreshold = lowerIsBetter ? scale.tolerancePct : scale.appetitePct;
+  const first = Math.max(0, Math.min(firstThreshold, secondThreshold));
+  const second = Math.min(100, Math.max(firstThreshold, secondThreshold));
+  const markerLanes = getF1ThresholdMarkerLanes(scale);
+  const unit = safeText(metric.unit, "");
+  const ariaUnit = unit === "%" ? "%" : unit ? ` ${unit}` : "";
+  const zones = lowerIsBetter
+    ? [
+        { className: "f1-zone-appetite", label: "อยู่ในเกณฑ์ที่ยอมรับได้", width: first },
+        { className: "f1-zone-tolerance", label: "ต้องเฝ้าระวัง", width: second - first },
+        { className: "f1-zone-not-meet", label: "ไม่เป็นไปตามเป้าหมาย", width: 100 - second }
+      ]
+    : [
+        { className: "f1-zone-not-meet", label: "ไม่เป็นไปตามเป้าหมาย", width: first },
+        { className: "f1-zone-tolerance", label: "ต้องเฝ้าระวัง", width: second - first },
+        { className: "f1-zone-appetite", label: "อยู่ในเกณฑ์ที่ยอมรับได้", width: 100 - second }
+      ];
+
+  return `
+    <div class="f1-threshold-scroll">
+      <div class="f1-threshold-chart" role="img" aria-label="Actual ${escapeHtml(formatMetricValue(scale.actual))}${escapeHtml(ariaUnit)}, Risk Appetite ${escapeHtml(formatMetricValue(scale.appetite))}${escapeHtml(ariaUnit)}, Risk Tolerance ${escapeHtml(formatMetricValue(scale.tolerance))}${escapeHtml(ariaUnit)}">
+        <div class="f1-actual-marker" style="--marker-position:${scale.actualPct}%" aria-hidden="true">
+          <span>Actual</span>
+          <strong>${escapeHtml(formatMetricValue(scale.actual))}</strong>
+          <i></i>
+        </div>
+        <div class="f1-threshold-rail" aria-hidden="true">
+          <div class="f1-threshold-zones">
+            ${zones
+              .map(
+                (zone) => `
+                  <span class="${zone.className}" style="width:${zone.width}%">
+                    <small>${zone.width >= 18 ? zone.label : ""}</small>
+                  </span>
+                `
+              )
+              .join("")}
+          </div>
+          <span class="f1-threshold-guide f1-threshold-guide-ra" style="--marker-position:${scale.appetitePct}%"></span>
+          <span class="f1-threshold-guide f1-threshold-guide-rt" style="--marker-position:${scale.tolerancePct}%"></span>
+        </div>
+        <div class="f1-threshold-labels" aria-hidden="true">
+          <span class="f1-threshold-label f1-threshold-label-ra f1-threshold-lane-${markerLanes.appetite}" style="--marker-position:${scale.appetitePct}%">
+            <b>RA</b><strong>${escapeHtml(formatMetricValue(scale.appetite))}</strong>
+          </span>
+          <span class="f1-threshold-label f1-threshold-label-rt f1-threshold-lane-${markerLanes.tolerance}" style="--marker-position:${scale.tolerancePct}%">
+            <b>RT</b><strong>${escapeHtml(formatMetricValue(scale.tolerance))}</strong>
+          </span>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderF1MetricValuePanel(metric, item) {
+  const status = getMetricStatusDisplay(metric);
+  const unit = safeText(metric.unit, "ไม่ระบุ");
+  const owner = safeText(item.risk_owner, "ไม่ระบุ");
+  const lastUpdate = formatKriLastUpdate(item.last_update);
+
+  return `
+    <aside class="f1-metric-value-panel" aria-label="ค่าตัวชี้วัด ${escapeHtml(safeText(metric.metric_name, "Metric"))}">
+      <div class="f1-value-actual">
+        <span>Actual</span>
+        <strong>${formatMetricValueWithUnit(metric.actual_value, unit)}</strong>
+        <small>${escapeHtml(lastUpdate)}</small>
+      </div>
+      <div class="f1-value-thresholds">
+        <div class="f1-value-row f1-value-row-ra">
+          <span><i></i>Risk Appetite (RA)</span>
+          <strong>${formatMetricValueWithUnit(metric.risk_appetite_value, unit)}</strong>
+        </div>
+        <div class="f1-value-row f1-value-row-rt">
+          <span><i></i>Risk Tolerance (RT)</span>
+          <strong>${formatMetricValueWithUnit(metric.risk_tolerance_value, unit)}</strong>
+        </div>
+      </div>
+      <dl class="f1-value-meta">
+        <div><dt>หน่วยวัด</dt><dd>${escapeHtml(unit)}</dd></div>
+        <div><dt>เจ้าของข้อมูล</dt><dd>${escapeHtml(owner)}</dd></div>
+      </dl>
+      <div class="f1-metric-status f1-metric-status-${status.status}">
+        <strong>${escapeHtml(status.label)}</strong>
+        <span>${escapeHtml(status.labelTh)}</span>
+      </div>
+    </aside>
+  `;
+}
+
+function renderF1MetricStatusStrip(metric, item) {
+  const performanceLevel = normalizePerformanceLevel(item.performance_level);
+  const performanceCategory = getCompactPerformanceLabel(performanceLevel, item.performance_label);
+  const performanceLabel = getKriItemPerformanceLabel(item);
+  const trend = getKriTrendMeta(item.trend);
+  const lowerIsBetter = safeText(metric.direction, "higher_is_better") === "lower_is_better";
+  const comparisonCopy = lowerIsBetter
+    ? "ค่าที่ต่ำกว่าสะท้อนผลการดำเนินงานที่ดีกว่า"
+    : "ค่าที่สูงกว่าสะท้อนผลการดำเนินงานที่ดีกว่า";
+
+  return `
+    <div class="f1-metric-status-strip">
+      <div class="f1-status-primary kri-performance-${performanceLevel}">
+        <span class="kri-performance-icon" aria-hidden="true">${kriPerformanceIcon(performanceLevel)}</span>
+        <div><strong>${escapeHtml(performanceCategory)}</strong><span>${escapeHtml(performanceLabel)}</span></div>
+      </div>
+      <p>${escapeHtml(safeText(metric.metric_name, "ตัวชี้วัด"))}: ${escapeHtml(comparisonCopy)}</p>
+      <div class="f1-status-meta f1-status-trend kri-trend-${trend.className}">
+        <span>แนวโน้ม</span><strong>${escapeHtml(trend.label)}</strong>
+      </div>
+      <div class="f1-status-meta">
+        <span>อัปเดตล่าสุด</span><strong>${escapeHtml(formatKriLastUpdate(item.last_update))}</strong>
+      </div>
+    </div>
+  `;
+}
+
+function renderF1MetricWorkspace(metric, item) {
+  if (!metric) return '<div class="f1-metric-empty">ไม่พบข้อมูลตัวชี้วัด</div>';
+
+  const direction = safeText(metric.direction, "higher_is_better");
+  const lowerIsBetter = direction === "lower_is_better";
+  const directionLabel = lowerIsBetter ? "Lower is Better" : "Higher is Better";
+  const directionIcon = lowerIsBetter ? "↘" : "↗";
+  const unit = safeText(metric.unit, "");
+
+  return `
+    <div class="f1-metric-workspace-grid">
+      <article class="f1-metric-visual-card">
+        <div class="f1-metric-visual-heading">
+          <div>
+            <h3>${escapeHtml(safeText(metric.metric_name, "Metric"))}</h3>
+            ${unit ? `<p>หน่วย: ${escapeHtml(unit)}</p>` : ""}
+          </div>
+          <span class="f1-direction-badge f1-direction-${direction}"><b aria-hidden="true">${directionIcon}</b>${directionLabel}</span>
+        </div>
+        ${renderF1ThresholdRail(metric)}
+      </article>
+      ${renderF1MetricValuePanel(metric, item)}
+    </div>
+    ${renderF1MetricStatusStrip(metric, item)}
+  `;
+}
+
+function renderF1MetricSelector(item) {
+  const metrics = getSortedFinancialMetrics(item);
+  if (metrics.length === 0) return "";
+
+  const selectedMetric = getF1MetricByKey(item, selectedF1MetricKey);
+  selectedF1MetricKey = safeText(selectedMetric?.metric_key, safeText(metrics[0]?.metric_key, ""));
+  const direction = safeText(selectedMetric?.direction, "higher_is_better");
+  const lowerIsBetter = direction === "lower_is_better";
+
+  return `
+    <section class="kri-detail-card financial-threshold-card f1-metric-card" aria-labelledby="financial-threshold-heading">
+      <div class="f1-metric-card-header">
+        <div>
+          <h2 id="financial-threshold-heading">ตัวชี้วัดและผลการดำเนินงาน</h2>
+          <p>เลือกตัวชี้วัดเพื่อดูผลจริง เปรียบเทียบค่าเป้าหมาย และตรวจสอบทิศทางการประเมิน</p>
+        </div>
+        <span class="f1-card-direction f1-direction-${direction}"><b aria-hidden="true">${lowerIsBetter ? "↘" : "↗"}</b>${lowerIsBetter ? "Lower is Better" : "Higher is Better"}</span>
+      </div>
+      <div class="f1-metric-tabs" role="tablist" aria-label="เลือกตัวชี้วัด F1">
+        ${metrics
+          .map((metric, index) => {
+            const metricKey = safeText(metric.metric_key, `metric-${index + 1}`);
+            const safeId = metricKey.replace(/[^a-z0-9_-]/gi, "-");
+            const isSelected = metricKey === selectedF1MetricKey;
+            return `
+              <button class="f1-metric-tab${isSelected ? " is-selected" : ""}" type="button" role="tab" id="f1-metric-tab-${safeId}" aria-selected="${isSelected}" aria-controls="f1-metric-panel" tabindex="${isSelected ? "0" : "-1"}" data-metric-key="${escapeHtml(metricKey)}">
+                <span>${index + 1}</span>
+                <strong>${escapeHtml(safeText(metric.metric_name, `Metric ${index + 1}`))}</strong>
+                <small>${escapeHtml(safeText(metric.unit, ""))}</small>
+                <i aria-hidden="true">${getMetricIcon(metricKey)}</i>
+              </button>
+            `;
+          })
+          .join("")}
+      </div>
+      <div id="f1-metric-panel" class="f1-metric-workspace" role="tabpanel" aria-live="polite">
+        ${renderF1MetricWorkspace(selectedMetric, item)}
+      </div>
+    </section>
+  `;
+}
+
+function selectF1Metric(metricKey) {
+  const item = getKriItemByCode("F1");
+  const metric = getF1MetricByKey(item, metricKey);
+  const workspace = document.querySelector("#f1-metric-panel");
+  if (!item || !metric || !workspace) return;
+
+  selectedF1MetricKey = safeText(metric.metric_key, "");
+  document.querySelectorAll(".f1-metric-tab").forEach((tab) => {
+    const isSelected = tab.dataset.metricKey === selectedF1MetricKey;
+    tab.classList.toggle("is-selected", isSelected);
+    tab.setAttribute("aria-selected", String(isSelected));
+    tab.tabIndex = isSelected ? 0 : -1;
+  });
+
+  workspace.innerHTML = renderF1MetricWorkspace(metric, item);
+
+  const direction = safeText(metric.direction, "higher_is_better");
+  const cardDirection = document.querySelector(".f1-card-direction");
+  if (cardDirection) {
+    cardDirection.className = `f1-card-direction f1-direction-${direction}`;
+    cardDirection.innerHTML = `<b aria-hidden="true">${direction === "lower_is_better" ? "↘" : "↗"}</b>${direction === "lower_is_better" ? "Lower is Better" : "Higher is Better"}`;
+  }
+}
+
+function renderFinancialThresholdCard(item) {
+  const code = normalizeKriCode(item.kri_code);
+  const metrics = getSortedFinancialMetrics(item);
+  if (metrics.length === 0) return "";
+
+  if (code === "F1") return renderF1MetricSelector(item);
 
   return `
     <section class="kri-detail-card financial-threshold-card" aria-labelledby="financial-threshold-heading">
       <div class="financial-threshold-header">
-        <h2 id="financial-threshold-heading">FINANCIAL THRESHOLD STATUS (F1)</h2>
+        <div>
+          <p class="section-kicker">ACTUAL / RA / RT</p>
+          <h2 id="financial-threshold-heading">ค่าตัวชี้วัดเทียบกับค่าเป้าหมาย</h2>
+        </div>
+        <span>${escapeHtml(code)}</span>
         <p>สถานะผลดำเนินงานเทียบกับ Risk Appetite (RA) และ Risk Tolerance (RT)</p>
       </div>
       <div class="financial-metric-list">
-        ${sortedMetrics.map((metric, index) => renderFinancialMetricRow(metric, index)).join("")}
-      </div>
-      <div class="financial-threshold-legend" aria-label="Financial threshold legend">
-        <span><i class="legend-appetite"></i>อยู่ในระดับ Risk Appetite</span>
-        <span><i class="legend-tolerance"></i>อยู่ในระดับ Risk Tolerance</span>
-        <span><i class="legend-not-meet"></i>ไม่บรรลุระดับที่ยอมรับได้</span>
-        <span><i class="legend-current"></i>ค่าปัจจุบัน</span>
+        ${metrics.map((metric, index) => renderFinancialMetricRow(metric, index)).join("")}
       </div>
     </section>
   `;
@@ -2302,13 +2679,40 @@ function renderKriSummary(container, items, variant = "header") {
       const copy = KRI_PERFORMANCE_COPY[level];
       return `
         <article class="kri-summary-card kri-performance-${level}">
+          <span class="kri-performance-icon" aria-hidden="true">${kriPerformanceIcon(level)}</span>
           <span class="kri-summary-value">${counts[level]}</span>
-          <span class="kri-summary-label">${escapeHtml(copy.label)}</span>
-          ${variant === "insight" ? `<p>${escapeHtml(copy.summary)}</p>` : ""}
+          <span class="kri-summary-copy">
+            <strong class="kri-summary-label">${escapeHtml(copy.label)}</strong>
+            ${variant === "insight" ? `<small>${escapeHtml(copy.summary)}</small>` : ""}
+          </span>
         </article>
       `;
     })
     .join("");
+}
+
+function renderKriMatrixMarker(item, { interactive = true } = {}) {
+  const level = normalizePerformanceLevel(item.performance_level);
+  const code = safeText(item.kri_code, "KRI");
+  const riskName = safeText(item.risk_name, "ไม่มีชื่อความเสี่ยง");
+  const riskLevel = getKriRiskLevelLabel(item);
+  const performance = getCompactPerformanceLabel(level, item.performance_label);
+  const tagName = interactive ? "button" : "span";
+  const attributes = interactive
+    ? `type="button" data-kri-code="${escapeHtml(code)}"`
+    : "";
+  const accessibleLabel = interactive
+    ? `เปิดรายละเอียด KRI ${code} ${riskName}, ระดับความเสี่ยง ${riskLevel}, สถานะ ${performance}`
+    : `KRI ${code} ${riskName}, ระดับความเสี่ยง ${riskLevel}, สถานะ ${performance}`;
+
+  return `
+    <${tagName} class="kri-matrix-marker kri-performance-${level}" ${attributes}
+      aria-label="${escapeHtml(accessibleLabel)}"
+      title="${escapeHtml(`${code} · ${riskName} · ${riskLevel} · ${performance}`)}">
+      <span class="kri-marker-watermark" aria-hidden="true">${kriPerformanceIcon(level)}</span>
+      <strong>${escapeHtml(code)}</strong>
+    </${tagName}>
+  `;
 }
 
 function renderKriMatrix(items) {
@@ -2350,22 +2754,14 @@ function renderKriMatrix(items) {
       const cell = findKriMatrixCell(matrix, impact, likelihood);
       const riskColor = cell?.risk_color || getFallbackMatrixRiskColor(impact, likelihood);
       const visual = getKriRiskVisualFromFields(cell?.color_hex, riskColor);
+      const riskKey = getKriRiskKeyFromFields(cell?.color_hex, riskColor);
       const cellItems = items.filter(
         (item) => Number(item.impact) === impact && Number(item.likelihood) === likelihood
       );
-      const markers = cellItems
-        .map((item) => {
-          const level = normalizePerformanceLevel(item.performance_level);
-          return `
-            <span class="kri-matrix-marker kri-performance-${level}" title="${escapeHtml(safeText(item.risk_name, ""))}">
-              ${escapeHtml(safeText(item.kri_code, "KRI"))}
-            </span>
-          `;
-        })
-        .join("");
+      const markers = cellItems.map((item) => renderKriMatrixMarker(item)).join("");
 
       cells.push(`
-        <div class="kri-matrix-cell" style="--cell-bg:${visual.background};--cell-border:${visual.border};--cell-accent:${visual.accent}">
+        <div class="kri-matrix-cell kri-risk-${riskKey}" data-risk-level="${riskKey}" style="--cell-bg:${visual.background};--cell-border:${visual.border};--cell-accent:${visual.accent}">
           <div class="kri-matrix-markers" data-count="${cellItems.length}">${markers}</div>
         </div>
       `);
@@ -2444,16 +2840,15 @@ function renderKriDetailMiniMatrix(item) {
       const cell = findKriMatrixCell(matrix, impact, likelihood);
       const riskColor = cell?.risk_color || getFallbackMatrixRiskColor(impact, likelihood);
       const visual = getKriRiskVisualFromFields(cell?.color_hex, riskColor);
+      const riskKey = getKriRiskKeyFromFields(cell?.color_hex, riskColor);
       const hasMarker = impact === currentImpact && likelihood === currentLikelihood;
       const marker =
         hasMarker
-          ? `<span class="kri-matrix-marker kri-performance-${normalizePerformanceLevel(item.performance_level)}" title="${escapeHtml(safeText(item.risk_name, ""))}">
-              ${escapeHtml(safeText(item.kri_code, "KRI"))}
-            </span>`
+          ? renderKriMatrixMarker(item, { interactive: false })
           : "";
 
       cells.push(`
-        <div class="kri-matrix-cell" style="--cell-bg:${visual.background};--cell-border:${visual.border};--cell-accent:${visual.accent}">
+        <div class="kri-matrix-cell kri-risk-${riskKey}" data-risk-level="${riskKey}" style="--cell-bg:${visual.background};--cell-border:${visual.border};--cell-accent:${visual.accent}">
           <div class="kri-matrix-markers" data-count="${hasMarker ? 1 : 0}">${marker}</div>
         </div>
       `);
@@ -2476,6 +2871,24 @@ function renderKriDetailMiniMatrix(item) {
       <div class="kri-matrix-impact-label">IMPACT</div>
     </div>
   `;
+}
+
+function renderKriRiskLegend() {
+  const container = document.querySelector("#kri-risk-legend-list");
+  if (!container) return;
+
+  container.innerHTML = ["low", "medium", "high", "extreme"]
+    .map((key) => {
+      const meta = KRI_RISK_LEVEL_META[key];
+      return `
+        <div class="kri-risk-legend-item">
+          <i style="--risk-color:${meta.matrix}" aria-hidden="true"></i>
+          <strong>${escapeHtml(meta.label)}</strong>
+          <span>${escapeHtml(KRI_RISK_LEVEL_DESCRIPTIONS[key])}</span>
+        </div>
+      `;
+    })
+    .join("");
 }
 
 function renderKriPerformanceLegend() {
@@ -2508,9 +2921,10 @@ function renderKriOverviewList(items) {
       <span>KRI Name</span>
       <span>Risk Type</span>
       <span>Risk Level</span>
-      <span>Performance Level</span>
+      <span>Performance Status</span>
       <span>Trend</span>
       <span>Last Update</span>
+      <span aria-hidden="true"></span>
     </div>
     ${items
       .map((item) => {
@@ -2523,15 +2937,15 @@ function renderKriOverviewList(items) {
         const riskName = safeText(item.risk_name, "ไม่มีชื่อความเสี่ยง");
         return `
           <div class="kri-overview-row" role="button" tabindex="0" data-kri-code="${escapeHtml(kriCode)}" aria-label="เปิดรายละเอียด KRI ${escapeHtml(kriCode)} ${escapeHtml(riskName)}">
-            <span><b class="kri-code">${escapeHtml(kriCode)}</b></span>
-            <span class="kri-overview-name">${escapeHtml(riskName)}</span>
-            <span>${escapeHtml(safeText(item.risk_type, "ไม่ระบุ"))}</span>
-            <span>
+            <span class="kri-overview-code-cell"><b class="kri-code">${escapeHtml(kriCode)}</b></span>
+            <span class="kri-overview-name kri-overview-name-cell">${escapeHtml(riskName)}</span>
+            <span class="kri-overview-risk-type">${escapeHtml(safeText(item.risk_type, "ไม่ระบุ"))}</span>
+            <span class="kri-overview-risk-level-cell">
               <b class="kri-risk-pill kri-risk-${getKriRiskKey(item)}" style="--kri-risk-color:${riskMeta.accent};--kri-risk-bg:${riskMeta.background};--kri-risk-border:${riskMeta.border}">
                 ${escapeHtml(getKriRiskLevelLabel(item))}
               </b>
             </span>
-            <span>
+            <span class="kri-overview-performance-cell">
               <b class="kri-performance-pill kri-performance-${level}">
                 <span class="kri-performance-icon">${kriPerformanceIcon(level)}</span>
                 <span class="kri-performance-pill-copy">
@@ -2540,13 +2954,14 @@ function renderKriOverviewList(items) {
                 </span>
               </b>
             </span>
-            <span>
+            <span class="kri-overview-trend-cell">
               <b class="kri-trend kri-trend-${trend.className}">
                 <span aria-hidden="true">${trend.icon}</span>
                 ${trend.label}
               </b>
             </span>
-            <span>${escapeHtml(formatKriLastUpdate(item.last_update))}</span>
+            <span class="kri-overview-date-cell">${escapeHtml(formatKriLastUpdate(item.last_update))}</span>
+            <span class="kri-overview-chevron" aria-hidden="true">→</span>
           </div>
         `;
       })
@@ -2580,8 +2995,15 @@ function renderKriDashboard() {
   const items = getKriHomeOrderedItems();
   const empty = document.querySelector("#kri-dashboard-empty");
   const content = document.querySelector("#kri-dashboard-content");
+  const latest = document.querySelector("#kri-dashboard-latest");
 
-  renderKriSummary(document.querySelector("#kri-dashboard-summary"), items);
+  renderKriSummary(document.querySelector("#kri-dashboard-summary"), items, "insight");
+  if (latest) {
+    const latestValue = getLatestKriUpdateValue(items);
+    latest.textContent = latestValue
+      ? `ข้อมูลล่าสุด: ${formatKriLastUpdate(latestValue)}`
+      : "ข้อมูลล่าสุด: —";
+  }
 
   if (items.length === 0) {
     empty.hidden = false;
@@ -2592,17 +3014,31 @@ function renderKriDashboard() {
   empty.hidden = true;
   content.hidden = false;
   renderKriMatrix(items);
+  renderKriRiskLegend();
   renderKriPerformanceLegend();
   renderKriOverviewList(items);
   renderKriInsights(items);
 }
 
+function renderF1ActionText(value) {
+  const text = safeText(value, "ไม่ระบุ");
+  const match = text.match(/^([A-Z]+\d+):\s*(.+)$/);
+  if (!match) return escapeHtml(text);
+
+  return `<strong class="f1-action-id">${escapeHtml(match[1])}</strong><span>${escapeHtml(match[2])}</span>`;
+}
+
 function renderKriDetail(item) {
   const content = document.querySelector("#kri-detail-content");
+  const detailView = document.querySelector("#kri-detail-view");
   const backLabel = document.querySelector("#kri-detail-back-label");
   if (!content || !item) return;
 
   const kriCode = safeText(item.kri_code, "KRI");
+  const isF1Detail = normalizeKriCode(kriCode) === "F1";
+  content.classList.toggle("kri-detail-content-f1", isF1Detail);
+  detailView?.classList.toggle("kri-detail-f1-view", isF1Detail);
+  if (isF1Detail) selectedF1MetricKey = "";
   const riskName = safeText(item.risk_name, "ไม่มีชื่อความเสี่ยง");
   const riskType = safeText(item.risk_type, "ไม่ระบุประเภทความเสี่ยง");
   const riskMeta = getKriRiskLevelMeta(item);
@@ -2632,19 +3068,43 @@ function renderKriDetail(item) {
       kriDetailReturnView === "kri-dashboard" ? "กลับหน้า KRI Dashboard" : "กลับหน้าหลัก";
   }
 
-  const metricItems = [
+  const summaryItems = [
     {
+      className: `kri-performance-${performanceLevel}`,
+      icon: kriPerformanceIcon(performanceLevel),
+      label: "Performance Status",
+      value: performanceCategory,
+      supporting: performanceLabel
+    },
+    {
+      className: `kri-detail-summary-risk kri-risk-${riskKey}`,
+      icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 18.5 6v5.2c0 4.1-2.6 7.8-6.5 9.3-3.9-1.5-6.5-5.2-6.5-9.3V6L12 3.5Z"></path><path d="M12 8v5M12 16.5h.01"></path></svg>',
       label: "Risk Level",
-      value: `<b class="kri-risk-pill kri-risk-${riskKey}" style="--kri-risk-color:${riskMeta.accent};--kri-risk-bg:${riskMeta.background};--kri-risk-border:${riskMeta.border}">${escapeHtml(riskLabel)}</b>`
+      value: riskLabel,
+      supporting: `Likelihood ${likelihood} × Impact ${impact}`,
+      style: `--summary-accent:${riskMeta.accent};--summary-bg:${riskMeta.background}`
     },
-    { label: "Impact", value: escapeHtml(impact) },
     {
+      className: `kri-detail-summary-trend kri-trend-${trend.className}`,
+      icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17 10 11l4 4 6-8"></path><path d="M15 7h5v5"></path></svg>',
       label: "Trend",
-      value: `<b class="kri-trend kri-trend-${trend.className}"><span aria-hidden="true">${trend.icon}</span>${escapeHtml(trend.label)}</b>`
+      value: trend.label,
+      supporting: "แนวโน้มล่าสุด"
     },
-    { label: "Likelihood", value: escapeHtml(likelihood) },
-    { label: "Last Update", value: escapeHtml(lastUpdate) },
-    { label: "Risk Owner", value: escapeHtml(riskOwner) }
+    {
+      className: "kri-detail-summary-date",
+      icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5z"></path><path d="M8 2v4M16 2v4M5 9h14"></path></svg>',
+      label: "ข้อมูลล่าสุด",
+      value: lastUpdate,
+      supporting: "รอบข้อมูลปัจจุบัน"
+    },
+    {
+      className: "kri-detail-summary-owner",
+      icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 21v-2.5c0-3.1 2.5-5.5 5.5-5.5h3c3 0 5.5 2.4 5.5 5.5V21"></path></svg>',
+      label: "Owner",
+      value: riskOwner,
+      supporting: "หน่วยงานรับผิดชอบ"
+    }
   ];
   const miniMatrix = renderKriDetailMiniMatrix(item);
   const updateText = safeText(item.update, "");
@@ -2652,20 +3112,12 @@ function renderKriDetail(item) {
     ? `
       <section class="kri-detail-card kri-detail-update" aria-labelledby="kri-update-heading">
         <p class="section-kicker">PROGRESS UPDATE</p>
-        <h2 id="kri-update-heading">Update</h2>
+        <h2 id="kri-update-heading">ผลการดำเนินงานล่าสุด</h2>
         <p class="kri-formatted-text kri-update-text">${formatNumberedText(item.update, "")}</p>
       </section>
     `
     : "";
   const financialThresholdSection = renderFinancialThresholdCard(item);
-  const updateAndFinancialSection = financialThresholdSection
-    ? `
-      <div class="kri-detail-update-financial-grid">
-        ${updateSection}
-        ${financialThresholdSection}
-      </div>
-    `
-    : updateSection;
 
   const actionContent =
     actionGroups.length > 0
@@ -2680,7 +3132,7 @@ function renderKriDetail(item) {
                       (action) => `
                         <li class="kri-action-item">
                           <span class="kri-action-dot" aria-hidden="true"></span>
-                          <p>${escapeHtml(safeText(action.action_text, "ไม่ระบุ"))}</p>
+                          <p${isF1Detail ? ' class="f1-action-copy"' : ""}>${isF1Detail ? renderF1ActionText(action.action_text) : escapeHtml(safeText(action.action_text, "ไม่ระบุ"))}</p>
                         </li>
                       `
                     )
@@ -2692,57 +3144,52 @@ function renderKriDetail(item) {
           .join("")
       : '<div class="kri-detail-card kri-action-empty">ไม่มีข้อมูลมาตรการสำหรับ KRI นี้</div>';
 
-  const executiveNote = `${kriCode} สะท้อนประเด็น "${riskName}" โดยผลการดำเนินงานปัจจุบันอยู่ในระดับ ${performanceLabel} และมีระดับความเสี่ยง ${riskLabel}.`;
-
   content.innerHTML = `
-    <header class="kri-detail-header">
+    <header class="kri-detail-header kri-detail-hero">
       <div class="kri-detail-copy">
         <p class="kri-detail-kicker">ENTERPRISE RISK INDICATOR</p>
-        <h1 id="kri-detail-title" class="kri-detail-title">${escapeHtml(kriCode)}: ${escapeHtml(riskName)}</h1>
-        <p class="kri-detail-subtitle">${escapeHtml(riskType)}</p>
+        <div class="kri-detail-title-row">
+          <span class="kri-detail-code">${escapeHtml(kriCode)}</span>
+          <div>
+            <h1 id="kri-detail-title" class="kri-detail-title">${escapeHtml(riskName)}</h1>
+            <p class="kri-detail-subtitle">${formatNumberedText(item.kri_description, riskType)}</p>
+          </div>
+        </div>
+        <div class="kri-detail-hero-tags">
+          <span>${escapeHtml(riskType)}</span>
+          <span>Likelihood ${escapeHtml(likelihood)}</span>
+          <span>Impact ${escapeHtml(impact)}</span>
+        </div>
       </div>
     </header>
 
-    <div class="kri-detail-top-grid">
-      <section class="kri-detail-mini-matrix-card" aria-labelledby="kri-detail-matrix-heading">
-        <div class="section-heading">
-          <div>
-            <h2 id="kri-detail-matrix-heading">Risk Matrix Position</h2>
-            <p class="section-subtitle">ตำแหน่งของ KRI นี้ใน Risk Matrix</p>
-          </div>
-        </div>
-        <div class="kri-detail-mini-matrix">${miniMatrix}</div>
-      </section>
-
-      <div class="kri-detail-side-panel">
-        <aside class="kri-detail-status-card kri-performance-${performanceLevel}" aria-label="KRI performance level">
-          <span class="kri-performance-icon">${kriPerformanceIcon(performanceLevel)}</span>
-          <span>Performance Level</span>
-          <strong>${escapeHtml(performanceCategory)}</strong>
-          <p>${escapeHtml(performanceLabel)}</p>
-        </aside>
-        <section class="kri-detail-metrics" aria-label="KRI context metrics">
-          ${metricItems
-            .map(
-              (metric) => `
-                <article class="kri-detail-metric">
-                  <span>${escapeHtml(metric.label)}</span>
-                  <strong>${metric.value}</strong>
-                </article>
-              `
-            )
-            .join("")}
-        </section>
-      </div>
-    </div>
-
-    <section class="kri-detail-card kri-detail-description" aria-labelledby="kri-description-heading">
-      <p class="section-kicker">KRI PROFILE</p>
-      <h2 id="kri-description-heading">KRI Description</h2>
-      <p class="kri-formatted-text">${formatNumberedText(item.kri_description, "ไม่มีรายละเอียด KRI")}</p>
+    <section class="kri-detail-summary-grid" aria-label="สรุปข้อมูล KRI">
+      ${summaryItems
+        .map(
+          (summary) => `
+            <article class="kri-detail-summary-card ${summary.className}" ${summary.style ? `style="${summary.style}"` : ""}>
+              <span class="kri-detail-summary-icon" aria-hidden="true">${summary.icon}</span>
+              <div>
+                <span>${escapeHtml(summary.label)}</span>
+                <strong>${escapeHtml(summary.value)}</strong>
+                <small>${escapeHtml(summary.supporting)}</small>
+              </div>
+            </article>
+          `
+        )
+        .join("")}
     </section>
 
-    ${updateAndFinancialSection}
+    ${financialThresholdSection}
+
+    <div class="kri-detail-context-grid ${updateText ? "" : "kri-detail-context-single"}">
+      <section class="kri-detail-card kri-detail-description" aria-labelledby="kri-description-heading">
+        <p class="section-kicker">KRI PROFILE</p>
+        <h2 id="kri-description-heading">รายละเอียดตัวชี้วัด</h2>
+        <p class="kri-formatted-text">${formatNumberedText(item.kri_description, "ไม่มีรายละเอียด KRI")}</p>
+      </section>
+      ${updateSection}
+    </div>
 
     <section class="kri-criteria-grid" aria-label="Risk criteria">
       <article class="kri-criteria-card kri-criteria-appetite">
@@ -2773,16 +3220,44 @@ function renderKriDetail(item) {
       </article>
     </section>
 
+    <div class="kri-detail-support-grid">
+      <section class="kri-detail-mini-matrix-card" aria-labelledby="kri-detail-matrix-heading">
+        <div class="section-heading">
+          <div>
+            <h2 id="kri-detail-matrix-heading">Risk Matrix Position</h2>
+            <p class="section-subtitle">ตำแหน่งตาม Likelihood × Impact ล่าสุด</p>
+          </div>
+        </div>
+        <div class="kri-detail-mini-matrix">${miniMatrix}</div>
+      </section>
+
+      <aside class="kri-detail-profile-card" aria-labelledby="kri-profile-meta-heading">
+        <div class="section-heading">
+          <div>
+            <h2 id="kri-profile-meta-heading">ข้อมูลเพิ่มเติม</h2>
+            <p class="section-subtitle">ข้อมูลจริงจากชุด KRI ปัจจุบัน</p>
+          </div>
+        </div>
+        <dl>
+          <div><dt>ประเภทความเสี่ยง</dt><dd>${escapeHtml(riskType)}</dd></div>
+          <div><dt>ระดับความเสี่ยง</dt><dd>${escapeHtml(riskLabel)}</dd></div>
+          <div><dt>Likelihood</dt><dd>${escapeHtml(likelihood)}</dd></div>
+          <div><dt>Impact</dt><dd>${escapeHtml(impact)}</dd></div>
+          <div><dt>หน่วยงานรับผิดชอบ</dt><dd>${escapeHtml(riskOwner)}</dd></div>
+          <div><dt>อัปเดตล่าสุด</dt><dd>${escapeHtml(lastUpdate)}</dd></div>
+        </dl>
+      </aside>
+    </div>
+
     <section class="kri-detail-card kri-actions-section" aria-labelledby="kri-actions-heading">
       <div class="section-heading">
-        <h2 id="kri-actions-heading">Controls and Mitigation</h2>
+        <div>
+          <h2 id="kri-actions-heading">Controls and Mitigation</h2>
+          <p class="section-subtitle">มาตรการควบคุมและแผนจัดการความเสี่ยง</p>
+        </div>
       </div>
       <div class="kri-actions-grid">${actionContent}</div>
     </section>
-
-    <aside class="kri-executive-note">
-      <p>${escapeHtml(executiveNote)}</p>
-    </aside>
   `;
 }
 
