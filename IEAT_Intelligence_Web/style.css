@@ -13756,7 +13756,7 @@ button.kri-matrix-marker:focus-visible {
 
 .kri-dashboard-view .kri-summary-copy small {
   color: #5e5878;
-  font-size: 9.8px;
+  font-size: 10.5px;
   font-weight: 560;
   line-height: 1.32;
 }
@@ -13940,7 +13940,7 @@ button.kri-matrix-marker:focus-visible {
 }
 
 .kri-dashboard-view .kri-risk-legend-item span {
-  font-size: 10px;
+  font-size: 10.5px;
 }
 
 .kri-dashboard-view .kri-performance-legend .kri-legend-item {
@@ -13952,7 +13952,7 @@ button.kri-matrix-marker:focus-visible {
 }
 
 .kri-dashboard-view .kri-performance-legend .kri-legend-item p {
-  font-size: 9.7px;
+  font-size: 10.2px;
 }
 
 .kri-dashboard-view .kri-overview-table-shell {
@@ -13973,7 +13973,7 @@ button.kri-matrix-marker:focus-visible {
   padding: 9px 15px;
   border-color: rgba(45, 35, 104, 0.1);
   color: #383052;
-  font-size: 11.5px;
+  font-size: 12px;
 }
 
 .kri-dashboard-view .kri-overview-head {
@@ -14016,7 +14016,7 @@ button.kri-matrix-marker:focus-visible {
 }
 
 .kri-dashboard-view .kri-performance-pill-copy small {
-  font-size: 9.5px;
+  font-size: 10px;
 }
 
 .kri-dashboard-view .kri-overview-chevron {
@@ -14199,14 +14199,14 @@ button.kri-matrix-marker:focus-visible {
 
   .kri-dashboard-header-copy > p:not(.section-kicker):not(.kri-dashboard-latest) {
     max-width: 330px;
-    font-size: 12.5px;
+    font-size: 13.5px;
     line-height: 1.48;
   }
 
   .kri-dashboard-header-copy .kri-dashboard-latest {
     margin-top: 9px;
     padding: 5px 9px;
-    font-size: 9.8px;
+    font-size: 10.5px;
   }
 
   .kri-dashboard-summary {
@@ -14254,12 +14254,12 @@ button.kri-matrix-marker:focus-visible {
   }
 
   .kri-dashboard-view .kri-summary-label {
-    font-size: 9.8px;
+    font-size: 10.2px;
     line-height: 1.18;
   }
 
   .kri-dashboard-view .kri-summary-copy small {
-    font-size: 8.9px;
+    font-size: 9.6px;
     line-height: 1.25;
   }
 
@@ -14285,7 +14285,7 @@ button.kri-matrix-marker:focus-visible {
 
   .kri-dashboard-view .section-subtitle {
     margin-left: 13px;
-    font-size: 10.5px;
+    font-size: 11.5px;
   }
 
   .kri-dashboard-view .kri-matrix-layout {
@@ -14380,15 +14380,15 @@ button.kri-matrix-marker:focus-visible {
   }
 
   .kri-dashboard-view .kri-overview-name {
-    font-size: 12px;
+    font-size: 12.5px;
   }
 
   .kri-dashboard-view .kri-performance-pill-copy strong {
-    font-size: 10.5px;
+    font-size: 11px;
   }
 
   .kri-dashboard-view .kri-performance-pill-copy small {
-    font-size: 9.2px;
+    font-size: 10px;
   }
 }
 
@@ -14415,11 +14415,11 @@ button.kri-matrix-marker:focus-visible {
   }
 
   .kri-dashboard-view .kri-summary-label {
-    font-size: 9.3px;
+    font-size: 10px;
   }
 
   .kri-dashboard-view .kri-summary-copy small {
-    font-size: 8.5px;
+    font-size: 9.4px;
   }
 
   .kri-dashboard-view .kri-overview-row:not(.kri-overview-head) {
@@ -14428,7 +14428,7 @@ button.kri-matrix-marker:focus-visible {
   }
 
   .kri-dashboard-view .kri-overview-date-cell {
-    font-size: 9px;
+    font-size: 10px;
   }
 }
 
@@ -14438,6 +14438,7 @@ button.kri-matrix-marker:focus-visible {
   --f1-muted: #5d567b;
   --f1-purple: #5f24ed;
   --f1-purple-dark: #3f13c5;
+  --f1-data-font: "Segoe UI", "Noto Sans Thai", Tahoma, Arial, sans-serif;
   --f1-line: rgba(45, 35, 104, 0.13);
   --f1-surface: rgba(255, 255, 255, 0.94);
   --f1-shadow: 0 14px 38px rgba(34, 39, 91, 0.065);
@@ -14722,9 +14723,12 @@ button.kri-matrix-marker:focus-visible {
   border-radius: 50%;
   background: #fff;
   color: #24144c;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--f1-data-font);
   font-size: 20px;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: "lnum" 1, "tnum" 1;
   font-weight: 700;
+  font-style: normal;
 }
 
 .kri-detail-view.kri-detail-f1-view .f1-metric-tab > strong {
@@ -14865,9 +14869,13 @@ button.kri-matrix-marker:focus-visible {
 
 .kri-detail-view.kri-detail-f1-view .f1-actual-marker strong {
   margin-top: 2px;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 17px;
-  font-weight: 700;
+  font-family: var(--f1-data-font);
+  font-size: 16px;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: "lnum" 1, "tnum" 1;
+  font-weight: 800;
+  font-style: normal;
+  letter-spacing: -0.025em;
 }
 
 .kri-detail-view.kri-detail-f1-view .f1-actual-marker i {
@@ -15015,8 +15023,13 @@ button.kri-matrix-marker:focus-visible {
 
 .kri-detail-view.kri-detail-f1-view .f1-threshold-label strong {
   margin-top: 2px;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 14px;
+  font-family: var(--f1-data-font);
+  font-size: 13.5px;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: "lnum" 1, "tnum" 1;
+  font-weight: 800;
+  font-style: normal;
+  letter-spacing: -0.02em;
 }
 
 .kri-detail-view.kri-detail-f1-view .f1-threshold-label-ra {
@@ -15054,9 +15067,13 @@ button.kri-matrix-marker:focus-visible {
 
 .kri-detail-view.kri-detail-f1-view .f1-value-actual > strong {
   color: var(--f1-ink);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--f1-data-font);
   font-size: clamp(31px, 2.7vw, 43px);
-  font-weight: 700;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: "lnum" 1, "tnum" 1;
+  font-weight: 800;
+  font-style: normal;
+  letter-spacing: -0.035em;
   line-height: 1;
 }
 
@@ -15115,7 +15132,12 @@ button.kri-matrix-marker:focus-visible {
 
 .kri-detail-view.kri-detail-f1-view .f1-value-row strong {
   color: var(--f1-ink);
+  font-family: var(--f1-data-font);
   font-size: 12.5px;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: "lnum" 1, "tnum" 1;
+  font-weight: 750;
+  font-style: normal;
   white-space: nowrap;
 }
 
@@ -15273,13 +15295,18 @@ button.kri-matrix-marker:focus-visible {
 
 .kri-detail-view.kri-detail-f1-view .kri-detail-context-grid {
   grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.28fr);
-  gap: 14px;
+  gap: 10px;
+  align-items: start;
 }
 
-.kri-detail-view.kri-detail-f1-view .kri-detail-card,
+.kri-detail-view.kri-detail-f1-view .f1-metric-card {
+  padding: 20px;
+}
+
+.kri-detail-view.kri-detail-f1-view .kri-detail-context-grid .kri-detail-card,
 .kri-detail-view.kri-detail-f1-view .kri-detail-mini-matrix-card,
 .kri-detail-view.kri-detail-f1-view .kri-detail-profile-card {
-  padding: 20px;
+  padding: 14px;
 }
 
 .kri-detail-view.kri-detail-f1-view .kri-detail-description > h2,
@@ -15293,42 +15320,60 @@ button.kri-matrix-marker:focus-visible {
 .kri-detail-view.kri-detail-f1-view .kri-criteria-card p:last-child,
 .kri-detail-view.kri-detail-f1-view .kri-action-item p {
   color: #504a68;
-  font-size: 12px;
-  line-height: 1.65;
+  font-size: 13.5px;
+  line-height: 1.45;
+}
+
+.kri-detail-view.kri-detail-f1-view .kri-detail-context-grid .section-kicker,
+.kri-detail-view.kri-detail-f1-view .kri-criteria-card .section-kicker {
+  font-size: 10.5px;
 }
 
 .kri-detail-view.kri-detail-f1-view .kri-criteria-grid {
-  gap: 14px;
+  gap: 10px;
+  align-items: start;
 }
 
 .kri-detail-view.kri-detail-f1-view .kri-criteria-card {
   min-height: 0;
-  padding: 18px;
+  padding: 14px;
 }
 
 .kri-detail-view.kri-detail-f1-view .kri-criteria-card h2 {
   color: var(--f1-ink);
-  font-size: 18px;
+  font-size: 17px;
+}
+
+.kri-detail-view.kri-detail-f1-view .kri-criteria-card > div > span {
+  font-size: 12.5px;
+}
+
+.kri-detail-view.kri-detail-f1-view .kri-threshold-watermark {
+  width: 96px;
+  height: 96px;
+  right: 12px;
+  bottom: 8px;
 }
 
 .kri-detail-view.kri-detail-f1-view .kri-detail-support-grid {
   grid-template-columns: minmax(0, 1.42fr) minmax(300px, 0.58fr);
-  gap: 14px;
+  gap: 10px;
+  align-items: start;
 }
 
 .kri-detail-view.kri-detail-f1-view .section-heading {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .kri-detail-view.kri-detail-f1-view .section-heading h2,
 .kri-detail-view.kri-detail-f1-view .kri-detail-profile-card h2 {
   color: var(--f1-ink);
-  font-size: 21px;
+  font-size: 20px;
 }
 
 .kri-detail-view.kri-detail-f1-view .section-subtitle {
   color: var(--f1-muted);
-  font-size: 11.5px;
+  font-size: 13px;
 }
 
 .kri-detail-view.kri-detail-f1-view .kri-detail-mini-matrix .kri-risk-matrix {
@@ -15338,8 +15383,18 @@ button.kri-matrix-marker:focus-visible {
 
 .kri-detail-view.kri-detail-f1-view .kri-detail-mini-matrix .kri-matrix-grid {
   grid-template-columns: 72px repeat(5, minmax(90px, 1fr));
-  grid-template-rows: 25px repeat(5, 72px) 40px;
+  grid-template-rows: 24px repeat(5, 58px) 36px;
   gap: 3px;
+}
+
+.kri-detail-view.kri-detail-f1-view .kri-detail-mini-matrix .kri-matrix-axis-spacer span {
+  top: 174px;
+  font-size: 10.5px;
+}
+
+.kri-detail-view.kri-detail-f1-view .kri-detail-mini-matrix .kri-matrix-row-label span,
+.kri-detail-view.kri-detail-f1-view .kri-detail-mini-matrix .kri-matrix-bottom-label span {
+  font-size: 10px;
 }
 
 .kri-detail-view.kri-detail-f1-view .kri-detail-mini-matrix .kri-matrix-cell[data-risk-level="low"] {
@@ -15418,41 +15473,43 @@ button.kri-matrix-marker:focus-visible {
 }
 
 .kri-detail-view.kri-detail-f1-view .kri-detail-profile-card dl > div {
-  grid-template-columns: 132px minmax(0, 1fr);
-  padding: 9px 0;
+  grid-template-columns: 140px minmax(0, 1fr);
+  gap: 10px;
+  padding: 6px 0;
 }
 
 .kri-detail-view.kri-detail-f1-view .kri-detail-profile-card dt,
 .kri-detail-view.kri-detail-f1-view .kri-detail-profile-card dd {
-  font-size: 11px;
+  font-size: 13px;
+  line-height: 1.4;
 }
 
 .kri-detail-view.kri-detail-f1-view .kri-actions-section {
-  padding: 20px;
+  padding: 14px;
 }
 
 .kri-detail-view.kri-detail-f1-view .kri-actions-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  gap: 10px;
 }
 
 .kri-detail-view.kri-detail-f1-view .kri-action-card {
-  padding: 14px;
+  padding: 10px 12px;
   border-color: rgba(45, 35, 104, 0.1);
   border-radius: 11px;
   background: #fafafd;
 }
 
 .kri-detail-view.kri-detail-f1-view .kri-action-card h3 {
-  margin-bottom: 9px;
+  margin-bottom: 6px;
   color: var(--f1-ink);
-  font-size: 12px;
+  font-size: 16.5px;
 }
 
 .kri-detail-view.kri-detail-f1-view .kri-action-list {
   display: grid;
-  gap: 6px;
+  gap: 4px;
 }
 
 .kri-detail-view.kri-detail-f1-view .kri-action-item {
@@ -15460,7 +15517,7 @@ button.kri-matrix-marker:focus-visible {
   grid-template-columns: 7px minmax(0, 1fr);
   gap: 8px;
   align-items: start;
-  padding: 7px 8px;
+  padding: 6px 7px;
   border: 1px solid rgba(45, 35, 104, 0.075);
   border-radius: 8px;
   background: #fff;
@@ -15472,7 +15529,7 @@ button.kri-matrix-marker:focus-visible {
 
 .kri-detail-view.kri-detail-f1-view .f1-action-copy {
   display: grid;
-  grid-template-columns: 52px minmax(0, 1fr);
+  grid-template-columns: 54px minmax(0, 1fr);
   gap: 8px;
   align-items: start;
   margin: 0;
@@ -15485,15 +15542,15 @@ button.kri-matrix-marker:focus-visible {
   border-radius: 6px;
   background: #f1edfb;
   color: #5122b8;
-  font-size: 9.5px;
+  font-size: 12px;
   font-weight: 820;
 }
 
 .kri-detail-view.kri-detail-f1-view .f1-action-copy > span {
-  padding-top: 2px;
+  padding-top: 1px;
   color: #4d4765;
-  font-size: 11px;
-  line-height: 1.45;
+  font-size: 13.5px;
+  line-height: 1.4;
 }
 
 @media (max-width: 1199px) {
@@ -15511,7 +15568,7 @@ button.kri-matrix-marker:focus-visible {
   }
 }
 
-@media (max-width: 1023px) {
+@media (max-width: 1024px) {
   .kri-detail-view.kri-detail-f1-view .f1-metric-tabs {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 9px;
@@ -15551,6 +15608,11 @@ button.kri-matrix-marker:focus-visible {
   .kri-detail-view.kri-detail-f1-view .kri-detail-support-grid {
     grid-template-columns: 1fr;
   }
+
+  .kri-detail-view.kri-detail-f1-view .kri-detail-profile-card dl {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 24px;
+  }
 }
 
 @media (max-width: 767px) {
@@ -15577,6 +15639,11 @@ button.kri-matrix-marker:focus-visible {
     padding: 8px 10px max(28px, env(safe-area-inset-bottom));
   }
 
+  .kri-detail-view.kri-detail-f1-view .kri-detail-profile-card dl {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
   .kri-detail-view.kri-detail-f1-view .kri-detail-hero {
     padding: 17px 4px 20px;
   }
@@ -15597,7 +15664,7 @@ button.kri-matrix-marker:focus-visible {
   }
 
   .kri-detail-view.kri-detail-f1-view .kri-detail-subtitle {
-    font-size: 11.5px;
+    font-size: 13px;
   }
 
   .kri-detail-view.kri-detail-f1-view .kri-detail-hero-tags {
@@ -15621,7 +15688,15 @@ button.kri-matrix-marker:focus-visible {
   }
 
   .kri-detail-view.kri-detail-f1-view .kri-detail-summary-card strong {
-    font-size: 13px;
+    font-size: 14px;
+  }
+
+  .kri-detail-view.kri-detail-f1-view .kri-detail-summary-card > div > span {
+    font-size: 11.5px;
+  }
+
+  .kri-detail-view.kri-detail-f1-view .kri-detail-summary-card small {
+    font-size: 11px;
   }
 
   .kri-detail-view.kri-detail-f1-view .f1-metric-card,
@@ -15645,7 +15720,7 @@ button.kri-matrix-marker:focus-visible {
 
   .kri-detail-view.kri-detail-f1-view .f1-metric-card-header p {
     margin-left: 14px;
-    font-size: 10.8px;
+    font-size: 12.5px;
   }
 
   .kri-detail-view.kri-detail-f1-view .f1-card-direction {
@@ -15685,7 +15760,7 @@ button.kri-matrix-marker:focus-visible {
   }
 
   .kri-detail-view.kri-detail-f1-view .f1-metric-tab > small {
-    font-size: 9.5px;
+    font-size: 10px;
   }
 
   .kri-detail-view.kri-detail-f1-view .f1-metric-tab > i,
@@ -15797,13 +15872,13 @@ button.kri-matrix-marker:focus-visible {
   }
 
   .kri-detail-view.kri-detail-f1-view .kri-detail-mini-matrix .kri-risk-matrix {
-    width: 610px;
-    min-width: 610px;
+    width: 560px;
+    min-width: 560px;
   }
 
   .kri-detail-view.kri-detail-f1-view .kri-detail-mini-matrix .kri-matrix-grid {
-    grid-template-columns: 62px repeat(5, 102px);
-    grid-template-rows: 22px repeat(5, 68px) 38px;
+    grid-template-columns: 56px repeat(5, 94px);
+    grid-template-rows: 22px repeat(5, 58px) 36px;
   }
 }
 
@@ -15844,6 +15919,1467 @@ button.kri-matrix-marker:focus-visible {
 
 @media (prefers-reduced-motion: reduce) {
   .kri-detail-view.kri-detail-f1-view .f1-metric-tab {
+    transition: none;
+  }
+}
+
+/* Phase B.2.3: Standard KRI detail premium template */
+.kri-detail-view.kri-detail-standard-view {
+  --standard-ink: #1d0d45;
+  --standard-muted: #645b7b;
+  --standard-line: rgba(45, 35, 104, 0.12);
+  --standard-state: #087bc1;
+  --standard-state-soft: rgba(8, 123, 193, 0.09);
+  background: linear-gradient(180deg, rgba(248, 251, 255, 0.86) 0, #f8faff 370px, #f7f8fc 100%);
+}
+
+.kri-detail-view.kri-detail-standard-view[data-kri-performance="appetite"] {
+  --standard-state: #079866;
+  --standard-state-soft: rgba(7, 152, 102, 0.09);
+}
+
+.kri-detail-view.kri-detail-standard-view[data-kri-performance="tolerance"] {
+  --standard-state: #c68100;
+  --standard-state-soft: rgba(198, 129, 0, 0.1);
+}
+
+.kri-detail-view.kri-detail-standard-view[data-kri-performance="pending_confirmation"] {
+  --standard-state: #6632c4;
+  --standard-state-soft: rgba(102, 50, 196, 0.1);
+}
+
+.kri-detail-view.kri-detail-standard-view[data-kri-performance="not_meet_ra"] {
+  --standard-state: #dc6508;
+  --standard-state-soft: rgba(220, 101, 8, 0.1);
+}
+
+.kri-detail-view.kri-detail-standard-view[data-kri-performance="not_meet"] {
+  --standard-state: #cd263c;
+  --standard-state-soft: rgba(205, 38, 60, 0.09);
+}
+
+.kri-detail-view.kri-detail-standard-view::before {
+  height: 380px;
+  background-image: url("./assets/erm-bg-desktop.png");
+  background-position: center top;
+  background-size: cover;
+  filter: saturate(0.78) contrast(0.96) brightness(1.04);
+  opacity: 0.72;
+}
+
+.kri-detail-view.kri-detail-standard-view::after {
+  height: 425px;
+  background:
+    linear-gradient(90deg, rgba(249, 252, 255, 0.98) 0%, rgba(249, 252, 255, 0.9) 42%, rgba(249, 252, 255, 0.28) 78%, rgba(249, 252, 255, 0.1) 100%),
+    linear-gradient(180deg, rgba(249, 252, 255, 0) 52%, #f8faff 95%);
+}
+
+.kri-detail-view.kri-detail-standard-view .detail-toolbar,
+.kri-detail-view.kri-detail-standard-view .kri-detail-content {
+  width: min(100%, 1580px);
+}
+
+.kri-detail-view.kri-detail-standard-view .detail-toolbar {
+  padding-top: 15px;
+}
+
+.kri-detail-view.kri-detail-standard-view .kri-detail-content {
+  gap: 10px;
+  padding-top: 8px;
+  padding-bottom: 34px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-kri-hero {
+  display: flex;
+  min-height: 148px;
+  align-items: center;
+  padding: 10px 8px 14px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-kri-hero-copy {
+  width: min(100%, 940px);
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-kri-title-row {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  margin-top: 5px;
+}
+
+.kri-detail-view.kri-detail-standard-view .kri-detail-code {
+  min-height: 58px;
+  border-color: color-mix(in srgb, var(--standard-state) 20%, transparent);
+  background: color-mix(in srgb, var(--standard-state) 8%, rgba(255, 255, 255, 0.92));
+  color: var(--standard-ink);
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  font-size: 28px;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-weight: 800;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-risk-type {
+  display: block;
+  margin: 1px 0 4px;
+  color: #50327c;
+  font-size: 13px;
+  font-weight: 760;
+}
+
+.kri-detail-view.kri-detail-standard-view .kri-detail-title {
+  font-size: clamp(30px, 2.2vw, 34px);
+  line-height: 1.12;
+}
+
+.kri-detail-view.kri-detail-standard-view .kri-detail-subtitle {
+  max-width: 860px;
+  margin-top: 7px;
+  font-size: 14px;
+  line-height: 1.48;
+}
+
+.kri-detail-view.kri-detail-standard-view .kri-detail-summary-grid {
+  gap: 8px;
+}
+
+.kri-detail-view.kri-detail-standard-view .kri-detail-summary-card {
+  min-height: 80px;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 9px;
+  border-color: var(--standard-line);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.91);
+  padding: 10px 12px;
+  box-shadow: 0 10px 28px rgba(34, 39, 91, 0.055);
+  backdrop-filter: blur(9px);
+}
+
+.kri-detail-view.kri-detail-standard-view .kri-detail-summary-icon {
+  width: 38px;
+  height: 38px;
+}
+
+.kri-detail-view.kri-detail-standard-view .kri-detail-summary-icon svg {
+  width: 21px;
+  height: 21px;
+}
+
+.kri-detail-view.kri-detail-standard-view .kri-detail-summary-card > div > span {
+  font-size: 12px;
+}
+
+.kri-detail-view.kri-detail-standard-view .kri-detail-summary-card strong {
+  font-size: 16px;
+}
+
+.kri-detail-view.kri-detail-standard-view .kri-detail-summary-card small {
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-kri-metric-section,
+.kri-detail-view.kri-detail-standard-view .standard-info-card,
+.kri-detail-view.kri-detail-standard-view .standard-actions-section,
+.kri-detail-view.kri-detail-standard-view .standard-criteria-footer {
+  border: 1px solid var(--standard-line);
+  border-radius: 17px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 14px 38px rgba(34, 39, 91, 0.06);
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-kri-metric-section,
+.kri-detail-view.kri-detail-standard-view .standard-actions-section {
+  padding: 16px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-section-heading {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 11px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-section-heading h2 {
+  position: relative;
+  margin: 0;
+  padding-left: 18px;
+  color: var(--standard-ink);
+  font-family: Georgia, "Times New Roman", "Noto Serif Thai", serif;
+  font-size: 20px;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-section-heading h2::before {
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  left: 0;
+  width: 4px;
+  border-radius: 999px;
+  background: #6d35e7;
+  content: "";
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-section-heading p {
+  margin: 3px 0 0 18px;
+  color: var(--standard-muted);
+  font-size: 13.5px;
+  line-height: 1.4;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-data-mode {
+  flex: 0 0 auto;
+  padding: 6px 10px;
+  border: 1px solid rgba(96, 48, 199, 0.12);
+  border-radius: 999px;
+  background: #f7f4fd;
+  color: #5e38a0;
+  font-size: 12px;
+  font-weight: 720;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-qualitative-layout {
+  display: grid;
+  grid-template-columns: minmax(250px, 0.76fr) minmax(0, 1.55fr);
+  gap: 10px;
+  align-items: start;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-current-state {
+  display: grid;
+  min-height: 0;
+  grid-template-columns: 46px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-content: center;
+  align-items: center;
+  border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+  border-radius: 13px;
+  background: color-mix(in srgb, currentColor 7%, white);
+  color: var(--standard-state);
+  padding: 13px 14px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-current-state > .kri-performance-icon {
+  width: 46px;
+  height: 46px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-current-state > .kri-performance-icon svg {
+  width: 26px;
+  height: 26px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-current-state-copy {
+  display: grid;
+  gap: 2px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-current-state-copy > span,
+.kri-detail-view.kri-detail-standard-view .standard-current-state-meta > span {
+  color: #746b86;
+  font-size: 12px;
+  font-weight: 620;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-current-state-copy h3 {
+  margin: 0;
+  color: currentColor;
+  font-size: 16px;
+  line-height: 1.25;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-current-state-copy p {
+  margin: 1px 0 0;
+  color: #504862;
+  font-size: 13.5px;
+  line-height: 1.4;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-current-state-meta {
+  display: grid;
+  grid-column: auto;
+  gap: 2px;
+  justify-items: end;
+  padding: 0 0 0 12px;
+  border-left: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-current-state-meta strong {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 13px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-current-state-meta strong b {
+  font-size: 17px;
+  line-height: 1;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-criteria-pair,
+.kri-detail-view.kri-detail-standard-view .standard-criteria-footer {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  align-items: start;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-criteria-single {
+  grid-template-columns: 1fr;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-criterion {
+  display: grid;
+  min-height: 0;
+  grid-template-columns: 36px minmax(0, 1fr);
+  gap: 10px;
+  align-content: start;
+  border: 1px solid rgba(45, 35, 104, 0.1);
+  border-radius: 13px;
+  padding: 12px 14px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-criterion-appetite {
+  border-color: rgba(7, 152, 102, 0.17);
+  background: rgba(7, 152, 102, 0.045);
+  color: #078d60;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-criterion-tolerance {
+  border-color: rgba(198, 129, 0, 0.18);
+  background: rgba(198, 129, 0, 0.05);
+  color: #bd7900;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-criterion .kri-performance-icon {
+  width: 36px;
+  height: 36px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-criterion .kri-performance-icon svg {
+  width: 19px;
+  height: 19px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-criterion-appetite .kri-performance-icon {
+  background: rgba(7, 152, 102, 0.11);
+  color: #079866;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-criterion-tolerance .kri-performance-icon {
+  background: rgba(198, 129, 0, 0.12);
+  color: #c68100;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-criterion > div > span {
+  display: block;
+  margin: 1px 0 2px;
+  color: currentColor;
+  font-size: 10.5px;
+  font-weight: 820;
+  letter-spacing: 0.1em;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-criterion h3 {
+  margin: 0;
+  color: var(--standard-ink);
+  font-size: 16px;
+  line-height: 1.25;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-criterion p {
+  margin: 5px 0 0;
+  color: #4f4863;
+  font-size: 13.5px;
+  line-height: 1.42;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-kri-support-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 0.9fr) minmax(360px, 1.2fr);
+  gap: 10px;
+  align-items: start;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-kri-support-grid-no-progress {
+  grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1.1fr);
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-info-card {
+  min-width: 0;
+  padding: 14px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-card-heading,
+.kri-detail-view.kri-detail-standard-view .standard-action-card-heading {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-card-icon {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border-radius: 10px;
+  background: #f0ebfb;
+  color: #6630c8;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-card-icon svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-card-heading h2 {
+  margin: 0;
+  color: var(--standard-ink);
+  font-family: Georgia, "Times New Roman", "Noto Serif Thai", serif;
+  font-size: 19px;
+  line-height: 1.2;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-action-card-heading h3 {
+  margin: 0;
+  color: var(--standard-ink);
+  font-family: Georgia, "Times New Roman", "Noto Serif Thai", serif;
+  font-size: 16.5px;
+  line-height: 1.2;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-card-heading p {
+  margin: 2px 0 0;
+  color: var(--standard-muted);
+  font-size: 12.5px;
+  line-height: 1.35;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-profile-list,
+.kri-detail-view.kri-detail-standard-view .standard-matrix-meta {
+  display: grid;
+  margin: 0;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-profile-list > div {
+  display: grid;
+  grid-template-columns: 118px minmax(0, 1fr);
+  gap: 10px;
+  padding: 5px 0;
+  border-top: 1px solid rgba(45, 35, 104, 0.09);
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-profile-list dt,
+.kri-detail-view.kri-detail-standard-view .standard-profile-list dd,
+.kri-detail-view.kri-detail-standard-view .standard-matrix-meta dt,
+.kri-detail-view.kri-detail-standard-view .standard-matrix-meta dd {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-profile-list dt,
+.kri-detail-view.kri-detail-standard-view .standard-matrix-meta dt {
+  color: #756c87;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-profile-list dd,
+.kri-detail-view.kri-detail-standard-view .standard-matrix-meta dd {
+  color: #34284d;
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-progress-list,
+.kri-detail-view.kri-detail-standard-view .standard-action-card ul {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-progress-list li {
+  position: relative;
+  display: grid;
+  min-height: 0;
+  grid-template-columns: 12px minmax(0, 1fr);
+  gap: 10px;
+  padding: 6px 0;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-progress-list li + li {
+  border-top: 1px solid rgba(45, 35, 104, 0.08);
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-progress-list li > span {
+  width: 8px;
+  height: 8px;
+  margin-top: 6px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: #6431c5;
+  box-shadow: 0 0 0 2px rgba(100, 49, 197, 0.16);
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-progress-list p {
+  margin: 0;
+  color: #4f4765;
+  font-size: 13.5px;
+  line-height: 1.45;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-matrix-card .kri-detail-mini-matrix {
+  margin: 0 0 5px;
+  overflow-x: auto;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-matrix-card .kri-risk-matrix {
+  width: 100%;
+  min-width: 350px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-matrix-card .kri-matrix-grid {
+  grid-template-columns: 43px repeat(5, minmax(48px, 1fr));
+  grid-template-rows: 19px repeat(5, 47px) 32px;
+  gap: 3px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-matrix-card .kri-matrix-axis-spacer span {
+  left: -29px;
+  top: 141px;
+  font-size: 10px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-matrix-card .kri-matrix-cell[data-risk-level="low"] {
+  background: #3d7868 !important;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-matrix-card .kri-matrix-cell[data-risk-level="medium"] {
+  background: #e3b83f !important;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-matrix-card .kri-matrix-cell[data-risk-level="high"] {
+  background: #c96438 !important;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-matrix-card .kri-matrix-cell[data-risk-level="extreme"] {
+  background: #a92f48 !important;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-matrix-card .kri-matrix-row-label strong,
+.kri-detail-view.kri-detail-standard-view .standard-matrix-card .kri-matrix-bottom-label strong {
+  font-size: 11.5px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-matrix-card .kri-matrix-row-label span,
+.kri-detail-view.kri-detail-standard-view .standard-matrix-card .kri-matrix-bottom-label span {
+  font-size: 9.5px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-matrix-card .kri-matrix-marker {
+  width: 37px;
+  min-width: 37px;
+  height: 37px;
+  min-height: 37px;
+  color: var(--standard-state);
+  box-shadow: 0 4px 10px rgba(24, 18, 50, 0.2), 0 0 0 2px color-mix(in srgb, currentColor 12%, transparent);
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-matrix-card .kri-matrix-marker strong {
+  color: #201040;
+  font-family: Cambria, "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  font-size: 12.5px;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-shadow: 0 0 4px #fff, 0 0 7px rgba(255, 255, 255, 0.94);
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-matrix-card .kri-marker-watermark {
+  inset: 2px;
+  opacity: 0.4;
+  transform: scale(1.05);
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-matrix-card .kri-marker-watermark svg {
+  stroke-width: 2.1;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-matrix-meta {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 18px;
+  border-top: 1px solid rgba(45, 35, 104, 0.09);
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-matrix-meta > div {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-risk-pill {
+  display: inline-flex;
+  min-width: 56px;
+  justify-content: center;
+  padding: 3px 9px;
+  border: 1px solid var(--risk-border);
+  border-radius: 999px;
+  background: var(--risk-bg);
+  color: var(--risk-accent);
+  font-size: 12px;
+  font-weight: 780;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-action-card {
+  min-width: 0;
+  border: 1px solid rgba(45, 35, 104, 0.1);
+  border-radius: 12px;
+  background: #fbfafd;
+  padding: 10px 12px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-action-card-heading {
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  margin-bottom: 5px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-action-card-heading .standard-card-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-action-card-heading .standard-card-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-action-card-heading > span:last-child {
+  color: #776d89;
+  font-size: 12px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-action-card li {
+  display: grid;
+  grid-template-columns: 7px minmax(0, 1fr);
+  gap: 9px;
+  align-items: start;
+  padding: 6px 5px;
+  border-top: 1px solid rgba(45, 35, 104, 0.075);
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-action-dot {
+  width: 6px;
+  height: 6px;
+  margin-top: 8px;
+  border-radius: 50%;
+  background: #6d35df;
+  box-shadow: 0 0 0 3px rgba(109, 53, 223, 0.08);
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-action-card li p {
+  display: grid;
+  grid-template-columns: 50px minmax(0, 1fr);
+  gap: 8px;
+  align-items: start;
+  margin: 0;
+  color: #4e4663;
+  font-size: 13.5px;
+  line-height: 1.4;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-action-card li p > span:only-child {
+  grid-column: 1 / -1;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-action-id {
+  display: inline-grid;
+  min-height: 24px;
+  place-items: center;
+  border-radius: 6px;
+  background: #f0ebfb;
+  color: #5222b7;
+  font-size: 12px;
+  font-weight: 820;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-criteria-footer {
+  padding: 10px;
+}
+
+/* Numeric standard metrics stay dormant until real Actual / RA / RT data is supplied. */
+.kri-detail-view.kri-detail-standard-view .standard-numeric-metric-list {
+  display: grid;
+  gap: 14px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-numeric-metric + .standard-numeric-metric {
+  padding-top: 14px;
+  border-top: 1px solid var(--standard-line);
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-metric-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.9fr) minmax(270px, 0.7fr);
+  gap: 12px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-metric-visual,
+.kri-detail-view.kri-detail-standard-view .standard-metric-values {
+  border: 1px solid rgba(45, 35, 104, 0.1);
+  border-radius: 13px;
+  background: #fff;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-metric-visual {
+  min-width: 0;
+  padding: 17px 18px 8px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-metric-title-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-metric-title-row h3 {
+  margin: 0;
+  color: var(--standard-ink);
+  font-size: 20px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-metric-title-row p {
+  margin: 3px 0 0;
+  color: var(--standard-muted);
+  font-size: 10px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-direction {
+  display: inline-flex;
+  gap: 7px;
+  align-items: center;
+  padding: 7px 10px;
+  border-radius: 10px;
+  background: #eef6ff;
+  color: #096bca;
+  font-size: 10px;
+  font-weight: 760;
+  white-space: nowrap;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-direction b {
+  font-size: 17px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-threshold-scroll {
+  overflow-x: auto;
+  scrollbar-color: rgba(96, 48, 199, 0.28) transparent;
+  scrollbar-width: thin;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-threshold-chart {
+  position: relative;
+  min-width: 620px;
+  height: 190px;
+  padding: 76px 25px 0;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-actual-marker {
+  position: absolute;
+  z-index: 4;
+  top: 24px;
+  left: calc(25px + (100% - 50px) * var(--marker-position) / 100);
+  display: grid;
+  justify-items: center;
+  color: #3422d4;
+  transform: translateX(-50%);
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-actual-marker span {
+  font-size: 9px;
+  font-weight: 760;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-actual-marker strong {
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  font-size: 14px;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-weight: 800;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-actual-marker i {
+  width: 13px;
+  height: 13px;
+  margin-top: 4px;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  background: #3d20dc;
+  box-shadow: 0 2px 7px rgba(61, 32, 220, 0.3);
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-threshold-rail {
+  position: relative;
+  height: 64px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-threshold-zones {
+  display: flex;
+  height: 56px;
+  overflow: hidden;
+  border: 1px solid rgba(45, 35, 104, 0.1);
+  border-radius: 9px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-threshold-zones > span {
+  display: grid;
+  min-width: 0;
+  place-items: center;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-threshold-zones small {
+  padding: 0 7px;
+  font-size: 9px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-zone-appetite {
+  background: linear-gradient(180deg, #9de7c7, #e1f7ed);
+  color: #087c57;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-zone-tolerance {
+  background: linear-gradient(180deg, #ffe299, #fff4d6);
+  color: #b56f00;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-zone-not-meet {
+  background: linear-gradient(180deg, #ff9fa8, #ffe2e5);
+  color: #ca2739;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-threshold-guide {
+  position: absolute;
+  z-index: 3;
+  top: -4px;
+  bottom: -9px;
+  left: var(--marker-position);
+  width: 1px;
+  border-left: 1px dashed currentColor;
+  transform: translateX(-50%);
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-threshold-guide::before {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  width: 8px;
+  height: 8px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: currentColor;
+  content: "";
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-threshold-guide-ra,
+.kri-detail-view.kri-detail-standard-view .standard-threshold-label-ra {
+  color: #079866;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-threshold-guide-rt,
+.kri-detail-view.kri-detail-standard-view .standard-threshold-label-rt {
+  color: #e58c00;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-threshold-labels {
+  position: relative;
+  height: 40px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-threshold-label {
+  position: absolute;
+  top: 0;
+  left: var(--marker-position);
+  display: grid;
+  justify-items: center;
+  transform: translateX(-50%);
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-threshold-lane-1 {
+  top: 20px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-threshold-label b {
+  font-size: 9px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-threshold-label strong {
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  font-size: 11px;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-metric-values {
+  padding: 15px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-value-actual {
+  display: grid;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(45, 35, 104, 0.1);
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-value-actual > span,
+.kri-detail-view.kri-detail-standard-view .standard-value-actual > small {
+  color: var(--standard-muted);
+  font-size: 9.5px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-value-actual > strong {
+  color: var(--standard-ink);
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  font-size: 30px;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-weight: 780;
+  line-height: 1.2;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-value-row {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(45, 35, 104, 0.08);
+  font-size: 9.5px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-value-row > span {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-value-row i {
+  width: 4px;
+  height: 18px;
+  border-radius: 99px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-value-ra i {
+  background: #079866;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-value-rt i {
+  background: #e58c00;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-value-row strong {
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-metric-values dl {
+  display: grid;
+  margin: 4px 0 0;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-metric-values dl > div {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-metric-values dt,
+.kri-detail-view.kri-detail-standard-view .standard-metric-values dd {
+  margin: 0;
+  color: var(--standard-muted);
+  font-size: 9px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-metric-state,
+.kri-detail-view.kri-detail-standard-view .standard-performance-strip {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  margin-top: 10px;
+  border: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+  border-radius: 11px;
+  background: color-mix(in srgb, currentColor 6%, white);
+  color: var(--standard-state);
+  padding: 10px 12px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-metric-state .kri-performance-icon,
+.kri-detail-view.kri-detail-standard-view .standard-performance-strip .kri-performance-icon {
+  width: 36px;
+  height: 36px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-metric-state > div,
+.kri-detail-view.kri-detail-standard-view .standard-performance-strip > div {
+  display: grid;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-metric-state strong,
+.kri-detail-view.kri-detail-standard-view .standard-performance-strip strong {
+  font-size: 11px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-metric-state span:not(.kri-performance-icon),
+.kri-detail-view.kri-detail-standard-view .standard-performance-strip span:not(.kri-performance-icon) {
+  color: var(--standard-muted);
+  font-size: 9px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-performance-strip {
+  display: grid;
+  grid-template-columns: 36px minmax(140px, auto) minmax(0, 1fr) auto auto;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-performance-strip > p {
+  margin: 0;
+  padding-left: 14px;
+  border-left: 1px solid rgba(45, 35, 104, 0.1);
+  color: #4f4863;
+  font-size: 10px;
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-strip-meta {
+  min-width: 84px;
+  padding-left: 12px;
+  border-left: 1px solid rgba(45, 35, 104, 0.1);
+}
+
+.kri-detail-view.kri-detail-standard-view .standard-incomplete-metrics {
+  display: grid;
+  gap: 4px;
+  margin-top: 10px;
+  padding: 9px 11px;
+  border-radius: 8px;
+  background: #f7f5fb;
+  color: var(--standard-muted);
+  font-size: 9.5px;
+}
+
+@media (min-width: 1200px) {
+  .kri-detail-view.kri-detail-standard-view .standard-kri-support-grid:not(.standard-kri-support-grid-no-progress) {
+    grid-template-columns: minmax(360px, 0.72fr) minmax(680px, 1.28fr);
+    grid-template-rows: auto auto;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-kri-support-grid:not(.standard-kri-support-grid-no-progress) .standard-profile-card {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-kri-support-grid:not(.standard-kri-support-grid-no-progress) .standard-progress-card {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-kri-support-grid:not(.standard-kri-support-grid-no-progress) .standard-matrix-card {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-matrix-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 210px;
+    column-gap: 14px;
+    align-items: start;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-matrix-card .standard-card-heading {
+    grid-column: 1 / -1;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-matrix-card .kri-detail-mini-matrix {
+    grid-column: 1;
+    min-width: 0;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-matrix-card .kri-risk-matrix {
+    width: min(100%, 620px);
+    margin-inline: auto;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-matrix-meta {
+    grid-column: 2;
+    grid-row: 2;
+    grid-template-columns: 1fr;
+    align-self: stretch;
+    padding-left: 13px;
+    border-top: 0;
+    border-left: 1px solid rgba(45, 35, 104, 0.09);
+  }
+}
+
+@media (max-width: 1199px) {
+  .kri-detail-view.kri-detail-standard-view .standard-qualitative-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-kri-support-grid,
+  .kri-detail-view.kri-detail-standard-view .standard-kri-support-grid-no-progress {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-matrix-card {
+    grid-column: 1 / -1;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-matrix-card .kri-risk-matrix {
+    width: min(100%, 620px);
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 1024px) {
+  .kri-detail-view.kri-detail-standard-view .standard-qualitative-layout,
+  .kri-detail-view.kri-detail-standard-view .standard-metric-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-current-state {
+    min-height: 0;
+    grid-template-columns: 50px minmax(0, 1fr) auto;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-current-state-meta {
+    grid-column: auto;
+    display: grid;
+    justify-items: end;
+    padding: 0 0 0 14px;
+    border-top: 0;
+    border-left: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-metric-values {
+    display: grid;
+    grid-template-columns: minmax(190px, 0.8fr) 1fr;
+    gap: 0 16px;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-value-actual {
+    grid-row: 1 / 4;
+    border-right: 1px solid rgba(45, 35, 104, 0.1);
+    border-bottom: 0;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-performance-strip {
+    grid-template-columns: 36px minmax(120px, auto) minmax(0, 1fr) auto;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-performance-strip > .standard-strip-meta:last-child {
+    grid-column: 4;
+    grid-row: 2;
+  }
+}
+
+@media (max-width: 820px) {
+  .kri-detail-view.kri-detail-standard-view .standard-kri-support-grid,
+  .kri-detail-view.kri-detail-standard-view .standard-kri-support-grid-no-progress {
+    grid-template-columns: 1fr;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-matrix-card {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .kri-detail-view.kri-detail-standard-view::before {
+    height: 405px;
+    background-image: url("./assets/erm-bg-mobile.png");
+    background-position: center top;
+    background-size: 100% auto;
+  }
+
+  .kri-detail-view.kri-detail-standard-view::after {
+    height: 440px;
+    background:
+      linear-gradient(90deg, rgba(249, 252, 255, 0.97) 0%, rgba(249, 252, 255, 0.72) 67%, rgba(249, 252, 255, 0.2) 100%),
+      linear-gradient(180deg, rgba(249, 252, 255, 0) 54%, #f8faff 95%);
+  }
+
+  .kri-detail-view.kri-detail-standard-view .detail-toolbar {
+    padding: 10px 14px 0;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .kri-detail-content {
+    gap: 9px;
+    padding: 7px 10px max(118px, calc(98px + env(safe-area-inset-bottom)));
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-kri-hero {
+    min-height: 164px;
+    align-items: flex-start;
+    padding: 10px 4px 14px;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-kri-title-row {
+    grid-template-columns: 56px minmax(0, 1fr);
+    gap: 11px;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .kri-detail-code {
+    min-height: 49px;
+    font-size: 22px;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-risk-type {
+    font-size: 12px;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .kri-detail-title {
+    font-size: clamp(27px, 7.6vw, 30px);
+    line-height: 1.1;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .kri-detail-subtitle {
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .kri-detail-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .kri-detail-summary-card {
+    min-height: 78px;
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 8px;
+    padding: 9px 10px;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .kri-detail-summary-card:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .kri-detail-summary-card:last-child {
+    grid-column: auto;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .kri-detail-summary-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .kri-detail-summary-icon svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .kri-detail-summary-card strong {
+    font-size: 14px;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-kri-metric-section,
+  .kri-detail-view.kri-detail-standard-view .standard-actions-section {
+    border-radius: 14px;
+    padding: 12px;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-section-heading {
+    display: grid;
+    gap: 9px;
+    margin-bottom: 10px;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-section-heading h2 {
+    padding-left: 14px;
+    font-size: 19px;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-section-heading p {
+    margin-left: 14px;
+    font-size: 13px;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-data-mode {
+    justify-self: start;
+    margin-left: 14px;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-current-state {
+    grid-template-columns: 44px minmax(0, 1fr);
+    padding: 11px 12px;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-current-state > .kri-performance-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-current-state-meta {
+    display: flex;
+    grid-column: 1 / -1;
+    justify-items: initial;
+    padding: 9px 0 0;
+    border-top: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+    border-left: 0;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-criteria-pair,
+  .kri-detail-view.kri-detail-standard-view .standard-criteria-footer,
+  .kri-detail-view.kri-detail-standard-view .standard-kri-support-grid,
+  .kri-detail-view.kri-detail-standard-view .standard-kri-support-grid-no-progress,
+  .kri-detail-view.kri-detail-standard-view .standard-actions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-criterion {
+    min-height: 0;
+    padding: 11px 12px;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-matrix-card {
+    grid-column: auto;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-info-card {
+    border-radius: 14px;
+    padding: 12px;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-profile-list > div {
+    grid-template-columns: 108px minmax(0, 1fr);
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-matrix-card .kri-detail-mini-matrix {
+    margin-right: -4px;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-matrix-card .kri-detail-mini-matrix::after {
+    display: block;
+    margin-top: 5px;
+    color: #776d89;
+    content: "เลื่อนเพื่อดู Risk Matrix ทั้งหมด →";
+    font-size: 10.5px;
+    text-align: right;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-matrix-card .kri-risk-matrix {
+    width: 390px;
+    min-width: 390px;
+    margin: 0;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-matrix-card .kri-matrix-grid {
+    grid-template-columns: 43px repeat(5, 66px);
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-matrix-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-action-card li p {
+    grid-template-columns: 48px minmax(0, 1fr);
+    font-size: 13px;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-metric-title-row {
+    display: grid;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-direction {
+    justify-self: start;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-threshold-scroll {
+    margin-right: -8px;
+    padding-bottom: 6px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-threshold-scroll::after {
+    display: block;
+    color: #776d89;
+    content: "เลื่อนซ้าย–ขวาเพื่อดูเกณฑ์ทั้งหมด →";
+    font-size: 10.5px;
+    text-align: right;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-threshold-chart {
+    min-width: 560px;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-metric-values {
+    display: block;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-value-actual {
+    border-right: 0;
+    border-bottom: 1px solid rgba(45, 35, 104, 0.1);
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-performance-strip {
+    grid-template-columns: 36px minmax(0, 1fr) auto;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-performance-strip > p {
+    grid-column: 1 / -1;
+    padding: 8px 0 0;
+    border-top: 1px solid rgba(45, 35, 104, 0.1);
+    border-left: 0;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-strip-meta,
+  .kri-detail-view.kri-detail-standard-view .standard-performance-strip > .standard-strip-meta:last-child {
+    grid-column: auto;
+    grid-row: auto;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 390px) {
+  .kri-detail-view.kri-detail-standard-view .kri-detail-title {
+    font-size: 27px;
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-profile-list > div {
+    grid-template-columns: 100px minmax(0, 1fr);
+  }
+
+  .kri-detail-view.kri-detail-standard-view .standard-current-state-copy h3 {
+    font-size: 16px;
+  }
+}
+
+/* The shared mobile shell already reserves the fixed bottom navigation area. */
+@media (max-width: 767px) {
+  .kri-dashboard-view,
+  .kri-detail-view {
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kri-detail-view.kri-detail-standard-view .kri-matrix-marker {
     transition: none;
   }
 }

@@ -2234,7 +2234,7 @@ function formatMetricValueWithUnit(value, unit = "") {
 
 function getMetricStatusDisplay(metric) {
   const rawStatus = safeText(metric.status, "").toLowerCase();
-  const status = ["appetite", "tolerance", "not_meet", "in_progress"].includes(rawStatus)
+  const status = KRI_PERFORMANCE_ORDER.includes(rawStatus)
     ? rawStatus
     : "unknown";
   const fallback =
@@ -3028,6 +3028,394 @@ function renderF1ActionText(value) {
   return `<strong class="f1-action-id">${escapeHtml(match[1])}</strong><span>${escapeHtml(match[2])}</span>`;
 }
 
+function getStandardKriTextLines(value) {
+  return safeText(value, "")
+    .split(/[\r\n\v]+/)
+    .map((line) => line.trim().replace(/^[-•]\s*/, ""))
+    .filter(Boolean);
+}
+
+function renderStandardKriActionText(value) {
+  const text = safeText(value, "ไม่ระบุ");
+  const match = text.match(/^([A-Z]+(?:-[A-Z0-9]+)*\d*):\s*(.+)$/i);
+  if (!match) return `<span>${escapeHtml(text)}</span>`;
+
+  return `<strong class="standard-action-id">${escapeHtml(match[1])}</strong><span>${escapeHtml(match[2])}</span>`;
+}
+
+function hasCompleteNumericMetric(metric) {
+  return [metric?.actual_value, metric?.risk_appetite_value, metric?.risk_tolerance_value]
+    .every((value) => Number.isFinite(toMetricNumber(value)));
+}
+
+function renderStandardThresholdRail(metric) {
+  const scale = getMetricChartScale(metric);
+  if (!scale) return "";
+
+  const lowerIsBetter = safeText(metric.direction, "higher_is_better") === "lower_is_better";
+  const firstThreshold = lowerIsBetter ? scale.appetitePct : scale.tolerancePct;
+  const secondThreshold = lowerIsBetter ? scale.tolerancePct : scale.appetitePct;
+  const first = Math.max(0, Math.min(firstThreshold, secondThreshold));
+  const second = Math.min(100, Math.max(firstThreshold, secondThreshold));
+  const markerLanes = getF1ThresholdMarkerLanes(scale);
+  const unit = safeText(metric.unit, "");
+  const ariaUnit = unit === "%" ? "%" : unit ? ` ${unit}` : "";
+  const zones = lowerIsBetter
+    ? [
+        { className: "standard-zone-appetite", label: "อยู่ในเกณฑ์ที่ยอมรับได้", width: first },
+        { className: "standard-zone-tolerance", label: "ต้องเฝ้าระวัง", width: second - first },
+        { className: "standard-zone-not-meet", label: "ไม่เป็นไปตามเป้าหมาย", width: 100 - second }
+      ]
+    : [
+        { className: "standard-zone-not-meet", label: "ไม่เป็นไปตามเป้าหมาย", width: first },
+        { className: "standard-zone-tolerance", label: "ต้องเฝ้าระวัง", width: second - first },
+        { className: "standard-zone-appetite", label: "อยู่ในเกณฑ์ที่ยอมรับได้", width: 100 - second }
+      ];
+
+  return `
+    <div class="standard-threshold-scroll">
+      <div class="standard-threshold-chart" role="img" aria-label="Actual ${escapeHtml(formatMetricValue(scale.actual))}${escapeHtml(ariaUnit)}, Risk Appetite ${escapeHtml(formatMetricValue(scale.appetite))}${escapeHtml(ariaUnit)}, Risk Tolerance ${escapeHtml(formatMetricValue(scale.tolerance))}${escapeHtml(ariaUnit)}">
+        <div class="standard-actual-marker" style="--marker-position:${scale.actualPct}%" aria-hidden="true">
+          <span>Actual</span>
+          <strong>${escapeHtml(formatMetricValue(scale.actual))}</strong>
+          <i></i>
+        </div>
+        <div class="standard-threshold-rail" aria-hidden="true">
+          <div class="standard-threshold-zones">
+            ${zones
+              .map(
+                (zone) => `
+                  <span class="${zone.className}" style="width:${zone.width}%">
+                    <small>${zone.width >= 18 ? zone.label : ""}</small>
+                  </span>
+                `
+              )
+              .join("")}
+          </div>
+          <span class="standard-threshold-guide standard-threshold-guide-ra" style="--marker-position:${scale.appetitePct}%"></span>
+          <span class="standard-threshold-guide standard-threshold-guide-rt" style="--marker-position:${scale.tolerancePct}%"></span>
+        </div>
+        <div class="standard-threshold-labels" aria-hidden="true">
+          <span class="standard-threshold-label standard-threshold-label-ra standard-threshold-lane-${markerLanes.appetite}" style="--marker-position:${scale.appetitePct}%">
+            <b>RA</b><strong>${escapeHtml(formatMetricValue(scale.appetite))}</strong>
+          </span>
+          <span class="standard-threshold-label standard-threshold-label-rt standard-threshold-lane-${markerLanes.tolerance}" style="--marker-position:${scale.tolerancePct}%">
+            <b>RT</b><strong>${escapeHtml(formatMetricValue(scale.tolerance))}</strong>
+          </span>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderStandardNumericMetric(metric, item) {
+  const direction = safeText(metric.direction, "higher_is_better");
+  const lowerIsBetter = direction === "lower_is_better";
+  const directionLabel = lowerIsBetter ? "Lower is Better" : "Higher is Better";
+  const itemPerformanceLevel = normalizePerformanceLevel(item.performance_level);
+  const status = getMetricStatusDisplay({
+    ...metric,
+    status: safeText(metric.status, itemPerformanceLevel),
+    status_label: safeText(metric.status_label, getCompactPerformanceLabel(itemPerformanceLevel, item.performance_label)),
+    status_label_th: safeText(metric.status_label_th, getKriItemPerformanceLabel(item))
+  });
+  const unit = safeText(metric.unit, "ไม่ระบุ");
+  const metricName = safeText(metric.metric_name, "ตัวชี้วัด");
+
+  return `
+    <article class="standard-numeric-metric">
+      <div class="standard-metric-workspace">
+        <div class="standard-metric-visual">
+          <div class="standard-metric-title-row">
+            <div>
+              <h3>${escapeHtml(metricName)}</h3>
+              <p>หน่วย: ${escapeHtml(unit)}</p>
+            </div>
+            <span class="standard-direction standard-direction-${direction}"><b aria-hidden="true">${lowerIsBetter ? "↘" : "↗"}</b>${directionLabel}</span>
+          </div>
+          ${renderStandardThresholdRail(metric)}
+        </div>
+        <aside class="standard-metric-values" aria-label="ค่าตัวชี้วัด ${escapeHtml(metricName)}">
+          <div class="standard-value-actual">
+            <span>Actual</span>
+            <strong>${formatMetricValueWithUnit(metric.actual_value, unit)}</strong>
+            <small>${escapeHtml(formatKriLastUpdate(item.last_update))}</small>
+          </div>
+          <div class="standard-value-row standard-value-ra">
+            <span><i></i>Risk Appetite (RA)</span>
+            <strong>${formatMetricValueWithUnit(metric.risk_appetite_value, unit)}</strong>
+          </div>
+          <div class="standard-value-row standard-value-rt">
+            <span><i></i>Risk Tolerance (RT)</span>
+            <strong>${formatMetricValueWithUnit(metric.risk_tolerance_value, unit)}</strong>
+          </div>
+          <dl>
+            <div><dt>หน่วยวัด</dt><dd>${escapeHtml(unit)}</dd></div>
+            <div><dt>เจ้าของข้อมูล</dt><dd>${escapeHtml(safeText(item.risk_owner, "ไม่ระบุ"))}</dd></div>
+          </dl>
+        </aside>
+      </div>
+      <div class="standard-metric-state kri-performance-${status.status}">
+        <span class="kri-performance-icon" aria-hidden="true">${kriPerformanceIcon(status.status)}</span>
+        <div><strong>${escapeHtml(status.label)}</strong><span>${escapeHtml(status.labelTh)}</span></div>
+      </div>
+    </article>
+  `;
+}
+
+function renderStandardCriteriaCard(kind, value) {
+  const isAppetite = kind === "appetite";
+  return `
+    <article class="standard-criterion standard-criterion-${kind}">
+      <span class="kri-performance-icon" aria-hidden="true">${kriPerformanceIcon(kind)}</span>
+      <div>
+        <span>${isAppetite ? "TARGET THRESHOLD" : "ACCEPTABLE THRESHOLD"}</span>
+        <h3>${isAppetite ? "Risk Appetite" : "Risk Tolerance"}</h3>
+        <p class="kri-formatted-text">${formatNumberedText(value, "ไม่ระบุ")}</p>
+      </div>
+    </article>
+  `;
+}
+
+function renderStandardMetricSection(item) {
+  const metrics = getSortedFinancialMetrics(item);
+  const numericMetrics = metrics.filter(hasCompleteNumericMetric);
+  const incompleteMetrics = metrics.filter((metric) => !hasCompleteNumericMetric(metric));
+  const performanceLevel = normalizePerformanceLevel(item.performance_level);
+  const performanceCategory = getCompactPerformanceLabel(performanceLevel, item.performance_label);
+  const performanceLabel = getKriItemPerformanceLabel(item);
+  const trend = getKriTrendMeta(item.trend);
+  const appetite = safeText(item.risk_appetite, "");
+  const tolerance = safeText(item.risk_tolerance, "");
+
+  if (numericMetrics.length > 0) {
+    return `
+      <section class="standard-kri-metric-section standard-kri-numeric-section" aria-labelledby="standard-kri-metric-heading">
+        <div class="standard-section-heading">
+          <div>
+            <h2 id="standard-kri-metric-heading">ตัวชี้วัดและผลการดำเนินงาน</h2>
+            <p>ผลจริงเทียบกับ Risk Appetite และ Risk Tolerance จากข้อมูลปัจจุบัน</p>
+          </div>
+        </div>
+        <div class="standard-numeric-metric-list">
+          ${numericMetrics.map((metric) => renderStandardNumericMetric(metric, item)).join("")}
+        </div>
+        ${incompleteMetrics.length > 0
+          ? `<div class="standard-incomplete-metrics">${incompleteMetrics
+              .map((metric) => `<span>${escapeHtml(safeText(metric.metric_name, "ตัวชี้วัด"))}: ข้อมูล Actual / RA / RT ยังไม่ครบ</span>`)
+              .join("")}</div>`
+          : ""}
+        <div class="standard-performance-strip kri-performance-${performanceLevel}">
+          <span class="kri-performance-icon" aria-hidden="true">${kriPerformanceIcon(performanceLevel)}</span>
+          <div><strong>${escapeHtml(performanceCategory)}</strong><span>${escapeHtml(performanceLabel)}</span></div>
+          <p>${escapeHtml(safeText(item.kri_description, item.risk_name))}</p>
+          <div class="standard-strip-meta kri-trend-${trend.className}"><span>แนวโน้ม</span><strong>${escapeHtml(trend.label)}</strong></div>
+          <div class="standard-strip-meta"><span>อัปเดตล่าสุด</span><strong>${escapeHtml(formatKriLastUpdate(item.last_update))}</strong></div>
+        </div>
+      </section>
+    `;
+  }
+
+  return `
+    <section class="standard-kri-metric-section standard-kri-qualitative-section" aria-labelledby="standard-kri-metric-heading">
+      <div class="standard-section-heading">
+        <div>
+          <h2 id="standard-kri-metric-heading">ตัวชี้วัดและผลการดำเนินงาน</h2>
+          <p>${escapeHtml(safeText(item.kri_description, item.risk_name))}</p>
+        </div>
+        <span class="standard-data-mode">เกณฑ์เชิงคุณภาพ</span>
+      </div>
+      <div class="standard-qualitative-layout">
+        <article class="standard-current-state kri-performance-${performanceLevel}">
+          <span class="kri-performance-icon" aria-hidden="true">${kriPerformanceIcon(performanceLevel)}</span>
+          <div class="standard-current-state-copy">
+            <span>สถานะผลการดำเนินงาน</span>
+            <h3>${escapeHtml(performanceCategory)}</h3>
+            <p>${escapeHtml(performanceLabel)}</p>
+          </div>
+          <div class="standard-current-state-meta">
+            <span>แนวโน้ม</span>
+            <strong class="kri-trend-${trend.className}"><b aria-hidden="true">${trend.icon}</b>${escapeHtml(trend.label)}</strong>
+          </div>
+        </article>
+        <div class="standard-criteria-pair${tolerance ? "" : " standard-criteria-single"}">
+          ${renderStandardCriteriaCard("appetite", appetite)}
+          ${tolerance ? renderStandardCriteriaCard("tolerance", tolerance) : ""}
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function renderStandardKriDetail(item) {
+  const kriCode = safeText(item.kri_code, "KRI");
+  const riskName = safeText(item.risk_name, "ไม่มีชื่อความเสี่ยง");
+  const riskType = safeText(item.risk_type, "ไม่ระบุประเภทความเสี่ยง");
+  const riskMeta = getKriRiskLevelMeta(item);
+  const riskKey = getKriRiskKey(item);
+  const riskLabel = getKriRiskLevelLabel(item);
+  const performanceLevel = normalizePerformanceLevel(item.performance_level);
+  const performanceCategory = getCompactPerformanceLabel(performanceLevel, item.performance_label);
+  const performanceLabel = getKriItemPerformanceLabel(item);
+  const trend = getKriTrendMeta(item.trend);
+  const impact = item.impact === null || item.impact === undefined || item.impact === "" ? "ไม่ระบุ" : String(item.impact);
+  const likelihood = item.likelihood === null || item.likelihood === undefined || item.likelihood === "" ? "ไม่ระบุ" : String(item.likelihood);
+  const riskOwner = safeText(item.risk_owner, "ไม่ระบุ");
+  const lastUpdate = formatKriLastUpdate(item.last_update);
+  const updateLines = getStandardKriTextLines(item.update);
+  const miniMatrix = renderKriDetailMiniMatrix(item);
+  const groupedActions = getGroupedKriActions(item);
+  const actionGroupOrder = ["Existing Control", "Mitigation Plan"];
+  const actionGroups = Object.entries(groupedActions).sort(([a], [b]) => {
+    const orderA = actionGroupOrder.includes(a) ? actionGroupOrder.indexOf(a) : 99;
+    const orderB = actionGroupOrder.includes(b) ? actionGroupOrder.indexOf(b) : 99;
+    return orderA - orderB || a.localeCompare(b);
+  });
+  const matrixScaleLabels = { 1: "ต่ำมาก", 2: "ต่ำ", 3: "ปานกลาง", 4: "สูง", 5: "สูงมาก" };
+
+  const summaryItems = [
+    {
+      className: `kri-performance-${performanceLevel}`,
+      icon: kriPerformanceIcon(performanceLevel),
+      label: "Performance Status",
+      value: performanceCategory,
+      supporting: performanceLabel
+    },
+    {
+      className: `kri-detail-summary-risk kri-risk-${riskKey}`,
+      icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 18.5 6v5.2c0 4.1-2.6 7.8-6.5 9.3-3.9-1.5-6.5-5.2-6.5-9.3V6L12 3.5Z"></path><path d="M12 8v5M12 16.5h.01"></path></svg>',
+      label: "Risk Level",
+      value: riskLabel,
+      supporting: `Likelihood ${likelihood} × Impact ${impact}`,
+      style: `--summary-accent:${riskMeta.accent};--summary-bg:${riskMeta.background}`
+    },
+    {
+      className: `kri-detail-summary-trend kri-trend-${trend.className}`,
+      icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17 10 11l4 4 6-8"></path><path d="M15 7h5v5"></path></svg>',
+      label: "Trend",
+      value: trend.label,
+      supporting: "แนวโน้มล่าสุด"
+    },
+    {
+      className: "kri-detail-summary-date",
+      icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5z"></path><path d="M8 2v4M16 2v4M5 9h14"></path></svg>',
+      label: "ข้อมูลล่าสุด",
+      value: lastUpdate,
+      supporting: "รอบข้อมูลปัจจุบัน"
+    },
+    {
+      className: "kri-detail-summary-owner",
+      icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 21v-2.5c0-3.1 2.5-5.5 5.5-5.5h3c3 0 5.5 2.4 5.5 5.5V21"></path></svg>',
+      label: "Owner",
+      value: riskOwner,
+      supporting: "หน่วยงานรับผิดชอบ"
+    }
+  ];
+
+  const progressMarkup = updateLines.length > 0
+    ? `
+      <section class="standard-info-card standard-progress-card" aria-labelledby="standard-progress-heading">
+        <div class="standard-card-heading">
+          <span class="standard-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 20V10M12 20V4M18 20v-7"></path></svg></span>
+          <div><h2 id="standard-progress-heading">Progress Update</h2><p>ความคืบหน้าการดำเนินงาน</p></div>
+        </div>
+        <ul class="standard-progress-list">
+          ${updateLines.map((line) => `<li><span aria-hidden="true"></span><p>${escapeHtml(line)}</p></li>`).join("")}
+        </ul>
+      </section>
+    `
+    : "";
+
+  const actionMarkup = actionGroups.length > 0
+    ? `
+      <section class="standard-actions-section" aria-labelledby="standard-actions-heading">
+        <div class="standard-section-heading">
+          <div><h2 id="standard-actions-heading">Controls and Mitigation</h2><p>มาตรการควบคุมและแผนจัดการความเสี่ยง</p></div>
+        </div>
+        <div class="standard-actions-grid">
+          ${actionGroups.map(([actionType, actions]) => `
+            <article class="standard-action-card">
+              <div class="standard-action-card-heading">
+                <span class="standard-card-icon" aria-hidden="true">${actionType === "Existing Control" ? kriPerformanceIcon("appetite") : '<svg viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M3 12h3M18 12h3"></path><circle cx="12" cy="12" r="4"></circle></svg>'}</span>
+                <h3>${escapeHtml(actionType)}</h3>
+                <span>${actions.length} รายการ</span>
+              </div>
+              <ul>
+                ${actions.map((action) => `<li><span class="standard-action-dot" aria-hidden="true"></span><p>${renderStandardKriActionText(action.action_text)}</p></li>`).join("")}
+              </ul>
+            </article>
+          `).join("")}
+        </div>
+      </section>
+    `
+    : "";
+
+  return `
+    <header class="standard-kri-hero">
+      <div class="standard-kri-hero-copy">
+        <p class="kri-detail-kicker">ENTERPRISE RISK INDICATOR</p>
+        <div class="standard-kri-title-row">
+          <span class="kri-detail-code">${escapeHtml(kriCode)}</span>
+          <div>
+            <span class="standard-risk-type">${escapeHtml(riskType)} Risk</span>
+            <h1 id="kri-detail-title" class="kri-detail-title">${escapeHtml(riskName)}</h1>
+            <p class="kri-detail-subtitle">${formatNumberedText(item.kri_description, riskType)}</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="kri-detail-summary-grid" aria-label="สรุปข้อมูล KRI">
+      ${summaryItems.map((summary) => `
+        <article class="kri-detail-summary-card ${summary.className}" ${summary.style ? `style="${summary.style}"` : ""}>
+          <span class="kri-detail-summary-icon" aria-hidden="true">${summary.icon}</span>
+          <div><span>${escapeHtml(summary.label)}</span><strong>${escapeHtml(summary.value)}</strong><small>${escapeHtml(summary.supporting)}</small></div>
+        </article>
+      `).join("")}
+    </section>
+
+    ${renderStandardMetricSection(item)}
+
+    <div class="standard-kri-support-grid${progressMarkup ? "" : " standard-kri-support-grid-no-progress"}">
+      <section class="standard-info-card standard-profile-card" aria-labelledby="standard-profile-heading">
+        <div class="standard-card-heading">
+          <span class="standard-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"></path><path d="M15 3v4h4M9 11h6M9 15h6"></path></svg></span>
+          <div><h2 id="standard-profile-heading">KRI Profile</h2><p>รายละเอียดของตัวชี้วัด</p></div>
+        </div>
+        <dl class="standard-profile-list">
+          <div><dt>รหัสตัวชี้วัด</dt><dd>${escapeHtml(kriCode)}</dd></div>
+          <div><dt>ชื่อ KRI</dt><dd>${escapeHtml(riskName)}</dd></div>
+          <div><dt>ประเภทความเสี่ยง</dt><dd>${escapeHtml(riskType)}</dd></div>
+          <div><dt>รายละเอียดตัวชี้วัด</dt><dd>${formatNumberedText(item.kri_description, "ไม่ระบุ")}</dd></div>
+          <div><dt>ผู้รับผิดชอบ</dt><dd>${escapeHtml(riskOwner)}</dd></div>
+        </dl>
+      </section>
+
+      ${progressMarkup}
+
+      <section class="standard-info-card standard-matrix-card" aria-labelledby="standard-matrix-heading">
+        <div class="standard-card-heading">
+          <span class="standard-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"></path><path d="m15.5 17 1.5 1.5 3-4"></path></svg></span>
+          <div><h2 id="standard-matrix-heading">Risk Matrix Position</h2><p>ตำแหน่งใน Risk Matrix</p></div>
+        </div>
+        <div class="kri-detail-mini-matrix">${miniMatrix}</div>
+        <dl class="standard-matrix-meta">
+          <div><dt>Risk Level</dt><dd><span class="standard-risk-pill kri-risk-${riskKey}" style="--risk-accent:${riskMeta.accent};--risk-bg:${riskMeta.background};--risk-border:${riskMeta.border}">${escapeHtml(riskLabel)}</span></dd></div>
+          <div><dt>Likelihood</dt><dd><strong>${escapeHtml(likelihood)}</strong> ${escapeHtml(matrixScaleLabels[likelihood] || "")}</dd></div>
+          <div><dt>Impact</dt><dd><strong>${escapeHtml(impact)}</strong> ${escapeHtml(matrixScaleLabels[impact] || "")}</dd></div>
+          <div><dt>อัปเดตล่าสุด</dt><dd>${escapeHtml(lastUpdate)}</dd></div>
+        </dl>
+      </section>
+    </div>
+
+    ${getSortedFinancialMetrics(item).some(hasCompleteNumericMetric)
+      ? `<section class="standard-criteria-footer" aria-label="Risk criteria">${renderStandardCriteriaCard("appetite", item.risk_appetite)}${safeText(item.risk_tolerance, "") ? renderStandardCriteriaCard("tolerance", item.risk_tolerance) : ""}</section>`
+      : ""}
+
+    ${actionMarkup}
+  `;
+}
+
 function renderKriDetail(item) {
   const content = document.querySelector("#kri-detail-content");
   const detailView = document.querySelector("#kri-detail-view");
@@ -3037,7 +3425,9 @@ function renderKriDetail(item) {
   const kriCode = safeText(item.kri_code, "KRI");
   const isF1Detail = normalizeKriCode(kriCode) === "F1";
   content.classList.toggle("kri-detail-content-f1", isF1Detail);
+  content.classList.toggle("kri-detail-content-standard", !isF1Detail);
   detailView?.classList.toggle("kri-detail-f1-view", isF1Detail);
+  detailView?.classList.toggle("kri-detail-standard-view", !isF1Detail);
   if (isF1Detail) selectedF1MetricKey = "";
   const riskName = safeText(item.risk_name, "ไม่มีชื่อความเสี่ยง");
   const riskType = safeText(item.risk_type, "ไม่ระบุประเภทความเสี่ยง");
@@ -3045,6 +3435,10 @@ function renderKriDetail(item) {
   const riskKey = getKriRiskKey(item);
   const riskLabel = getKriRiskLevelLabel(item);
   const performanceLevel = normalizePerformanceLevel(item.performance_level);
+  if (detailView) {
+    if (isF1Detail) delete detailView.dataset.kriPerformance;
+    else detailView.dataset.kriPerformance = performanceLevel;
+  }
   const performanceCategory = getCompactPerformanceLabel(performanceLevel, item.performance_label);
   const performanceLabel = getKriItemPerformanceLabel(item);
   const trend = getKriTrendMeta(item.trend);
@@ -3066,6 +3460,11 @@ function renderKriDetail(item) {
   if (backLabel) {
     backLabel.textContent =
       kriDetailReturnView === "kri-dashboard" ? "กลับหน้า KRI Dashboard" : "กลับหน้าหลัก";
+  }
+
+  if (!isF1Detail) {
+    content.innerHTML = renderStandardKriDetail(item);
+    return;
   }
 
   const summaryItems = [
