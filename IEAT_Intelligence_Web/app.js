@@ -1275,6 +1275,44 @@ function renderReportsMeta() {
 
   reportDate.textContent = formatThaiDate(dateValue);
   reportDate.dateTime = dateValue;
+  syncReportsUrl();
+}
+
+const DEFAULT_REPORT_URL = "https://ieat-daily-brief-new.pages.dev/";
+
+function getReportsUrl() {
+  const candidate = safeText(
+    briefingData?.web_reports_index?.report_url,
+    DEFAULT_REPORT_URL
+  );
+
+  try {
+    const url = new URL(candidate, window.location.href);
+    return ["http:", "https:"].includes(url.protocol)
+      ? url.href
+      : DEFAULT_REPORT_URL;
+  } catch {
+    return DEFAULT_REPORT_URL;
+  }
+}
+
+function syncReportsUrl() {
+  const reportUrl = getReportsUrl();
+  const frame = document.querySelector("#reports-frame");
+  const shell = document.querySelector("#reports-frame-shell");
+  const loading = document.querySelector("#reports-frame-loading");
+
+  document.querySelectorAll("[data-report-link]").forEach((link) => {
+    link.href = reportUrl;
+  });
+
+  if (frame.dataset.reportUrl === reportUrl) return;
+
+  shell.classList.add("is-loading");
+  shell.classList.remove("is-loaded");
+  loading.hidden = false;
+  frame.dataset.reportUrl = reportUrl;
+  frame.src = reportUrl;
 }
 
 function bindReportsFrame() {
@@ -1288,9 +1326,10 @@ function bindReportsFrame() {
       shell.classList.remove("is-loading");
       shell.classList.add("is-loaded");
       loading.hidden = true;
-    },
-    { once: true }
+    }
   );
+
+  syncReportsUrl();
 }
 
 function showGrcPage(updateHash = true) {
