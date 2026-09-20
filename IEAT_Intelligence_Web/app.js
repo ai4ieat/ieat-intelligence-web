@@ -38,6 +38,7 @@ let grcExpandedCategoryCode = "";
 let grcSearchQuery = "";
 let grcCategoryFilter = "";
 let grcStatusFilter = "";
+let selectedWatchlistCategory = "";
 let menuCloseTimer = null;
 let swipeBackGesture = null;
 let swipeBackListenersBound = false;
@@ -592,10 +593,12 @@ function getTodayHeadlineItems() {
 function renderTodayHeadlines() {
   const list = document.querySelector("#today-headlines-list");
   const date = document.querySelector("#today-headlines-date");
+  const count = document.querySelector("#today-headlines-count");
   const items = getTodayHeadlineItems();
   const latestDate = items[0]?.report_date || briefingData?.report_date;
 
-  date.textContent = formatThaiDate(latestDate);
+  date.textContent = `อัปเดตล่าสุด ${formatThaiDate(latestDate)}`;
+  count.textContent = String(items.length);
 
   if (items.length === 0) {
     list.innerHTML = '<div class="empty-news-card">ยังไม่มีข่าวสำหรับวันนี้</div>';
@@ -610,13 +613,20 @@ function renderTodayHeadlines() {
       const categoryChips = createCategoryChipRow(item);
 
       return `
-        <button class="today-headline-card" type="button" data-today-index="${index}" data-news-theme="${escapeHtml(themeId)}">
-          <div class="today-headline-number">${String(index + 1).padStart(2, "0")}</div>
+        <button
+          class="today-headline-card"
+          type="button"
+          data-today-index="${index}"
+          data-news-theme="${escapeHtml(themeId)}"
+          aria-label="เปิดรายละเอียดข่าว ${index + 1}: ${escapeHtml(safeText(item.headline_short, "ไม่มีชื่อประเด็นข่าว"))}"
+        >
+          <div class="today-headline-number" aria-hidden="true">${String(index + 1).padStart(2, "0")}</div>
           <div class="today-headline-copy">
-            ${categoryChips}
             <h2>${escapeHtml(safeText(item.headline_short, "ไม่มีชื่อประเด็นข่าว"))}</h2>
             <p>${escapeHtml(safeText(item.headline_detail, "ไม่มีรายละเอียดข่าวเพิ่มเติม"))}</p>
+            ${categoryChips}
             <div class="today-headline-meta">
+              <time datetime="${escapeHtml(safeText(item.report_date, ""))}">${escapeHtml(formatThaiDate(item.report_date || latestDate))}</time>
               <span class="direction direction-${className(direction)}">${direction}</span>
               <span class="risk-badge risk-${className(riskLevel)}">${riskLevel}</span>
             </div>
@@ -641,26 +651,27 @@ function showTodayHeadlines() {
   document.querySelector("#grc-page-view").hidden = true;
   document.querySelector("#today-headlines-view").hidden = false;
   document.body.classList.add("detail-open");
-  setActiveNav("");
+  setActiveNav("home");
   document.title = "ข่าวทั้งหมดวันนี้ | IEAT Intelligence";
   window.scrollTo({ top: 0, behavior: "auto" });
 }
 
 function getNewsSources(news) {
+  const sourceCandidates = [];
   const sourcesJson = safeText(news.sources_json, "");
 
   if (sourcesJson) {
     try {
       const parsedSources = JSON.parse(sourcesJson);
-      if (Array.isArray(parsedSources) && parsedSources.length > 0) {
-        const normalizedSources = parsedSources
+      if (Array.isArray(parsedSources)) {
+        parsedSources
           .filter((source) => source && typeof source === "object")
-          .map((source) => ({
-            name: safeText(source.source_name, "Source"),
-            link: safeLink(source.source_link)
-          }));
-
-        if (normalizedSources.length > 0) return normalizedSources;
+          .forEach((source) => {
+            sourceCandidates.push({
+              name: safeText(source.source_name, ""),
+              link: safeLink(source.source_link)
+            });
+          });
       }
     } catch {}
   }
@@ -673,18 +684,33 @@ function getNewsSources(news) {
     const links = joinedLinks ? joinedLinks.split(" | ") : [];
     const sourceTotal = Math.max(names.length, links.length);
 
-    return Array.from({ length: sourceTotal }, (_, index) => ({
-      name: safeText(names[index], "Source"),
+    Array.from({ length: sourceTotal }, (_, index) => ({
+      name: safeText(names[index], ""),
       link: safeLink(links[index])
-    }));
+    })).forEach((source) => sourceCandidates.push(source));
   }
 
   const primarySource = safeText(news.primary_source, "");
   const primaryLink = safeLink(news.primary_link);
 
-  return primarySource || primaryLink
-    ? [{ name: safeText(primarySource, "Source"), link: primaryLink }]
-    : [];
+  if (primarySource || primaryLink) {
+    sourceCandidates.push({ name: primarySource, link: primaryLink });
+  }
+
+  const seen = new Set();
+
+  return sourceCandidates
+    .filter((source) => source.name || source.link)
+    .map((source) => ({
+      name: safeText(source.name, "แหล่งข่าวต้นฉบับ"),
+      link: safeLink(source.link)
+    }))
+    .filter((source) => {
+      const key = `${source.name}\u0000${source.link}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
 }
 
 function renderSourceList(sources) {
@@ -750,6 +776,57 @@ function renderKeySignals(signals) {
   `;
 }
 
+function renderArticleMetadataRow(label, value, icon, classNameValue = "") {
+  if (!value) return "";
+
+  return `
+    <div class="news-metadata-row${classNameValue ? ` ${classNameValue}` : ""}">
+      <span class="news-metadata-icon" aria-hidden="true">${icon}</span>
+      <span class="news-metadata-label">${escapeHtml(label)}</span>
+      <span class="news-metadata-value">${value}</span>
+    </div>
+  `;
+}
+
+function renderArticleMetadataSources(sources) {
+  if (sources.length === 0) return "";
+
+  return `
+    <div class="news-metadata-row news-metadata-sources">
+      <span class="news-metadata-icon" aria-hidden="true">${articleMetadataIcon("source")}</span>
+      <span class="news-metadata-label">แหล่งข่าว</span>
+      <div class="news-source-pairs">
+        ${sources
+          .map(
+            (source) => `
+              <div class="news-source-pair">
+                <span class="news-source-name">${escapeHtml(source.name)}</span>
+                ${
+                  source.link
+                    ? `<a href="${escapeHtml(source.link)}" target="_blank" rel="noopener noreferrer" aria-label="เปิดอ่านข่าวจาก ${escapeHtml(source.name)}">เปิดอ่าน <span aria-hidden="true">↗</span></a>`
+                    : ""
+                }
+              </div>
+            `
+          )
+          .join("")}
+      </div>
+    </div>
+  `;
+}
+
+function articleMetadataIcon(type) {
+  const icons = {
+    date: '<svg viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2"></rect><path d="M8 3.5v4M16 3.5v4M4 9.5h16"></path></svg>',
+    primary: '<svg viewBox="0 0 24 24"><path d="m12 3 8 4-8 4-8-4 8-4Z"></path><path d="m4 12 8 4 8-4M4 17l8 4 8-4"></path></svg>',
+    related: '<svg viewBox="0 0 24 24"><path d="M20 12 12 20l-8-8V5a1 1 0 0 1 1-1h7l8 8Z"></path><circle cx="8.5" cy="8.5" r="1"></circle></svg>',
+    source: '<svg viewBox="0 0 24 24"><path d="M6 3.5h9l3 3v14H6z"></path><path d="M15 3.5v4h4M9 12h6M9 16h6"></path></svg>',
+    link: '<svg viewBox="0 0 24 24"><path d="m9.5 14.5 5-5"></path><path d="M7.5 17.5 6 19a3.5 3.5 0 0 1-5-5l3-3a3.5 3.5 0 0 1 5 0"></path><path d="m16.5 6.5 1.5-1.5a3.5 3.5 0 0 1 5 5l-3 3a3.5 3.5 0 0 1-5 0"></path></svg>'
+  };
+
+  return icons[type] || icons.source;
+}
+
 function renderNewsDetail(item) {
   const container = document.querySelector("#news-detail-content");
   const news = findFullNews(item) || {};
@@ -772,6 +849,9 @@ function renderNewsDetail(item) {
     safeText(news.watchpoint_short, "")
   );
   const sources = getNewsSources(news);
+  const primaryCategory = getPrimaryCategory(news);
+  const relatedCategories = [...new Set(parseRelatedCategories(news))]
+    .filter((category) => category && category !== primaryCategory);
   const sourceCount =
     news.source_count !== undefined &&
     news.source_count !== null &&
@@ -779,19 +859,7 @@ function renderNewsDetail(item) {
       ? Number(news.source_count)
       : null;
 
-  container.innerHTML = `
-    <header class="news-article-header">
-      ${createCategoryChipRow(news)}
-      <time datetime="${escapeHtml(safeText(news.report_date, ""))}">
-        ${escapeHtml(formatThaiDate(news.report_date || briefingData?.report_date))}
-      </time>
-      <div class="news-article-risk">
-        <span class="direction direction-${className(direction)}">${direction}</span>
-        <span class="risk-badge risk-${className(riskLevel)}">${riskLevel}</span>
-      </div>
-      <h1 id="news-detail-title">${escapeHtml(headline)}</h1>
-      ${intro ? `<p class="news-article-lead">${escapeHtml(intro)}</p>` : ""}
-    </header>
+  const articleBody = `
     ${
       executiveTakeaway
         ? `<section class="article-briefing-section article-summary">
@@ -836,6 +904,46 @@ function renderNewsDetail(item) {
       ${renderSourceList(sources)}
     </section>
   `;
+
+  const metadataRows = [
+    renderArticleMetadataRow(
+      "อัปเดตล่าสุด",
+      escapeHtml(formatThaiDate(news.report_date || briefingData?.report_date)),
+      articleMetadataIcon("date")
+    ),
+    renderArticleMetadataRow(
+      "หมวดหมู่หลัก",
+      primaryCategory ? escapeHtml(primaryCategory) : "",
+      articleMetadataIcon("primary")
+    ),
+    renderArticleMetadataRow(
+      "หมวดหมู่รอง",
+      relatedCategories.length > 0 ? escapeHtml(relatedCategories.join(", ")) : "",
+      articleMetadataIcon("related")
+    ),
+    renderArticleMetadataSources(sources)
+  ].join("");
+
+  container.innerHTML = `
+    <div class="news-detail-layout">
+      <header class="news-article-header">
+        ${createCategoryChipRow(news)}
+        <time datetime="${escapeHtml(safeText(news.report_date, ""))}">
+          ${escapeHtml(formatThaiDate(news.report_date || briefingData?.report_date))}
+        </time>
+        <h1 id="news-detail-title">${escapeHtml(headline)}</h1>
+        ${intro ? `<p class="news-article-lead">${escapeHtml(intro)}</p>` : ""}
+      </header>
+      <aside class="news-article-metadata" aria-label="ข้อมูลข่าว">
+        <div class="news-article-risk">
+          <span class="direction direction-${className(direction)}">${direction}</span>
+          <span class="risk-badge risk-${className(riskLevel)}">${riskLevel}</span>
+        </div>
+        <div class="news-metadata-rows">${metadataRows}</div>
+      </aside>
+      <div class="news-article-body">${articleBody}</div>
+    </div>
+  `;
 }
 
 function showNewsDetail(item, origin) {
@@ -854,7 +962,7 @@ function showNewsDetail(item, origin) {
   document.querySelector("#grc-page-view").hidden = true;
   document.querySelector("#news-detail-view").hidden = false;
   document.body.classList.add("detail-open");
-  setActiveNav("");
+  setActiveNav(origin === "watchlist" ? "watchlist" : "home");
   const news = findFullNews(item) || item;
   document.title = `${safeText(
     news.headline_full,
@@ -894,11 +1002,13 @@ function backFromTodayHeadlines() {
 function setActiveNav(activeView) {
   const home = document.querySelector("#nav-home");
   const erm = document.querySelector("#nav-erm");
+  const grc = document.querySelector("#nav-grc");
   const reports = document.querySelector("#nav-reports");
   const watchlist = document.querySelector("#nav-watchlist");
 
   home.classList.toggle("active", activeView === "home");
   erm.classList.toggle("active", activeView === "erm");
+  grc.classList.toggle("active", activeView === "grc");
   reports.classList.toggle("active", activeView === "reports");
   watchlist.classList.toggle("active", activeView === "watchlist");
 
@@ -912,6 +1022,12 @@ function setActiveNav(activeView) {
     erm.setAttribute("aria-current", "page");
   } else {
     erm.removeAttribute("aria-current");
+  }
+
+  if (activeView === "grc") {
+    grc.setAttribute("aria-current", "page");
+  } else {
+    grc.removeAttribute("aria-current");
   }
 
   if (activeView === "reports") {
@@ -947,21 +1063,49 @@ function getWatchlistItems() {
         : [];
 
   return sourceItems
-    .map((item) => ({
+    .map((item, sourceIndex) => ({
       ...item,
       category: getPrimaryCategory(item),
       text: safeText(item.watchpoint_full, safeText(item.watchpoint_short, "")),
-      rank: Number(item.news_rank ?? item.watch_rank ?? 0)
+      rank: Number(item.news_rank ?? item.watch_rank ?? 0),
+      sourceIndex
     }))
     .filter((item) => WATCHLIST_CATEGORY_ORDER.includes(item.category))
     .filter((item) => item.text)
     .sort((a, b) => {
-      const categoryOrder =
-        WATCHLIST_CATEGORY_ORDER.indexOf(a.category) -
-        WATCHLIST_CATEGORY_ORDER.indexOf(b.category);
-      const dateOrder = safeText(b.report_date, "").localeCompare(safeText(a.report_date, ""));
-      return categoryOrder || dateOrder || a.rank - b.rank;
+      const aDate = getWatchlistDateValue(a.report_date);
+      const bDate = getWatchlistDateValue(b.report_date);
+
+      if (aDate === null && bDate === null) return a.sourceIndex - b.sourceIndex;
+      if (aDate === null) return 1;
+      if (bDate === null) return -1;
+      return bDate - aDate || a.sourceIndex - b.sourceIndex;
     });
+}
+
+function getWatchlistDateValue(value) {
+  const dateValue = safeText(value, "");
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateValue);
+  if (!match) return null;
+
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  const date = new Date(Date.UTC(year, month - 1, day));
+
+  if (
+    date.getUTCFullYear() !== year ||
+    date.getUTCMonth() !== month - 1 ||
+    date.getUTCDate() !== day
+  ) {
+    return null;
+  }
+
+  return date.getTime();
+}
+
+function formatWatchlistDate(value) {
+  return getWatchlistDateValue(value) === null ? "ไม่ระบุวันที่" : formatThaiDate(value);
 }
 
 function findWatchlistNews(item) {
@@ -977,57 +1121,111 @@ function findWatchlistNews(item) {
   );
 }
 
+function createWatchlistTags(item) {
+  const tags = safeText(item?.topic_tags_joined, "")
+    .split("|")
+    .map((tag) => tag.trim())
+    .filter(Boolean);
+
+  if (tags.length === 0) return "";
+
+  const visibleTags = tags.slice(0, 3);
+  const remainingCount = tags.length - visibleTags.length;
+
+  return `
+    <span class="watchlist-tag-list" aria-label="หัวข้อที่เกี่ยวข้อง">
+      ${visibleTags.map((tag) => `<span class="watchlist-tag">${escapeHtml(tag)}</span>`).join("")}
+      ${remainingCount > 0 ? `<span class="watchlist-tag watchlist-tag-more">+${remainingCount}</span>` : ""}
+    </span>
+  `;
+}
+
+function renderWatchlistCategoryFilters(items) {
+  const container = document.querySelector("#watchlist-category-filters");
+  const availableCategories = new Set(items.map((item) => item.category));
+  const categories = WATCHLIST_CATEGORY_ORDER.filter((category) => availableCategories.has(category));
+
+  if (selectedWatchlistCategory && !availableCategories.has(selectedWatchlistCategory)) {
+    selectedWatchlistCategory = "";
+  }
+
+  container.innerHTML = ["", ...categories]
+    .map((category) => {
+      const isActive = category === selectedWatchlistCategory;
+      const label = category || "ทั้งหมด";
+
+      return `
+        <button
+          class="watchlist-category-filter${isActive ? " is-active" : ""}"
+          type="button"
+          data-watchlist-category-filter="${escapeHtml(category)}"
+          aria-pressed="${isActive}"
+        >${escapeHtml(label)}</button>
+      `;
+    })
+    .join("");
+}
+
 function renderWatchlist() {
   const container = document.querySelector("#watchlist-items");
-  const items = getWatchlistItems();
+  const count = document.querySelector("#watchlist-count");
+  const allItems = getWatchlistItems();
+  renderWatchlistCategoryFilters(allItems);
+  const items = selectedWatchlistCategory
+    ? allItems.filter((item) => item.category === selectedWatchlistCategory)
+    : allItems;
+  count.textContent = String(items.length);
 
   if (items.length === 0) {
     container.innerHTML = '<div class="empty-news-card">ยังไม่มีประเด็นที่ต้องติดตาม</div>';
     return;
   }
 
-  container.innerHTML = WATCHLIST_CATEGORY_ORDER.map((category) => {
-    const categoryItems = items.filter((item) => item.category === category);
-    if (categoryItems.length === 0) return "";
-
-    const dates = [...new Set(categoryItems.map((item) => item.report_date))];
-
-    return `
-      <section class="watchlist-category" aria-labelledby="watchlist-${className(category)}">
-        <h2 id="watchlist-${className(category)}">${escapeHtml(category)}</h2>
-        ${dates
-          .map((reportDate) => {
-            const dateItems = categoryItems.filter((item) => item.report_date === reportDate);
-
-            return `
-              <div class="watchlist-date-group">
-                <h3>${escapeHtml(formatThaiDate(reportDate))}</h3>
-                <ul>
-                  ${dateItems
-                    .map((item) => {
-                      const news = findWatchlistNews(item);
-                      const categoryChips = createCategoryChipRow(item, { compact: true });
-                      const content = `<span>${categoryChips}<span>${escapeHtml(item.text)}</span></span>`;
-
-                      return `
-                        <li>
-                          ${
-                            news
-                              ? `<button type="button" data-watchlist-theme="${escapeHtml(news.theme_id)}">${content}<span class="watchlist-link-mark" aria-hidden="true">›</span></button>`
-                              : `<p>${content}</p>`
-                          }
-                        </li>
-                      `;
-                    })
-                    .join("")}
-                </ul>
-              </div>
-            `;
-          })
-          .join("")}
-      </section>
+  const rows = items.map((item, index) => {
+    const news = findWatchlistNews(item) || item;
+    const category = getPrimaryCategory(item);
+    const riskLevel = safeRisk(item.risk_level);
+    const title = safeText(news.headline_short, item.text);
+    const summary = safeText(news.headline_detail, item.text);
+    const themeId = safeText(news.theme_id, "");
+    const displayDate = formatWatchlistDate(item.report_date);
+    const dateTime = getWatchlistDateValue(item.report_date) === null
+      ? ""
+      : safeText(item.report_date, "");
+    const rowContent = `
+      <span class="watchlist-rank" aria-label="ลำดับ ${index + 1}">${String(index + 1).padStart(2, "0")}</span>
+      <span class="watchlist-item-copy">
+        <strong class="watchlist-item-title">${escapeHtml(title)}</strong>
+        <span class="watchlist-item-summary">${escapeHtml(summary)}</span>
+        ${createWatchlistTags(news)}
+      </span>
+      <span class="watchlist-item-category">
+        ${createCategoryIcon(category)}
+        <span>${escapeHtml(category)}</span>
+      </span>
+      <span class="watchlist-item-meta">
+        <span class="watchlist-item-risk risk-${className(riskLevel)}">${escapeHtml(riskLevel)}</span>
+        <time class="watchlist-item-date"${dateTime ? ` datetime="${escapeHtml(dateTime)}"` : ""}>${escapeHtml(displayDate)}</time>
+      </span>
+      <span class="watchlist-link-mark" aria-hidden="true">›</span>
     `;
+
+    return themeId
+      ? `<button class="watchlist-item" type="button" data-watchlist-theme="${escapeHtml(themeId)}" aria-label="เปิดรายละเอียด: ${escapeHtml(title)}, หมวด ${escapeHtml(category)}, ความเสี่ยง ${escapeHtml(riskLevel)}, อัปเดต ${escapeHtml(displayDate)}">${rowContent}</button>`
+      : `<article class="watchlist-item watchlist-item-static">${rowContent}</article>`;
   }).join("");
+
+  container.innerHTML = `
+    <div class="watchlist-table-heading" aria-hidden="true">
+      <span>ลำดับ</span>
+      <span>ประเด็นสำคัญ</span>
+      <span>หมวดหมู่</span>
+      <span>ความเสี่ยง</span>
+      <span>อัปเดตล่าสุด</span>
+      <span></span>
+    </div>
+    <div class="watchlist-list">${rows}</div>
+  `;
 }
 
 function showWatchlist() {
@@ -1045,13 +1243,14 @@ function showWatchlist() {
   document.querySelector("#watchlist-view").hidden = false;
   document.body.classList.remove("detail-open");
   setActiveNav("watchlist");
-  document.title = "Watchpoint Today | IEAT Intelligence";
+  document.title = "Watchlist | IEAT Intelligence";
   window.scrollTo({ top: 0, behavior: "auto" });
 }
 
 function showReports() {
   resetSwipeBackGesture();
   clearGrcHash();
+  renderReportsMeta();
   document.querySelector("#home-view").hidden = true;
   document.querySelector("#category-view").hidden = true;
   document.querySelector("#today-headlines-view").hidden = true;
@@ -1065,6 +1264,33 @@ function showReports() {
   setActiveNav("reports");
   document.title = "Reports | IEAT Intelligence";
   window.scrollTo({ top: 0, behavior: "auto" });
+}
+
+function renderReportsMeta() {
+  const reportDate = document.querySelector("#reports-latest-date");
+  const dateValue = safeText(
+    briefingData?.web_reports_index?.report_date,
+    safeText(briefingData?.report_date, "")
+  );
+
+  reportDate.textContent = formatThaiDate(dateValue);
+  reportDate.dateTime = dateValue;
+}
+
+function bindReportsFrame() {
+  const frame = document.querySelector("#reports-frame");
+  const shell = document.querySelector("#reports-frame-shell");
+  const loading = document.querySelector("#reports-frame-loading");
+
+  frame.addEventListener(
+    "load",
+    () => {
+      shell.classList.remove("is-loading");
+      shell.classList.add("is-loaded");
+      loading.hidden = true;
+    },
+    { once: true }
+  );
 }
 
 function showGrcPage(updateHash = true) {
@@ -1346,6 +1572,8 @@ function categoryFromHash() {
 }
 
 function bindNavigation() {
+  bindReportsFrame();
+
   document.querySelector("#risk-overview").addEventListener("click", (event) => {
     const row = event.target.closest("[data-category]");
     if (row) showCategoryDetail(row.dataset.category);
@@ -1390,6 +1618,7 @@ function bindNavigation() {
   document.querySelector("#kri-detail-back").addEventListener("click", backFromKriDetail);
   document.querySelector("#nav-home").addEventListener("click", () => showHome(false));
   document.querySelector("#nav-erm").addEventListener("click", showKriDashboard);
+  document.querySelector("#nav-grc").addEventListener("click", () => showGrcPage(true));
   document.querySelector("#nav-reports").addEventListener("click", showReports);
   document.querySelector("#nav-watchlist").addEventListener("click", showWatchlist);
   document.querySelector(".desktop-primary-nav").addEventListener("click", (event) => {
@@ -1429,6 +1658,30 @@ function bindNavigation() {
       "grc-tab-value": "value"
     };
     setGrcActiveTab(tabById[tab.id] || "categories");
+  });
+
+  document.querySelector(".grc-view-tabs").addEventListener("keydown", (event) => {
+    if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+
+    const tabs = Array.from(event.currentTarget.querySelectorAll("[role='tab']"));
+    const currentIndex = tabs.indexOf(event.target.closest("[role='tab']"));
+    if (currentIndex < 0) return;
+
+    event.preventDefault();
+    const nextIndex = event.key === "Home"
+      ? 0
+      : event.key === "End"
+        ? tabs.length - 1
+        : (currentIndex + (event.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length;
+    const nextTab = tabs[nextIndex];
+    const tabById = {
+      "grc-tab-categories": "categories",
+      "grc-tab-indicators": "indicators",
+      "grc-tab-value": "value"
+    };
+
+    setGrcActiveTab(tabById[nextTab.id] || "categories");
+    nextTab.focus();
   });
 
   document.querySelector("#grc-category-list").addEventListener("click", (event) => {
@@ -1474,6 +1727,17 @@ function bindNavigation() {
     if (!item) return;
 
     showNewsDetail(findNewsByTheme(item.dataset.watchlistTheme), "watchlist");
+  });
+
+  document.querySelector("#watchlist-category-filters").addEventListener("click", (event) => {
+    const filter = event.target.closest("[data-watchlist-category-filter]");
+    if (!filter) return;
+
+    selectedWatchlistCategory = filter.dataset.watchlistCategoryFilter || "";
+    renderWatchlist();
+    Array.from(document.querySelectorAll("[data-watchlist-category-filter]"))
+      .find((button) => button.dataset.watchlistCategoryFilter === selectedWatchlistCategory)
+      ?.focus();
   });
 
   document.querySelector("#today-headlines-list").addEventListener("click", (event) => {
@@ -4932,7 +5196,7 @@ function renderGrcLatestUpdates(indicators) {
       return `
         <div class="grc-latest-item grc-status-${status.key.replaceAll("_", "-")}">
           <span class="grc-status-icon">${grcStatusIcon(status.key)}</span>
-          <span class="grc-latest-copy"><strong>${escapeHtml(indicator.indicator_name || "ไม่มีชื่อตัวชี้วัด")}</strong><small>${escapeHtml(indicator.indicator_id || "—")}</small></span>
+          <span class="grc-latest-copy"><strong>${escapeHtml(indicator.indicator_name || "ไม่มีชื่อตัวชี้วัด")}</strong></span>
           <time datetime="${escapeHtml(indicator.last_update)}">${escapeHtml(formatGrcUpdateDate(date))}</time>
         </div>
       `;
