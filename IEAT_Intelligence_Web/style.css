@@ -11038,6 +11038,7 @@ body {
   letter-spacing: 0.16em;
 }
 
+.topbar-start,
 .topbar-end {
   display: block;
   width: 40px;
@@ -11338,6 +11339,10 @@ main:has(> #home-view:not([hidden]))::before {
     display: none;
   }
 
+  .topbar-start {
+    display: none;
+  }
+
   .brand {
     justify-self: start;
     text-align: left;
@@ -11444,6 +11449,7 @@ main:has(> #home-view:not([hidden]))::before {
   }
 
   .icon-button,
+  .topbar-start,
   .topbar-end {
     width: 38px;
     height: 38px;
