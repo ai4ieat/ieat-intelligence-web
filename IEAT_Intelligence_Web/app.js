@@ -115,6 +115,36 @@ function safeText(value, fallback) {
   return typeof value === "string" && value.trim() ? value.trim() : fallback;
 }
 
+function firstSafeText(...values) {
+  for (const value of values) {
+    const text = safeText(value, "");
+    if (text) return text;
+  }
+
+  return "";
+}
+
+function getWatchpointTitle(item = {}) {
+  return firstSafeText(
+    item.watchpoint_short,
+    item.watchpoint_full,
+    item.headline_short,
+    item.theme
+  );
+}
+
+function getWatchpointDetail(item = {}, context = "home") {
+  const watchpointFields = context === "watchlist"
+    ? [item.watchpoint_full, item.watchpoint_detail]
+    : [item.watchpoint_detail, item.watchpoint_full];
+
+  return firstSafeText(
+    ...watchpointFields,
+    item.headline_detail,
+    item.executive_takeaway
+  );
+}
+
 function safeLink(value) {
   const link = safeText(value, "");
   return /^https?:\/\//i.test(link) ? link : "";
@@ -1062,15 +1092,20 @@ function getWatchlistItems() {
         : [];
 
   return sourceItems
-    .map((item, sourceIndex) => ({
-      ...item,
-      category: getPrimaryCategory(item),
-      text: safeText(item.watchpoint_full, safeText(item.watchpoint_short, "")),
-      rank: Number(item.news_rank ?? item.watch_rank ?? 0),
-      sourceIndex
-    }))
+    .map((item, sourceIndex) => {
+      const title = getWatchpointTitle(item);
+
+      return {
+        ...item,
+        category: getPrimaryCategory(item),
+        title,
+        detail: getWatchpointDetail(item, "watchlist"),
+        rank: Number(item.news_rank ?? item.watch_rank ?? 0),
+        sourceIndex
+      };
+    })
     .filter((item) => WATCHLIST_CATEGORY_ORDER.includes(item.category))
-    .filter((item) => item.text)
+    .filter((item) => item.title)
     .sort((a, b) => {
       const aDate = getWatchlistDateValue(a.report_date);
       const bDate = getWatchlistDateValue(b.report_date);
@@ -1182,10 +1217,11 @@ function renderWatchlist() {
 
   const rows = items.map((item, index) => {
     const news = findWatchlistNews(item) || item;
+    const watchpointContent = { ...news, ...item };
     const category = getPrimaryCategory(item);
-    const riskLevel = safeRisk(item.risk_level);
-    const title = safeText(news.headline_short, item.text);
-    const summary = safeText(news.headline_detail, item.text);
+    const title = getWatchpointTitle(watchpointContent);
+    const detail = getWatchpointDetail(watchpointContent, "watchlist");
+    const summary = detail !== title ? detail : "";
     const themeId = safeText(news.theme_id, "");
     const displayDate = formatWatchlistDate(item.report_date);
     const dateTime = getWatchlistDateValue(item.report_date) === null
@@ -1195,7 +1231,7 @@ function renderWatchlist() {
       <span class="watchlist-rank" aria-label="ลำดับ ${index + 1}">${String(index + 1).padStart(2, "0")}</span>
       <span class="watchlist-item-copy">
         <strong class="watchlist-item-title">${escapeHtml(title)}</strong>
-        <span class="watchlist-item-summary">${escapeHtml(summary)}</span>
+        ${summary ? `<span class="watchlist-item-summary">${escapeHtml(summary)}</span>` : ""}
         ${createWatchlistTags(news)}
       </span>
       <span class="watchlist-item-category">
@@ -1203,14 +1239,13 @@ function renderWatchlist() {
         <span>${escapeHtml(category)}</span>
       </span>
       <span class="watchlist-item-meta">
-        <span class="watchlist-item-risk risk-${className(riskLevel)}">${escapeHtml(riskLevel)}</span>
         <time class="watchlist-item-date"${dateTime ? ` datetime="${escapeHtml(dateTime)}"` : ""}>${escapeHtml(displayDate)}</time>
       </span>
       <span class="watchlist-link-mark" aria-hidden="true">›</span>
     `;
 
     return themeId
-      ? `<button class="watchlist-item" type="button" data-watchlist-theme="${escapeHtml(themeId)}" aria-label="เปิดรายละเอียด: ${escapeHtml(title)}, หมวด ${escapeHtml(category)}, ความเสี่ยง ${escapeHtml(riskLevel)}, อัปเดต ${escapeHtml(displayDate)}">${rowContent}</button>`
+      ? `<button class="watchlist-item" type="button" data-watchlist-theme="${escapeHtml(themeId)}" aria-label="เปิดรายละเอียด: ${escapeHtml(title)}, หมวด ${escapeHtml(category)}, อัปเดต ${escapeHtml(displayDate)}">${rowContent}</button>`
       : `<article class="watchlist-item watchlist-item-static">${rowContent}</article>`;
   }).join("");
 
@@ -1219,7 +1254,6 @@ function renderWatchlist() {
       <span>ลำดับ</span>
       <span>ประเด็นสำคัญ</span>
       <span>หมวดหมู่</span>
-      <span>ความเสี่ยง</span>
       <span>อัปเดตล่าสุด</span>
       <span></span>
     </div>
@@ -1874,11 +1908,9 @@ function getHomepageWatchpoints(value) {
     .filter((item) => !reportDate || safeText(item.report_date, "") === reportDate)
     .map((item) => {
       const news = findFullNews(item);
-      const detail = safeText(
-        item.watchpoint_detail,
-        safeText(item.watchpoint_short, "")
-      );
-      const title = safeText(news?.headline_short, detail);
+      const watchpointContent = { ...(news || {}), ...item };
+      const title = getWatchpointTitle(watchpointContent);
+      const detail = getWatchpointDetail(watchpointContent, "home");
       const tags = safeText(news?.topic_tags_joined, "")
         .split("|")
         .map((tag) => tag.trim())

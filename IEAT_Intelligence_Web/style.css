@@ -206,7 +206,7 @@
 .watchlist-table-heading,
 .watchlist-item {
   display: grid;
-  grid-template-columns: 54px minmax(360px, 2.25fr) minmax(180px, 0.75fr) 100px 150px 18px;
+  grid-template-columns: 54px minmax(360px, 2.25fr) minmax(180px, 0.75fr) 150px 18px;
   gap: 14px;
   align-items: center;
 }
@@ -273,14 +273,12 @@ button.watchlist-item:focus-visible {
 }
 
 .watchlist-item-title {
-  display: -webkit-box;
-  overflow: hidden;
+  display: block;
+  overflow-wrap: anywhere;
   color: #201044;
   font-size: 15.5px;
   font-weight: 780;
   line-height: 1.42;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
 }
 
 .watchlist-item-summary {
@@ -341,45 +339,8 @@ button.watchlist-item:focus-visible {
   height: 18px;
 }
 
-.watchlist-item-risk {
-  display: inline-flex;
-  min-width: 76px;
-  justify-content: center;
-  justify-self: start;
-  padding: 7px 10px;
-  border: 1px solid transparent;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 800;
-  line-height: 1;
-}
-
 .watchlist-item-meta {
   display: contents;
-}
-
-.watchlist-item-risk.risk-low {
-  border-color: #bce6d3;
-  background: #eaf8f1;
-  color: #13865b;
-}
-
-.watchlist-item-risk.risk-medium {
-  border-color: #f2d89d;
-  background: #fff7e7;
-  color: #bb7100;
-}
-
-.watchlist-item-risk.risk-high {
-  border-color: #ffc4c7;
-  background: #fff0f1;
-  color: #d92b3b;
-}
-
-.watchlist-item-risk.risk-critical {
-  border-color: #f3a9af;
-  background: #ffe6e8;
-  color: #b41226;
 }
 
 .watchlist-item-date {
@@ -416,10 +377,10 @@ button.watchlist-item:hover .watchlist-link-mark {
   }
 
   .watchlist-item {
-    grid-template-columns: 52px minmax(0, 1fr) 92px 130px 18px;
+    grid-template-columns: 52px minmax(0, 1fr) 130px 18px;
     grid-template-areas:
-      "rank copy category category arrow"
-      "rank copy risk date arrow";
+      "rank copy category arrow"
+      "rank copy date arrow";
     gap: 8px 12px;
   }
 
@@ -433,10 +394,6 @@ button.watchlist-item:hover .watchlist-link-mark {
 
   .watchlist-item-category {
     grid-area: category;
-  }
-
-  .watchlist-item-risk {
-    grid-area: risk;
   }
 
   .watchlist-item-date {
@@ -595,13 +552,6 @@ button.watchlist-item:hover .watchlist-link-mark {
     height: 15px;
   }
 
-  .watchlist-item-risk {
-    grid-area: auto;
-    min-width: 64px;
-    padding: 6px 8px;
-    font-size: 10.5px;
-  }
-
   .watchlist-item-date {
     grid-area: auto;
     justify-self: end;
@@ -613,10 +563,8 @@ button.watchlist-item:hover .watchlist-link-mark {
   .watchlist-item-meta {
     display: grid;
     grid-area: meta;
-    grid-template-columns: auto auto;
     align-items: center;
-    justify-content: space-between;
-    gap: 10px;
+    justify-content: end;
   }
 
   .watchlist-item .watchlist-link-mark {
@@ -19901,15 +19849,11 @@ main > .watchlist-view.watchlist-view {
 
 @media (max-width: 1199px) and (min-width: 768px) {
   .watchlist-item {
-    grid-template-columns: 52px minmax(220px, 1fr) 92px 130px 18px;
+    grid-template-columns: 52px minmax(220px, 1fr) 130px 18px;
     grid-template-areas:
-      "rank copy category category arrow"
-      "rank copy risk date arrow";
+      "rank copy category arrow"
+      "rank copy date arrow";
     gap: 8px 12px;
-  }
-
-  .watchlist-item-risk {
-    grid-area: risk;
   }
 
   .watchlist-item-date {
