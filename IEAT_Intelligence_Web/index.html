@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#fcfbfd">
   <meta name="description" content="IEAT Daily Intelligence executive briefing dashboard">
   <title>IEAT Intelligence</title>
-    <link rel="stylesheet" href="./style.css?v=123">
+    <link rel="stylesheet" href="./style.css?v=127">
 </head>
 <body>
   <div class="app-shell">
@@ -95,7 +95,14 @@
               </button>
             </div>
           </header>
-          <div id="grc-snapshot" class="grc-snapshot-body" aria-live="polite"></div>
+          <div
+            id="grc-snapshot"
+            class="grc-snapshot-body"
+            role="button"
+            tabindex="0"
+            aria-label="เปิดหน้า GRC"
+            aria-live="polite"
+          ></div>
         </div>
       </section>
 
@@ -138,12 +145,7 @@
 
       <section id="category-view" class="category-view" aria-labelledby="category-detail-title" hidden>
         <div class="detail-toolbar">
-          <button id="category-back" class="back-button" type="button">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="m15 18-6-6 6-6"></path>
-            </svg>
-            <span>กลับหน้าหลัก</span>
-          </button>
+          <div data-breadcrumb="category"></div>
         </div>
 
         <header class="category-hero">
@@ -173,12 +175,7 @@
 
       <section id="today-headlines-view" class="subpage-view today-headlines-view" aria-labelledby="today-headlines-title" hidden>
         <div class="detail-toolbar today-headlines-toolbar">
-          <button id="today-headlines-back" class="back-button" type="button">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="m15 18-6-6 6-6"></path>
-            </svg>
-            <span>กลับหน้าหลัก</span>
-          </button>
+          <div data-breadcrumb="today"></div>
         </div>
         <div class="today-headlines-content">
           <header class="subpage-header today-headlines-header">
@@ -200,24 +197,14 @@
 
       <article id="news-detail-view" class="subpage-view news-article-view" aria-labelledby="news-detail-title" hidden>
         <div class="detail-toolbar">
-          <button id="news-detail-back" class="back-button" type="button">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="m15 18-6-6 6-6"></path>
-            </svg>
-            <span>ย้อนกลับ</span>
-          </button>
+          <div data-breadcrumb="newsDetail"></div>
         </div>
         <div id="news-detail-content"></div>
       </article>
 
       <section id="watchlist-view" class="subpage-view watchlist-view" aria-labelledby="watchlist-title" hidden>
         <div class="detail-toolbar watchlist-toolbar">
-          <button id="watchlist-back" class="back-button" type="button">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="m15 18-6-6 6-6"></path>
-            </svg>
-            <span>กลับหน้าหลัก</span>
-          </button>
+          <div data-breadcrumb="watchlist"></div>
         </div>
         <header class="watchlist-header">
           <span class="watchlist-title-accent" aria-hidden="true"></span>
@@ -247,12 +234,7 @@
 
       <section id="reports-view" class="subpage-view reports-view" aria-labelledby="reports-title" hidden>
         <div class="detail-toolbar reports-toolbar">
-          <button id="reports-back" class="back-button" type="button">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="m15 18-6-6 6-6"></path>
-            </svg>
-            <span>กลับหน้าหลัก</span>
-          </button>
+          <div data-breadcrumb="reports"></div>
         </div>
         <div class="reports-page-content">
           <header class="reports-header">
@@ -336,12 +318,7 @@
 
       <section id="grc-page-view" class="subpage-view grc-page-view" aria-labelledby="grc-page-title" hidden>
         <div class="detail-toolbar grc-page-toolbar">
-          <button id="grc-page-back" class="back-button" type="button">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="m15 18-6-6 6-6"></path>
-            </svg>
-            <span>กลับหน้าหลัก</span>
-          </button>
+          <div data-breadcrumb="grc"></div>
         </div>
 
         <header class="grc-page-hero">
@@ -485,12 +462,7 @@
 
       <section id="kri-dashboard-view" class="subpage-view kri-dashboard-view" aria-labelledby="kri-dashboard-title" hidden>
         <div class="detail-toolbar">
-          <button id="kri-dashboard-back" class="back-button" type="button">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="m15 18-6-6 6-6"></path>
-            </svg>
-            <span>กลับหน้าหลัก</span>
-          </button>
+          <div data-breadcrumb="erm"></div>
         </div>
 
         <header class="kri-dashboard-header">
@@ -554,12 +526,7 @@
 
       <section id="kri-detail-view" class="subpage-view kri-detail-view" aria-labelledby="kri-detail-title" hidden>
         <div class="detail-toolbar">
-          <button id="kri-detail-back" class="back-button" type="button">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="m15 18-6-6 6-6"></path>
-            </svg>
-            <span id="kri-detail-back-label">กลับ</span>
-          </button>
+          <div data-breadcrumb="kriDetail"></div>
         </div>
 
         <div id="kri-detail-content" class="kri-detail-content" aria-live="polite"></div>
@@ -604,6 +571,6 @@
     </nav>
   </div>
 
-    <script src="./app.js?v=79" defer></script>
+    <script src="./app.js?v=83" defer></script>
 </body>
 </html>

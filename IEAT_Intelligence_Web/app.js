@@ -48,6 +48,29 @@ const SWIPE_BACK_MAX_VERTICAL_DRIFT = 70;
 const SWIPE_BACK_MAX_DURATION = 800;
 const SWIPE_BACK_HORIZONTAL_RATIO = 1.25;
 
+const BREADCRUMB_LABELS = Object.freeze({
+  home: "หน้าหลัก",
+  erm: "ERM",
+  grc: "GRC",
+  reports: "Reports",
+  watchlist: "Watchlist",
+  today: "ข่าวทั้งหมดวันนี้",
+  newsDetail: "รายละเอียดข่าว",
+  category: "หมวดหมู่",
+  kriDetail: "KRI"
+});
+
+const BREADCRUMB_ROUTES = Object.freeze({
+  category: ["home", "category"],
+  today: ["home", "today"],
+  newsDetail: ["home", "today", "newsDetail"],
+  watchlist: ["home", "watchlist"],
+  reports: ["home", "reports"],
+  grc: ["home", "grc"],
+  erm: ["home", "erm"],
+  kriDetail: ["home", "erm", "kriDetail"]
+});
+
 const CATEGORY_META = {
   Energy: {
     icon: '<path d="M13 2 5 13h6l-1 9 8-12h-6l1-8Z"></path>',
@@ -157,6 +180,45 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+}
+
+function renderBreadcrumb(viewKey, labelOverrides = {}) {
+  const host = document.querySelector(`[data-breadcrumb="${viewKey}"]`);
+  const route = BREADCRUMB_ROUTES[viewKey];
+  if (!host || !Array.isArray(route)) return;
+
+  host.innerHTML = `
+    <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+      <ol class="breadcrumb-list">
+        ${route
+          .map((itemKey, index) => {
+            const label = safeText(labelOverrides[itemKey], BREADCRUMB_LABELS[itemKey] || "");
+            const isCurrent = index === route.length - 1;
+            const content = isCurrent
+              ? `<span class="breadcrumb-current" aria-current="page">${escapeHtml(label)}</span>`
+              : `<button class="breadcrumb-link" type="button" data-breadcrumb-destination="${escapeHtml(itemKey)}">${escapeHtml(label)}</button>`;
+
+            return `
+              <li class="breadcrumb-item${isCurrent ? " is-current" : ""}">
+                ${index > 0 ? '<span class="breadcrumb-separator" aria-hidden="true">›</span>' : ""}
+                ${content}
+              </li>
+            `;
+          })
+          .join("")}
+      </ol>
+    </nav>
+  `;
+}
+
+function navigateBreadcrumb(destination) {
+  const actions = {
+    home: () => showHome(true),
+    erm: showKriDashboard,
+    today: showTodayHeadlines
+  };
+
+  actions[destination]?.();
 }
 
 function normalizeCategory(category) {
@@ -521,6 +583,8 @@ function showCategoryDetail(category, updateHash = true) {
   const riskLevel = safeRisk(summary.risk_level);
   const direction = safeDirection(summary.risk_direction);
 
+  renderBreadcrumb("category", { category: selectedCategory });
+
   document.querySelector("#category-detail-icon").innerHTML = createCategoryIcon(selectedCategory);
   document.querySelector("#category-detail-title").textContent = selectedCategory;
   document.querySelector("#category-detail-subtitle").textContent = safeText(
@@ -670,6 +734,7 @@ function renderTodayHeadlines() {
 function showTodayHeadlines() {
   resetSwipeBackGesture();
   renderTodayHeadlines();
+  renderBreadcrumb("today");
   document.querySelector("#home-view").hidden = true;
   document.querySelector("#category-view").hidden = true;
   document.querySelector("#news-detail-view").hidden = true;
@@ -981,6 +1046,7 @@ function showNewsDetail(item, origin) {
   resetSwipeBackGesture();
   newsDetailOrigin = origin;
   renderNewsDetail(item);
+  renderBreadcrumb("newsDetail");
   document.querySelector("#home-view").hidden = true;
   document.querySelector("#category-view").hidden = true;
   document.querySelector("#today-headlines-view").hidden = true;
@@ -1265,6 +1331,7 @@ function showWatchlist() {
   resetSwipeBackGesture();
   clearGrcHash();
   renderWatchlist();
+  renderBreadcrumb("watchlist");
   document.querySelector("#home-view").hidden = true;
   document.querySelector("#category-view").hidden = true;
   document.querySelector("#today-headlines-view").hidden = true;
@@ -1284,6 +1351,7 @@ function showReports() {
   resetSwipeBackGesture();
   clearGrcHash();
   renderReportsMeta();
+  renderBreadcrumb("reports");
   document.querySelector("#home-view").hidden = true;
   document.querySelector("#category-view").hidden = true;
   document.querySelector("#today-headlines-view").hidden = true;
@@ -1374,6 +1442,7 @@ function showGrcPage(updateHash = true) {
   grcCategoryFilter = "";
   grcStatusFilter = "";
   renderGrcPage();
+  renderBreadcrumb("grc");
 
   document.querySelector("#home-view").hidden = true;
   document.querySelector("#category-view").hidden = true;
@@ -1409,6 +1478,7 @@ function showKriDashboard() {
   resetSwipeBackGesture();
   clearGrcHash();
   renderKriDashboard();
+  renderBreadcrumb("erm");
   document.querySelector("#home-view").hidden = true;
   document.querySelector("#category-view").hidden = true;
   document.querySelector("#today-headlines-view").hidden = true;
@@ -1431,6 +1501,7 @@ function showKriDetail(kriCode, returnView = "home") {
   resetSwipeBackGesture();
   kriDetailReturnView = returnView;
   renderKriDetail(item);
+  renderBreadcrumb("kriDetail", { kriDetail: safeText(item.kri_code, "KRI") });
   document.querySelector("#home-view").hidden = true;
   document.querySelector("#category-view").hidden = true;
   document.querySelector("#today-headlines-view").hidden = true;
@@ -1609,12 +1680,17 @@ function categoryFromHash() {
 function bindNavigation() {
   bindReportsFrame();
 
+  document.querySelector("main").addEventListener("click", (event) => {
+    const control = event.target.closest("[data-breadcrumb-destination]");
+    if (!control) return;
+
+    navigateBreadcrumb(control.dataset.breadcrumbDestination);
+  });
+
   document.querySelector("#risk-overview").addEventListener("click", (event) => {
     const row = event.target.closest("[data-category]");
     if (row) showCategoryDetail(row.dataset.category);
   });
-
-  document.querySelector("#category-back").addEventListener("click", backFromCategoryDetail);
 
   document.querySelector("#category-news-list").addEventListener("click", (event) => {
     const card = event.target.closest("[data-news-theme]");
@@ -1642,15 +1718,15 @@ function bindNavigation() {
   });
 
   document.querySelector("#view-all-headlines").addEventListener("click", showTodayHeadlines);
-  document.querySelector("#today-headlines-back").addEventListener("click", backFromTodayHeadlines);
-  document.querySelector("#news-detail-back").addEventListener("click", backFromNewsDetail);
-  document.querySelector("#watchlist-back").addEventListener("click", () => showHome(false));
-  document.querySelector("#reports-back").addEventListener("click", () => showHome(false));
   document.querySelector("#view-grc-page").addEventListener("click", () => showGrcPage(true));
-  document.querySelector("#grc-page-back").addEventListener("click", backFromGrcPage);
-  document.querySelector("#kri-dashboard-back").addEventListener("click", () => showHome(false));
+  document.querySelector("#grc-snapshot").addEventListener("click", () => showGrcPage(true));
+  document.querySelector("#grc-snapshot").addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+
+    event.preventDefault();
+    showGrcPage(true);
+  });
   document.querySelector("#view-kri-dashboard").addEventListener("click", showKriDashboard);
-  document.querySelector("#kri-detail-back").addEventListener("click", backFromKriDetail);
   document.querySelector("#nav-home").addEventListener("click", () => showHome(false));
   document.querySelector("#nav-erm").addEventListener("click", showKriDashboard);
   document.querySelector("#nav-grc").addEventListener("click", () => showGrcPage(true));
@@ -3685,7 +3761,6 @@ function renderStandardKriDetail(item) {
 function renderKriDetail(item) {
   const content = document.querySelector("#kri-detail-content");
   const detailView = document.querySelector("#kri-detail-view");
-  const backLabel = document.querySelector("#kri-detail-back-label");
   if (!content || !item) return;
 
   const kriCode = safeText(item.kri_code, "KRI");
@@ -3722,11 +3797,6 @@ function renderKriDetail(item) {
     const orderB = actionGroupOrder.includes(b) ? actionGroupOrder.indexOf(b) : 99;
     return orderA - orderB || a.localeCompare(b);
   });
-
-  if (backLabel) {
-    backLabel.textContent =
-      kriDetailReturnView === "kri-dashboard" ? "กลับหน้า KRI Dashboard" : "กลับหน้าหลัก";
-  }
 
   if (!isF1Detail) {
     content.innerHTML = renderStandardKriDetail(item);

@@ -1298,6 +1298,112 @@ main {
   background: white;
 }
 
+.breadcrumb-nav {
+  min-width: 0;
+  color: var(--brand-700);
+}
+
+.breadcrumb-list {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  list-style: none;
+  white-space: nowrap;
+}
+
+.breadcrumb-item {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  flex: 0 1 auto;
+}
+
+.breadcrumb-item:first-child {
+  flex-shrink: 0;
+}
+
+.breadcrumb-separator {
+  flex: 0 0 auto;
+  margin: 0 5px;
+  color: #a69bb6;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.breadcrumb-link,
+.breadcrumb-current {
+  min-width: 0;
+  overflow: hidden;
+  color: inherit;
+  font-family: inherit;
+  font-size: 12.5px;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.breadcrumb-link {
+  min-height: 34px;
+  padding: 0 4px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  font-weight: 680;
+  cursor: pointer;
+  transition: color 150ms ease, background-color 150ms ease;
+}
+
+.breadcrumb-link:hover {
+  background: rgba(102, 51, 163, 0.07);
+  color: var(--brand-900);
+}
+
+.breadcrumb-link:focus-visible {
+  outline: 3px solid rgba(102, 51, 163, 0.24);
+  outline-offset: 1px;
+}
+
+.breadcrumb-current {
+  display: block;
+  padding: 0 4px;
+  color: var(--brand-950);
+  font-weight: 780;
+}
+
+@media (max-width: 767px) {
+  .breadcrumb-list {
+    gap: 0;
+  }
+
+  .breadcrumb-separator {
+    margin-right: 3px;
+    margin-left: 3px;
+    font-size: 15px;
+  }
+
+  .breadcrumb-link,
+  .breadcrumb-current {
+    max-width: 132px;
+    font-size: 11.5px;
+  }
+
+  .breadcrumb-link {
+    min-height: 32px;
+    padding-right: 3px;
+    padding-left: 3px;
+  }
+
+  .breadcrumb-current {
+    padding-right: 3px;
+    padding-left: 3px;
+  }
+}
+
 .back-button {
   display: inline-flex;
   align-items: center;
@@ -2722,6 +2828,20 @@ main {
     radial-gradient(circle at 95% 8%, rgba(103, 49, 199, 0.065), transparent 31%),
     rgba(255, 255, 255, 0.91);
   box-shadow: 0 8px 22px rgba(48, 20, 79, 0.04);
+  cursor: pointer;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+#home-view .grc-snapshot-body:hover {
+  border-color: rgba(95, 46, 234, 0.32);
+  box-shadow: 0 13px 30px rgba(48, 20, 79, 0.08);
+  transform: translateY(-1px);
+}
+
+#home-view .grc-snapshot-body:focus-visible {
+  border-color: rgba(95, 46, 234, 0.45);
+  outline: 3px solid rgba(95, 46, 234, 0.22);
+  outline-offset: 3px;
 }
 
 #home-view .grc-snapshot-counts {
