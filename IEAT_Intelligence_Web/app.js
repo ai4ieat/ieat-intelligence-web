@@ -4665,7 +4665,19 @@ function getGrcValueGroupPresentation(group) {
   const metCount = states.filter((state) => state === "met").length;
   const hasFailure = states.includes("below");
   const hasPending = states.some((state) => state === "pending" || state === "neutral");
-  const key = hasFailure ? "below" : hasPending || states.length === 0 ? "pending" : "met";
+  const compositeId = normalizeGrcText(group?.display_metric_id).toUpperCase();
+  const usesOrRule = compositeId === "VE08";
+  const key = usesOrRule
+    ? metCount > 0
+      ? "met"
+      : hasPending || states.length === 0
+        ? "pending"
+        : "below"
+    : hasFailure
+      ? "below"
+      : hasPending || states.length === 0
+        ? "pending"
+        : "met";
 
   return {
     key,
