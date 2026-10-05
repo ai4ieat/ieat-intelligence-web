@@ -1586,7 +1586,7 @@
             "risk_label": "ต่ำ",
             "color_hex": "",
             "trend": "improving",
-            "last_update": "2026-07-07",
+            "last_update": "30 กันยายน 2569",
             "actions": [
               {
                 "id": "1",
@@ -1637,8 +1637,8 @@
             "risk_tolerance": "1. จำนวน 24 แห่ง\n2. จำนวน 4 แห่ง",
             "risk_owner": "พย.",
             "update": "- รวบรวมข้อมูลเพื่อวิเคราะห์ปริมาณการ\u000b ปล่อย GHGs ในรูปแบบ CF รายเดือน",
-            "performance_level": "in_progress",
-            "performance_label": "ดำเนินงานได้ตามแผน",
+            "performance_level": "appetite",
+            "performance_label": "บรรลุเป้าหมาย Risk Appetite",
             "impact": 4,
             "likelihood": 1,
             "risk_zone": "medium",
@@ -1646,7 +1646,7 @@
             "risk_label": "ปานกลาง",
             "color_hex": "",
             "trend": "improving",
-            "last_update": "2026-07-07",
+            "last_update": "30 กันยายน 2569",
             "actions": [
               {
                 "id": "6",
@@ -1704,8 +1704,8 @@
             "risk_tolerance": "แล้วเสร็จ ภายใน ก.ย.",
             "risk_owner": "พย.",
             "update": "- อยู่ระหว่างจัดทำ (ร่าง) แผนฯ",
-            "performance_level": "in_progress",
-            "performance_label": "ดำเนินงานได้ตามแผน",
+            "performance_level": "appetite",
+            "performance_label": "บรรลุเป้าหมาย Risk Appetite",
             "impact": 3,
             "likelihood": 3,
             "risk_zone": "medium",
@@ -1713,7 +1713,7 @@
             "risk_label": "ปานกลาง",
             "color_hex": "",
             "trend": "improving",
-            "last_update": "2026-07-07",
+            "last_update": "30 กันยายน 2569",
             "actions": [
               {
                 "id": "12",
@@ -1771,8 +1771,8 @@
             "risk_tolerance": "",
             "risk_owner": "สผ.",
             "update": "- อยู่ระหว่างการพัฒนาฯ",
-            "performance_level": "in_progress",
-            "performance_label": "ดำเนินงานได้ตามแผน",
+            "performance_level": "appetite",
+            "performance_label": "บรรลุเป้าหมาย Risk Appetite",
             "impact": 5,
             "likelihood": 3,
             "risk_zone": "high",
@@ -1780,7 +1780,7 @@
             "risk_label": "สูง",
             "color_hex": "",
             "trend": "stable",
-            "last_update": "2026-07-07",
+            "last_update": "30 กันยายน 2569",
             "actions": [
               {
                 "id": "18",
@@ -1859,8 +1859,8 @@
             "risk_tolerance": "มากกว่า 4.5",
             "risk_owner": "พย.และ บร.",
             "update": "- อยู่ระหว่างการดำเนินกิจกรรมฯ",
-            "performance_level": "in_progress",
-            "performance_label": "ดำเนินงานได้ตามแผน",
+            "performance_level": "appetite",
+            "performance_label": "บรรลุเป้าหมาย Risk Appetite",
             "impact": 2,
             "likelihood": 1,
             "risk_zone": "low",
@@ -1868,7 +1868,7 @@
             "risk_label": "ต่ำ",
             "color_hex": "",
             "trend": "improving",
-            "last_update": "2026-07-07",
+            "last_update": "30 กันยายน 2569",
             "actions": [
               {
                 "id": "27",
@@ -1933,8 +1933,8 @@
             "risk_tolerance": "ไม่น้อยกว่า 4,138 ไร่ และนิคมฯ Smart Park ไม่น้อยกว่า 62 ไร่",
             "risk_owner": "บร. ปก.",
             "update": "- ณ ก.ค. 2569 ขายเช่า = 4,490 ไร่",
-            "performance_level": "pending_confirmation",
-            "performance_label": "อยู่ระหว่างตรวจสอบ/ยืนยันผล",
+            "performance_level": "appetite",
+            "performance_label": "บรรลุเป้าหมาย Risk Appetite",
             "impact": 3,
             "likelihood": 4,
             "risk_zone": "high",
@@ -1942,7 +1942,7 @@
             "risk_label": "สูง",
             "color_hex": "",
             "trend": "stable",
-            "last_update": "2026-07-07",
+            "last_update": "30 กันยายน 2569",
             "actions": [
               {
                 "id": "34",
@@ -2014,8 +2014,8 @@
             "risk_tolerance": "1. 90%\n2. 15 (สะสม)",
             "risk_owner": "บร.",
             "update": "- Successor ครอบคลุมในตำแหน่งงานที่สำคัญ 98%\r\n- ผลงาน Talent /การปรับปรุงกระบวนการทำงาน 23 (สะสม) และอยู่ระหว่าง Expert Feedback Coaching และติดตามแผนพัฒนารายบุคคล (IDP) ผลงาน/การปรับปรุงกระบวนงาน",
-            "performance_level": "in_progress",
-            "performance_label": "ดำเนินงานได้ตามแผน",
+            "performance_level": "appetite",
+            "performance_label": "บรรลุเป้าหมาย Risk Appetite",
             "impact": 2,
             "likelihood": 5,
             "risk_zone": "high",
@@ -2023,7 +2023,7 @@
             "risk_label": "สูง",
             "color_hex": "",
             "trend": "stable",
-            "last_update": "2026-07-07",
+            "last_update": "30 กันยายน 2569",
             "actions": [
               {
                 "id": "42",
@@ -2067,8 +2067,8 @@
             "risk_tolerance": "1. 4 นวัตกรรม\n2. 2 ล้านบาท",
             "risk_owner": "บร.",
             "update": "- 1.Successor 98% \n- 2.จำนวน 23 ผลงานอยู่ระหว่าง Expert Feedback Coaching ผลงาน/โครงการ",
-            "performance_level": "in_progress",
-            "performance_label": "ดำเนินงานได้ตามแผน",
+            "performance_level": "appetite",
+            "performance_label": "บรรลุเป้าหมาย Risk Appetite",
             "impact": 5,
             "likelihood": 1,
             "risk_zone": "medium",
@@ -2076,7 +2076,7 @@
             "risk_label": "ปานกลาง",
             "color_hex": "",
             "trend": "improving",
-            "last_update": "2026-07-07",
+            "last_update": "30 กันยายน 2569",
             "actions": [
               {
                 "id": "46",
@@ -2169,8 +2169,8 @@
             "risk_tolerance": "1. กำไรสุทธิ 2,089 ล้านบาท\n2. ผลประกอบการทางการเงิน\n   - รายได้ดำเนินงาน 8,213 ล้านบาท\n   - EBITDA Margin 65.33\n   - Cost to income 31.21",
             "risk_owner": "สผ. บร. ยศ. ปก.",
             "update": "1. กำไรสุทธิ 2,706.72 ล้านบาท\n2. ผลประกอบการทางการเงิน\n    - รายได้ดำเนินงาน 7,500 ล้านบาท\n    - EBITDA Margin 69.013%\n    - Cost to income 23.75%",
-            "performance_level": "in_progress",
-            "performance_label": "ดำเนินงานได้ตามแผน",
+            "performance_level": "tolerance",
+            "performance_label": "บรรลุเป้าหมาย Risk Tolerance",
             "impact": 1,
             "likelihood": 4,
             "risk_zone": "medium",
@@ -2178,7 +2178,7 @@
             "risk_label": "ปานกลาง",
             "color_hex": "",
             "trend": "improving",
-            "last_update": "2026-07-07",
+            "last_update": "30 กันยายน 2569",
             "actions": [
               {
                 "id": "57",
@@ -2266,7 +2266,7 @@
                 "metric_name": "รายได้ดำเนินงาน",
                 "metric_group": "financial",
                 "unit": "ล้านบาท",
-                "actual_value": 7500,
+                "actual_value": 8206,
                 "risk_appetite_value": 8367,
                 "risk_tolerance_value": 8213,
                 "direction": "higher_is_better",
@@ -2281,7 +2281,7 @@
                 "metric_name": "EBITDA Margin",
                 "metric_group": "financial",
                 "unit": "%",
-                "actual_value": 69.013,
+                "actual_value": 68.04,
                 "risk_appetite_value": 66.33,
                 "risk_tolerance_value": 65.33,
                 "direction": "higher_is_better",
@@ -2296,7 +2296,7 @@
                 "metric_name": "Cost to income",
                 "metric_group": "financial",
                 "unit": "%",
-                "actual_value": 23.75,
+                "actual_value": 24.32,
                 "risk_appetite_value": 26.4,
                 "risk_tolerance_value": 31.21,
                 "direction": "lower_is_better",
@@ -2327,7 +2327,7 @@
             "risk_label": "สูง",
             "color_hex": "",
             "trend": "stable",
-            "last_update": "2026-07-07",
+            "last_update": "30 กันยายน 2569",
             "actions": [
               {
                 "id": "66",
@@ -3112,7 +3112,7 @@
             "metric_name": "รายได้ดำเนินงาน",
             "metric_group": "financial",
             "unit": "ล้านบาท",
-            "actual_value": 7500,
+            "actual_value": 8206,
             "risk_appetite_value": 8367,
             "risk_tolerance_value": 8213,
             "direction": "higher_is_better",
@@ -3125,7 +3125,7 @@
             "metric_name": "EBITDA Margin",
             "metric_group": "financial",
             "unit": "%",
-            "actual_value": 69.013,
+            "actual_value": 68.04,
             "risk_appetite_value": 66.33,
             "risk_tolerance_value": 65.33,
             "direction": "higher_is_better",
@@ -3138,7 +3138,7 @@
             "metric_name": "Cost to income",
             "metric_group": "financial",
             "unit": "%",
-            "actual_value": 23.75,
+            "actual_value": 24.32,
             "risk_appetite_value": 26.4,
             "risk_tolerance_value": 31.21,
             "direction": "lower_is_better",
@@ -3153,9 +3153,8 @@
             "Financial": 2
           },
           "by_performance_level": {
-            "appetite": 1,
-            "in_progress": 7,
-            "pending_confirmation": 1,
+            "appetite": 8,
+            "tolerance": 1,
             "not_meet_ra": 1
           },
           "by_risk_zone": {
