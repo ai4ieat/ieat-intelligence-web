@@ -2407,8 +2407,8 @@
             "risk_tolerance": "1. กำไรสุทธิ 2,089 ล้านบาท\n2. ผลประกอบการทางการเงิน\n   - รายได้ดำเนินงาน 8,213 ล้านบาท\n   - EBITDA Margin 65.33\n   - Cost to income 31.21",
             "risk_owner": "สผ. บร. ยศ. ปก.",
             "update": "1. กำไรสุทธิ 2,706.72 ล้านบาท\n2. ผลประกอบการทางการเงิน\n    - รายได้ดำเนินงาน 7,500 ล้านบาท\n    - EBITDA Margin 69.013%\n    - Cost to income 23.75%",
-            "performance_level": "tolerance",
-            "performance_label": "บรรลุเป้าหมาย Risk Tolerance",
+            "performance_level": "pending_confirmation",
+            "performance_label": "อยู่ระหว่างตรวจสอบ/ยืนยันผล",
             "impact": 1,
             "likelihood": 4,
             "risk_zone": "medium",
@@ -2556,8 +2556,8 @@
             "risk_tolerance": "ร้อยละ 90",
             "risk_owner": "ทุกสายงาน",
             "update": "- ผลการเบิกจ่าย ไตรมาส 1 = 100.18\n- ผลการเบิกจ่าย ไตรมาส 2 = 96.23%\n- ผลการเบิกจ่าย ไตรมาส 3 = 95.00%\n- ผลการเบิกจ่าย รายปี = 57.89%\n- ข้อมูล ณ วันที่ 8 ก.ย. 69",
-            "performance_level": "not_meet_ra",
-            "performance_label": "คาดว่าไม่บรรลุ RA แต่สถานะ RT รอการยืนยัน",
+            "performance_level": "not_meet",
+            "performance_label": "ไม่บรรลุเป้าหมาย RA / RT",
             "impact": 4,
             "likelihood": 3,
             "risk_zone": "high",
@@ -3392,8 +3392,8 @@
           },
           "by_performance_level": {
             "appetite": 8,
-            "tolerance": 1,
-            "not_meet_ra": 1
+            "pending_confirmation": 1,
+            "not_meet": 1
           },
           "by_risk_zone": {
             "low": 8,
