@@ -1817,14 +1817,14 @@
             "update": "- นำเสนอการลงทุนกับ BIG ต่อ สศช.\u000bงบลงทุนปี 70 = 11.57 ล้านบาท",
             "performance_level": "appetite",
             "performance_label": "บรรลุเป้าหมาย Risk Appetite",
-            "impact": 2,
+            "impact": 1,
             "likelihood": 1,
             "risk_zone": "low",
             "risk_color": "green",
             "risk_label": "ต่ำ",
             "color_hex": "",
             "trend": "improving",
-            "last_update": "30 กันยายน 2569",
+            "last_update": "5 ตุลาคม 2569",
             "actions": [
               {
                 "id": "1",
@@ -1877,14 +1877,14 @@
             "update": "- รวบรวมข้อมูลเพื่อวิเคราะห์ปริมาณการ\u000b ปล่อย GHGs ในรูปแบบ CF รายเดือน",
             "performance_level": "appetite",
             "performance_label": "บรรลุเป้าหมาย Risk Appetite",
-            "impact": 4,
+            "impact": 1,
             "likelihood": 1,
-            "risk_zone": "medium",
-            "risk_color": "yellow",
-            "risk_label": "ปานกลาง",
+            "risk_zone": "low",
+            "risk_color": "green",
+            "risk_label": "ต่ำ",
             "color_hex": "",
             "trend": "improving",
-            "last_update": "30 กันยายน 2569",
+            "last_update": "5 ตุลาคม 2569",
             "actions": [
               {
                 "id": "6",
@@ -1944,14 +1944,14 @@
             "update": "- อยู่ระหว่างจัดทำ (ร่าง) แผนฯ",
             "performance_level": "appetite",
             "performance_label": "บรรลุเป้าหมาย Risk Appetite",
-            "impact": 3,
+            "impact": 1,
             "likelihood": 3,
-            "risk_zone": "medium",
-            "risk_color": "yellow",
-            "risk_label": "ปานกลาง",
+            "risk_zone": "low",
+            "risk_color": "green",
+            "risk_label": "ต่ำ",
             "color_hex": "",
             "trend": "improving",
-            "last_update": "30 กันยายน 2569",
+            "last_update": "5 ตุลาคม 2569",
             "actions": [
               {
                 "id": "12",
@@ -2011,14 +2011,14 @@
             "update": "- อยู่ระหว่างการพัฒนาฯ",
             "performance_level": "appetite",
             "performance_label": "บรรลุเป้าหมาย Risk Appetite",
-            "impact": 5,
-            "likelihood": 3,
-            "risk_zone": "high",
-            "risk_color": "orange",
-            "risk_label": "สูง",
+            "impact": 3,
+            "likelihood": 1,
+            "risk_zone": "low",
+            "risk_color": "green",
+            "risk_label": "ต่ำ",
             "color_hex": "",
-            "trend": "stable",
-            "last_update": "30 กันยายน 2569",
+            "trend": "improving",
+            "last_update": "5 ตุลาคม 2569",
             "actions": [
               {
                 "id": "18",
@@ -2099,14 +2099,14 @@
             "update": "- อยู่ระหว่างการดำเนินกิจกรรมฯ",
             "performance_level": "appetite",
             "performance_label": "บรรลุเป้าหมาย Risk Appetite",
-            "impact": 2,
+            "impact": 1,
             "likelihood": 1,
             "risk_zone": "low",
             "risk_color": "green",
             "risk_label": "ต่ำ",
             "color_hex": "",
             "trend": "improving",
-            "last_update": "30 กันยายน 2569",
+            "last_update": "5 ตุลาคม 2569",
             "actions": [
               {
                 "id": "27",
@@ -2173,14 +2173,14 @@
             "update": "- ณ ก.ค. 2569 ขายเช่า = 4,490 ไร่",
             "performance_level": "appetite",
             "performance_label": "บรรลุเป้าหมาย Risk Appetite",
-            "impact": 3,
-            "likelihood": 4,
-            "risk_zone": "high",
-            "risk_color": "orange",
-            "risk_label": "สูง",
+            "impact": 1,
+            "likelihood": 1,
+            "risk_zone": "low",
+            "risk_color": "green",
+            "risk_label": "ต่ำ",
             "color_hex": "",
-            "trend": "stable",
-            "last_update": "30 กันยายน 2569",
+            "trend": "improving",
+            "last_update": "5 ตุลาคม 2569",
             "actions": [
               {
                 "id": "34",
@@ -2254,14 +2254,14 @@
             "update": "- Successor ครอบคลุมในตำแหน่งงานที่สำคัญ 98%\r\n- ผลงาน Talent /การปรับปรุงกระบวนการทำงาน 23 (สะสม) และอยู่ระหว่าง Expert Feedback Coaching และติดตามแผนพัฒนารายบุคคล (IDP) ผลงาน/การปรับปรุงกระบวนงาน",
             "performance_level": "appetite",
             "performance_label": "บรรลุเป้าหมาย Risk Appetite",
-            "impact": 2,
-            "likelihood": 5,
-            "risk_zone": "high",
-            "risk_color": "orange",
-            "risk_label": "สูง",
+            "impact": 1,
+            "likelihood": 1,
+            "risk_zone": "low",
+            "risk_color": "green",
+            "risk_label": "ต่ำ",
             "color_hex": "",
-            "trend": "stable",
-            "last_update": "30 กันยายน 2569",
+            "trend": "improving",
+            "last_update": "5 ตุลาคม 2569",
             "actions": [
               {
                 "id": "42",
@@ -2307,14 +2307,14 @@
             "update": "- 1.Successor 98% \n- 2.จำนวน 23 ผลงานอยู่ระหว่าง Expert Feedback Coaching ผลงาน/โครงการ",
             "performance_level": "appetite",
             "performance_label": "บรรลุเป้าหมาย Risk Appetite",
-            "impact": 5,
+            "impact": 2,
             "likelihood": 1,
-            "risk_zone": "medium",
-            "risk_color": "yellow",
-            "risk_label": "ปานกลาง",
+            "risk_zone": "low",
+            "risk_color": "green",
+            "risk_label": "ต่ำ",
             "color_hex": "",
             "trend": "improving",
-            "last_update": "30 กันยายน 2569",
+            "last_update": "5 ตุลาคม 2569",
             "actions": [
               {
                 "id": "46",
@@ -2415,8 +2415,8 @@
             "risk_color": "yellow",
             "risk_label": "ปานกลาง",
             "color_hex": "",
-            "trend": "improving",
-            "last_update": "30 กันยายน 2569",
+            "trend": "stable",
+            "last_update": "5 ตุลาคม 2569",
             "actions": [
               {
                 "id": "57",
@@ -2565,7 +2565,7 @@
             "risk_label": "สูง",
             "color_hex": "",
             "trend": "stable",
-            "last_update": "30 กันยายน 2569",
+            "last_update": "5 ตุลาคม 2569",
             "actions": [
               {
                 "id": "66",
@@ -3396,13 +3396,13 @@
             "not_meet_ra": 1
           },
           "by_risk_zone": {
-            "low": 2,
-            "medium": 4,
-            "high": 4
+            "low": 8,
+            "medium": 1,
+            "high": 1
           },
           "by_trend": {
-            "improving": 6,
-            "stable": 4
+            "improving": 8,
+            "stable": 2
           },
           "by_metric_status": {
             "appetite": 3,

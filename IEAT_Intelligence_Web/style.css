@@ -14611,6 +14611,32 @@ button.kri-matrix-marker:focus-visible {
   padding: 5px;
 }
 
+/* Keep five or six markers in two centered rows within the standard cell. */
+.kri-dashboard-view .kri-matrix-markers:is([data-count="5"], [data-count="6"]) {
+  display: flex;
+  box-sizing: border-box;
+  max-width: 112px;
+  height: auto;
+  gap: 4px;
+  padding: 4px;
+}
+
+.kri-dashboard-view .kri-matrix-markers:is([data-count="5"], [data-count="6"]) .kri-matrix-marker {
+  width: 32px;
+  min-width: 32px;
+  height: 32px;
+  min-height: 32px;
+  box-shadow: 0 3px 6px rgba(25, 22, 58, 0.18);
+}
+
+.kri-dashboard-view .kri-matrix-markers:is([data-count="5"], [data-count="6"]) .kri-matrix-marker strong {
+  font-size: 12px;
+}
+
+.kri-dashboard-view .kri-matrix-markers:is([data-count="5"], [data-count="6"]) .kri-marker-watermark {
+  inset: 1px;
+}
+
 .kri-dashboard-view .kri-risk-level-legend,
 .kri-dashboard-view .kri-performance-legend {
   border-color: var(--erm-main-line);
@@ -15054,6 +15080,23 @@ button.kri-matrix-marker:focus-visible {
 
   .kri-dashboard-view .kri-matrix-marker strong {
     font-size: 11.5px;
+  }
+
+  .kri-dashboard-view .kri-matrix-markers:is([data-count="5"], [data-count="6"]) {
+    max-width: 84px;
+    gap: 2px;
+    padding: 4px;
+  }
+
+  .kri-dashboard-view .kri-matrix-markers:is([data-count="5"], [data-count="6"]) .kri-matrix-marker {
+    width: 24px;
+    min-width: 24px;
+    height: 24px;
+    min-height: 24px;
+  }
+
+  .kri-dashboard-view .kri-matrix-markers:is([data-count="5"], [data-count="6"]) .kri-matrix-marker strong {
+    font-size: 10.5px;
   }
 
   .kri-dashboard-view .kri-marker-watermark {
