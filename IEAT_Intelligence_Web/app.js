@@ -2547,8 +2547,10 @@ function formatNumberedText(value, fallback) {
 }
 
 function toMetricNumber(value) {
-  if (value === null || value === undefined || value === "") return NaN;
-  const number = Number(String(value).replace(/,/g, "").trim());
+  if (typeof value !== "number" && typeof value !== "string") return NaN;
+  const text = String(value).trim();
+  if (!text) return NaN;
+  const number = Number(text.replace(/,/g, ""));
   return Number.isFinite(number) ? number : NaN;
 }
 
@@ -2575,6 +2577,13 @@ function formatMetricValueWithUnit(value, unit = "") {
 }
 
 function getMetricStatusDisplay(metric) {
+  if (!Number.isFinite(toMetricNumber(metric.actual_value))) {
+    return {
+      status: "pending_data",
+      label: "รอข้อมูล",
+      labelTh: "ยังไม่ประเมิน RA / RT"
+    };
+  }
   const rawStatus = safeText(metric.status, "").toLowerCase();
   const status = KRI_PERFORMANCE_ORDER.includes(rawStatus)
     ? rawStatus
@@ -2758,6 +2767,9 @@ function getF1ThresholdMarkerLanes(scale) {
 }
 
 function renderF1ThresholdRail(metric) {
+  if (!Number.isFinite(toMetricNumber(metric.actual_value))) {
+    return '<div class="f1-metric-empty">ยังไม่มีข้อมูลผลการดำเนินงาน จึงยังไม่แสดงตำแหน่ง Actual หรือประเมิน RA / RT</div>';
+  }
   const scale = getMetricChartScale(metric);
   if (!scale) {
     return '<div class="f1-metric-empty">ไม่พบข้อมูล Actual, RA และ RT ที่เพียงพอ</div>';
@@ -2821,6 +2833,7 @@ function renderF1ThresholdRail(metric) {
 
 function renderF1MetricValuePanel(metric, item) {
   const status = getMetricStatusDisplay(metric);
+  const missingActual = !Number.isFinite(toMetricNumber(metric.actual_value));
   const unit = safeText(metric.unit, "ไม่ระบุ");
   const owner = safeText(item.risk_owner, "ไม่ระบุ");
   const lastUpdate = formatKriLastUpdate(item.last_update);
@@ -2829,7 +2842,7 @@ function renderF1MetricValuePanel(metric, item) {
     <aside class="f1-metric-value-panel" aria-label="ค่าตัวชี้วัด ${escapeHtml(safeText(metric.metric_name, "Metric"))}">
       <div class="f1-value-actual">
         <span>Actual</span>
-        <strong>${formatMetricValueWithUnit(metric.actual_value, unit)}</strong>
+        <strong${missingActual ? ' class="f1-actual-missing"' : ""}>${missingActual ? "ยังไม่มีข้อมูล" : formatMetricValueWithUnit(metric.actual_value, unit)}</strong>
         <small>${escapeHtml(lastUpdate)}</small>
       </div>
       <div class="f1-value-thresholds">
@@ -3377,6 +3390,38 @@ function getStandardKriTextLines(value) {
     .filter(Boolean);
 }
 
+function renderKriProgress(value) {
+  const groups = [];
+  let group;
+  let indicator;
+  getStandardKriTextLines(value).forEach((line) => {
+    if (!group || /^สอดคล้องกับ/.test(line)) {
+      const isHeading = /^สอดคล้องกับ/.test(line);
+      group = { title: isHeading ? line : "", details: [], indicators: [] };
+      groups.push(group);
+      indicator = null;
+      if (isHeading) return;
+    }
+    if (/^ตัวชี้วัด(?:\s|$)/.test(line)) {
+      indicator = { title: line, details: [] };
+      group.indicators.push(indicator);
+    } else {
+      (indicator || group).details.push(line);
+    }
+  });
+  const paragraphs = (lines) => lines.map((line) => `<p>${escapeHtml(line)}</p>`).join("");
+  return `<div class="kri-progress-groups">${groups.map((group) => `
+    <div class="kri-progress-group">
+      ${group.title ? `<h3>${escapeHtml(group.title)}</h3>` : ""}
+      ${paragraphs(group.details)}
+      ${group.indicators.map((indicator) => `
+        <div class="kri-progress-indicator">
+          <h4>${escapeHtml(indicator.title)}</h4>
+          ${indicator.details.length ? `<div class="kri-progress-details">${paragraphs(indicator.details)}</div>` : ""}
+        </div>`).join("")}
+    </div>`).join("")}</div>`;
+}
+
 function renderStandardKriActionText(value) {
   const text = safeText(value, "ไม่ระบุ");
   const match = text.match(/^([A-Z]+(?:-[A-Z0-9]+)*\d*):\s*(.+)$/i);
@@ -3661,9 +3706,7 @@ function renderStandardKriDetail(item) {
           <span class="standard-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 20V10M12 20V4M18 20v-7"></path></svg></span>
           <div><h2 id="standard-progress-heading">Progress Update</h2><p>ความคืบหน้าการดำเนินงาน</p></div>
         </div>
-        <ul class="standard-progress-list">
-          ${updateLines.map((line) => `<li><span aria-hidden="true"></span><p>${escapeHtml(line)}</p></li>`).join("")}
-        </ul>
+        ${renderKriProgress(item.update)}
       </section>
     `
     : "";
@@ -3848,7 +3891,7 @@ function renderKriDetail(item) {
       <section class="kri-detail-card kri-detail-update" aria-labelledby="kri-update-heading">
         <p class="section-kicker">PROGRESS UPDATE</p>
         <h2 id="kri-update-heading">ผลการดำเนินงานล่าสุด</h2>
-        <p class="kri-formatted-text kri-update-text">${formatNumberedText(item.update, "")}</p>
+        ${renderKriProgress(item.update)}
       </section>
     `
     : "";
@@ -5341,6 +5384,28 @@ function renderGrcPage() {
   setGrcActiveTab(grcActiveTab);
 }
 
+function normalizeKriMetricActuals(kri) {
+  if (!kri || !Array.isArray(kri.items)) return kri;
+  const sourceMetrics = Array.isArray(kri.metric_thresholds) ? kri.metric_thresholds : [];
+  return {
+    ...kri,
+    items: kri.items.map((item) => ({
+      ...item,
+      metrics: Array.isArray(item.metrics) ? item.metrics.map((metric) => {
+        // Raw sheet values retain blanks that older pipeline output converted to zero.
+        const source = sourceMetrics.find((row) =>
+          normalizeKriCode(row.kri_code) === normalizeKriCode(item.kri_code) &&
+          row.metric_key === metric.metric_key
+        );
+        const actual = source && Object.prototype.hasOwnProperty.call(source, "actual_value")
+          ? source.actual_value
+          : metric.actual_value;
+        return { ...metric, actual_value: Number.isFinite(toMetricNumber(actual)) ? actual : null };
+      }) : item.metrics
+    }))
+  };
+}
+
 function normalizeBriefingData(data) {
   const home = firstRecord(data.web_home_daily);
   const categoryStatus = Array.isArray(data.web_category_status)
@@ -5353,6 +5418,7 @@ function normalizeBriefingData(data) {
 
   return {
     ...data,
+    kri: normalizeKriMetricActuals(data.kri),
     grc: normalizeGrcData(data.grc),
     report_date: data.report_date || home.report_date,
     updated_time: data.updated_time || home.last_updated,

@@ -15934,6 +15934,51 @@ button.kri-matrix-marker:focus-visible {
   color: #087bc1;
 }
 
+.kri-detail-view.kri-detail-f1-view .f1-metric-status-pending_data {
+  border-color: #dcd8e9;
+  background: #f6f5fa;
+  color: #68617b;
+}
+
+.kri-detail-view.kri-detail-f1-view .f1-value-actual > .f1-actual-missing {
+  font-size: 20px;
+}
+
+.kri-detail-view .kri-progress-group + .kri-progress-group {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid #e9e5f2;
+}
+
+.kri-detail-view .kri-progress-groups h3,
+.kri-detail-view .kri-progress-groups h4,
+.kri-detail-view .kri-progress-groups p {
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.kri-detail-view .kri-progress-groups h3,
+.kri-detail-view .kri-progress-groups h4 {
+  font-weight: 700;
+}
+
+.kri-detail-view .kri-progress-indicator {
+  margin: 10px 0 0 12px;
+}
+
+.kri-detail-view .kri-progress-details {
+  margin: 6px 0 0 12px;
+  padding-left: 12px;
+  border-left: 2px solid #e5def5;
+}
+
+.kri-detail-view .kri-progress-groups p + p {
+  margin-top: 6px;
+}
+
 .kri-detail-view.kri-detail-f1-view .f1-metric-status-strip {
   display: grid;
   grid-template-columns: minmax(210px, auto) minmax(0, 1fr) auto auto;
