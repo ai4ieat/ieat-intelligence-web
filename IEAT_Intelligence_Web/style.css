@@ -12136,6 +12136,129 @@ main:has(> #home-view:not([hidden]))::before {
   }
 }
 
+/* Static external water-monitoring preview on Home. */
+#home-view .water-monitoring-section {
+  padding-top: 0;
+  padding-bottom: 28px;
+}
+
+#home-view .water-monitoring-card {
+  padding: clamp(16px, 2.5vw, 28px);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+#home-view .water-monitoring-heading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+#home-view .water-monitoring-icon {
+  display: grid;
+  flex: 0 0 48px;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border-radius: 14px;
+  color: var(--brand-700);
+  background: var(--brand-soft);
+}
+
+#home-view .water-monitoring-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+#home-view .water-monitoring-heading h2 {
+  margin: 0;
+  color: var(--brand-950);
+  font-size: clamp(18px, 2vw, 24px);
+  line-height: 1.5;
+}
+
+#home-view .water-monitoring-heading p {
+  margin: 4px 0 0;
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+#home-view .water-monitoring-link {
+  display: block;
+  border-radius: 12px;
+  color: var(--brand-700);
+  text-decoration: none;
+}
+
+#home-view .water-monitoring-link:focus-visible {
+  outline: 3px solid var(--brand-600);
+  outline-offset: 5px;
+}
+
+#home-view .water-monitoring-preview {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--brand-soft);
+}
+
+#home-view .water-monitoring-preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+#home-view .water-monitoring-preview-label {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #f2ecfa;
+  color: var(--brand-900);
+  font-size: 12px;
+}
+
+#home-view .water-monitoring-action {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding-top: 16px;
+}
+
+#home-view .water-monitoring-action svg {
+  flex: 0 0 22px;
+  width: 22px;
+  height: 22px;
+  margin-top: 2px;
+}
+
+#home-view .water-monitoring-action strong,
+#home-view .water-monitoring-action small {
+  display: block;
+  line-height: 1.6;
+}
+
+#home-view .water-monitoring-action strong {
+  font-size: 16px;
+}
+
+#home-view .water-monitoring-action small {
+  margin-top: 2px;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+#home-view .water-monitoring-link:hover .water-monitoring-action strong {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
 /* Phase B.1: editorial Watchpoint Today and final Home-page rhythm */
 #home-view .kri-snapshot-section + .watchpoint-section {
   padding-top: 22px;
