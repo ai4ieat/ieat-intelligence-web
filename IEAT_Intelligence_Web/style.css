@@ -12143,8 +12143,6 @@ main:has(> #home-view:not([hidden]))::before {
 }
 
 #home-view .water-monitoring-card {
-  max-width: 1040px;
-  margin-inline: auto;
   padding: clamp(16px, 2vw, 24px);
   border: 1px solid var(--line);
   border-radius: 22px;
