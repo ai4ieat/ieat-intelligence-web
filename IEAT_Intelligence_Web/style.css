@@ -12143,7 +12143,9 @@ main:has(> #home-view:not([hidden]))::before {
 }
 
 #home-view .water-monitoring-card {
-  padding: clamp(16px, 2.5vw, 28px);
+  max-width: 1040px;
+  margin-inline: auto;
+  padding: clamp(16px, 2vw, 24px);
   border: 1px solid var(--line);
   border-radius: 22px;
   background: var(--surface);
@@ -12154,7 +12156,7 @@ main:has(> #home-view:not([hidden]))::before {
   display: flex;
   align-items: center;
   gap: 14px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 #home-view .water-monitoring-icon {
