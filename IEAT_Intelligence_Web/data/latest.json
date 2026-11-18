@@ -2149,84 +2149,56 @@
             "id": "1",
             "kri_code": "S1",
             "risk_type": "Strategic",
-            "risk_name": "ความก้าวหน้าการลงทุนกลุ่มอุตสาหกรรม S-Curve",
-            "kri_description": "ไม่สามารถดึงดูดการลงทุนของอุตสาหกรรมเป้าหมาย (S-Curve/ New S-Curve) มูลค่าสูงเข้ามาลงทุนในนิคมอุตสาหกรรมได้",
-            "risk_appetite": "ไม่น้อยกว่า 2 โครงการ โดยมีมูลค่าการลงทุนรวมกันไม่น้อยกว่า 1,050 ล้านบาท",
-            "risk_tolerance": "ไม่น้อยกว่า 2 โครงการ โดยมีมูลค่าการลงทุนรวมกันไม่น้อยกว่า 1,000 ล้านบาท",
-            "risk_owner": "บร.",
-            "update": "สอดคล้องกับตัวชี้วัดบันทึกข้อตกลง :\n- ตัวชี้วัด 1.3\n- ระดับ 4 ไม่น้อยกว่า 2 โครงการ โดยมีมูลค่าการลงทุนรวมกันไม่น้อยกว่า 1,050 ล้านบาท\n- ระดับ 3 ไม่น้อยกว่า 2 โครงการ โดยมีมูลค่าการลงทุนรวมกันไม่น้อยกว่า 1,000 ล้านบาท",
-            "performance_level": "in_progress",
-            "performance_label": "ดำเนินงานได้ตามแผน",
+            "risk_name": "การพัฒนาธุรกิจใหม่และความร่วมมือ",
+            "kri_description": "การพัฒนารูปแบบธุรกิจและความร่วมมือเพื่อพัฒนาธุรกิจที่เกี่ยวเนื่องของ กนอ. มีความล่าช้า",
+            "risk_appetite": "กนอ. นำเสนอ สศช. เพื่อพิจารณา",
+            "risk_tolerance": "คณะกรรมการ กนอ. อนุมัติร่วมลงทุนในธุรกิจใหม่",
+            "risk_owner": "ผวก.",
+            "update": "ผลการบริหารความเสี่ยงองค์กร ปีงบประมาณ 2569\nKRI: การนำเสนอโครงการตาม New Business\n\nบรรลุเป้าหมายที่ยอมรับได้ (Risk Appetite : RA) \nกนอ. เสนองบประมาณประจำปี 2570 ของ กนอ. เพื่อลงทุน กับบริษัท บางกอกอินดัสเทรียลแก๊ส จำกัด (BIG) จำนวนเงิน 11.57 ล้านบาทต่อ สศช. เพื่อพิจารณาเรียบร้อยแล้ว\n\nผลประเมินระดับความเสี่ยง ณ 29 ก.ย. 69: สศช. พิจารณาอนุมัติงบลงทุนเพื่อลงทุนกับบริษัท บางกอกอินดัสเทรียลแก๊ส จำกัด (BIG) จำนวน 11.57 ล้านบาท ทำให้ Impact ลดลงจาก 2 เป็น 1",
+            "performance_level": "appetite",
+            "performance_label": "บรรลุเป้าหมาย Risk Appetite",
             "impact": 1,
             "likelihood": 1,
             "risk_zone": "low",
             "risk_color": "green",
             "risk_label": "ต่ำ",
             "color_hex": "",
-            "trend": "stable",
-            "last_update": "20 ตุลาคม 2569",
+            "trend": "improving",
+            "last_update": "29 กันยายน 2569",
             "actions": [
               {
                 "id": "1",
                 "kri_code": "S1",
                 "action_type": "Existing Control",
-                "action_text": "C1: Marketing DNA",
+                "action_text": "C1: การกำกับการจัดซื้อจัดจ้าง",
                 "display_order": 999
               },
               {
                 "id": "2",
                 "kri_code": "S1",
                 "action_type": "Existing Control",
-                "action_text": "C2: เร่งรัดและดึงดูดการลงทุน",
+                "action_text": "C2: การกำกับติดตามที่ปรึกษา",
                 "display_order": 999
               },
               {
                 "id": "3",
                 "kri_code": "S1",
-                "action_type": "Existing Control",
-                "action_text": "C3: แผนการตลาดและการขาย",
+                "action_type": "Mitigation Plan",
+                "action_text": "M1: กระบวนการสื่อสาร",
                 "display_order": 999
               },
               {
                 "id": "4",
                 "kri_code": "S1",
-                "action_type": "Existing Control",
-                "action_text": "C4: ติดตามสถานการณ์ของอนุฯ",
+                "action_type": "Mitigation Plan",
+                "action_text": "M2: ตรวจสอบและตรวจรับงาน",
                 "display_order": 999
               },
               {
                 "id": "5",
                 "kri_code": "S1",
-                "action_type": "Existing Control",
-                "action_text": "C5: แผนยุทธศาสตร์ลูกค้า",
-                "display_order": 999
-              },
-              {
-                "id": "6",
-                "kri_code": "S1",
-                "action_type": "Existing Control",
-                "action_text": "C6: Salesforce Platform",
-                "display_order": 999
-              },
-              {
-                "id": "7",
-                "kri_code": "S1",
                 "action_type": "Mitigation Plan",
-                "action_text": "M1: วิเคราะห์ข้อมูลความต้องการ",
-                "display_order": 999
-              },
-              {
-                "id": "8",
-                "kri_code": "S1",
-                "action_type": "Mitigation Plan",
-                "action_text": "M2: เป้าหมายและการแจ้งเตือน",
-                "display_order": 999
-              },
-              {
-                "id": "9",
-                "kri_code": "S1",
-                "action_type": "Mitigation Plan",
-                "action_text": "M3: สรรหาบุคลากรเพิ่ม/จัดอบรม",
+                "action_text": "M3: ติดตามผลการดำเนินงานอย่างต่อเนื่อง",
                 "display_order": 999
               }
             ],
@@ -2237,172 +2209,161 @@
             "id": "2",
             "kri_code": "S2",
             "risk_type": "Strategic",
-            "risk_name": "การพัฒนาและบูรณาการ I-E-A-T Core Platform",
-            "kri_description": "การพัฒนาและบูรณาการ I-EA-T Core Platform ไม่เป็นไปตาม Roadmap",
-            "risk_appetite": "ลงนามสัญญาจ้างภายในเดือน พ.ย. 69 และ Go Live ภายใน ก.ย.70",
-            "risk_tolerance": "ลงนามสัญญาจ้างภายในวันที่ 31 ธ.ค.69",
-            "risk_owner": "รผก.สผ.",
-            "update": "สอดคล้องกับตัวชี้วัดแผนวิสาหกิจ :\n- ตัวชี้วัด 14 \n- สามารถพัฒนาและบูรณาการ I-EA-T Core Platform ได้ตาม Roadmap",
-            "performance_level": "in_progress",
-            "performance_label": "ดำเนินงานได้ตามแผน",
+            "risk_name": "นิคมอุตสาหกรรมที่เป็นมิตรกับสิ่งแวดล้อม (SDGs I.E)",
+            "kri_description": "การพัฒนาเข้าสู่นิคมอุตสาหกรรมที่เป็นมิตรกับสิ่งแวดล้อมและมาตรฐานสากล (SDGs I.E) มีความล่าช้า",
+            "risk_appetite": "1. การประเมิน Gap Analysis นิคมฯ/ท่าเรือฯ เชิงนิเวศ ตามเกณฑ์ SDGs I.E. จำนวน 26 แห่ง\n2. นิคมฯ ที่บรรลุเป้าหมาย SDG 13 จำนวน 5 แห่ง",
+            "risk_tolerance": "1. การประเมิน Gap Analysis นิคมฯ/ท่าเรือฯ เชิงนิเวศ ตามเกณฑ์ SDGs I.E. จำนวน 24 แห่ง\n2. นิคมฯ ที่บรรลุเป้าหมาย SDG 13 จำนวน 4 แห่ง",
+            "risk_owner": "พย.",
+            "update": "ผลการบริหารความเสี่ยงองค์กร ปีงบประมาณ 2569\nKRI: 1. การประเมิน Gap Analysis นิคมฯ/ท่าเรือฯ เชิงนิเวศ ตามเกณฑ์ตัวชี้วัด SDGs I.E.\n2. นิคมฯ ที่บรรลุเป้าหมาย SDG 13\n\nบรรลุเป้าหมายที่ยอมรับได้ (Risk Appetite : RA) \n1. ประเมิน Gap Analysis นิคมฯ/ท่าเรือฯ เชิงนิเวศ ตามเกณฑ์ตัวชี้วัด SDGs I.E จำนวน 40 แห่ง\n2. นิคมฯ ที่บรรลุเป้าหมาย SDG 13 จำนวน 8 แห่ง\n\nขอบเขตตัวชี้วัด SDG 13: เฉพาะนิคมอุตสาหกรรมที่ กนอ. ดำเนินการเอง และท่าเรืออุตสาหกรรม",
+            "performance_level": "appetite",
+            "performance_label": "บรรลุเป้าหมาย Risk Appetite",
             "impact": 1,
             "likelihood": 1,
             "risk_zone": "low",
             "risk_color": "green",
             "risk_label": "ต่ำ",
             "color_hex": "",
-            "trend": "stable",
-            "last_update": "20 ตุลาคม 2569",
+            "trend": "improving",
+            "last_update": "29 กันยายน 2569",
             "actions": [
+              {
+                "id": "6",
+                "kri_code": "S2",
+                "action_type": "Existing Control",
+                "action_text": "C3: กำกับติดตามการรวบรวมข้อมูล",
+                "display_order": 999
+              },
+              {
+                "id": "7",
+                "kri_code": "S2",
+                "action_type": "Existing Control",
+                "action_text": "C4: ตรวจทานข้อมูลและทวนสอบความน่าเชื่อถือของ CFO",
+                "display_order": 999
+              },
+              {
+                "id": "8",
+                "kri_code": "S2",
+                "action_type": "Existing Control",
+                "action_text": "C5: การประเมิน Gap Analysis นิคมฯ / ท่าเรือฯ ตามเกณฑ์ตัวชี้วัด SDGs I.E.",
+                "display_order": 999
+              },
+              {
+                "id": "9",
+                "kri_code": "S2",
+                "action_type": "Mitigation Plan",
+                "action_text": "M4: จัดทำบันทึกแจ้งสายงานเพื่อเร่งรัดติดตาม",
+                "display_order": 999
+              },
               {
                 "id": "10",
                 "kri_code": "S2",
-                "action_type": "Existing Control",
-                "action_text": "C7: IEAT Smart e-Operation & Workflow Orchestration",
+                "action_type": "Mitigation Plan",
+                "action_text": "M5: จัดทำ Template รายการข้อมูล ติดตาม รวบรวมผล และจัดทำแนวทางการคำนวณ CFO",
                 "display_order": 999
               },
               {
                 "id": "11",
                 "kri_code": "S2",
-                "action_type": "Existing Control",
-                "action_text": "C8: REM Platform",
-                "display_order": 999
-              },
-              {
-                "id": "12",
-                "kri_code": "S2",
                 "action_type": "Mitigation Plan",
-                "action_text": "M4: ออกแบบรายละเอียดโครงการ",
-                "display_order": 999
-              },
-              {
-                "id": "13",
-                "kri_code": "S2",
-                "action_type": "Mitigation Plan",
-                "action_text": "M5: วิเคราะห์ As is และ to Be",
-                "display_order": 999
-              },
-              {
-                "id": "14",
-                "kri_code": "S2",
-                "action_type": "Mitigation Plan",
-                "action_text": "M6: กำหนดเป้าหมาย",
-                "display_order": 999
-              },
-              {
-                "id": "15",
-                "kri_code": "S2",
-                "action_type": "Mitigation Plan",
-                "action_text": "M7: วิเคราะห์ Gap",
-                "display_order": 999
-              },
-              {
-                "id": "16",
-                "kri_code": "S2",
-                "action_type": "Mitigation Plan",
-                "action_text": "M8: วิเคราะห์เชื่อมโยง WSWP",
-                "display_order": 999
-              },
-              {
-                "id": "17",
-                "kri_code": "S2",
-                "action_type": "Mitigation Plan",
-                "action_text": "M9: จัดลำดับความสำคัญข้อมูล",
-                "display_order": 999
-              },
-              {
-                "id": "18",
-                "kri_code": "S2",
-                "action_type": "Mitigation Plan",
-                "action_text": "M10: การติดตามและป้อนกลับ",
-                "display_order": 999
-              },
-              {
-                "id": "19",
-                "kri_code": "S2",
-                "action_type": "Mitigation Plan",
-                "action_text": "M11: สร้าง Change Management",
-                "display_order": 999
-              },
-              {
-                "id": "20",
-                "kri_code": "S2",
-                "action_type": "Mitigation Plan",
-                "action_text": "M12: การกำหนดผลลัพธ์",
+                "action_text": "M6: อบรมเพื่อให้ความรู้ความเข้าใจเพิ่มเติม ในมาตรฐาน SDG13 และการคำนวณ CFO",
                 "display_order": 999
               }
             ],
-            "metrics": [],
+            "metrics": [
+              {
+                "kri_code": "S2",
+                "metric_key": "sdgs_gap_assessment",
+                "metric_name": "การประเมิน Gap Analysis ตามเกณฑ์ SDGs I.E.",
+                "metric_group": "strategic",
+                "unit": "แห่ง",
+                "actual_value": 40,
+                "risk_appetite_value": 26,
+                "risk_tolerance_value": 24,
+                "direction": "higher_is_better",
+                "status": "appetite",
+                "status_label": "Risk Appetite",
+                "status_label_th": "บรรลุเป้าหมาย",
+                "display_order": 1
+              },
+              {
+                "kri_code": "S2",
+                "metric_key": "sdg13_estates",
+                "metric_name": "นิคมฯ ที่บรรลุเป้าหมาย SDG 13",
+                "metric_group": "strategic",
+                "unit": "แห่ง",
+                "actual_value": 8,
+                "risk_appetite_value": 5,
+                "risk_tolerance_value": 4,
+                "direction": "higher_is_better",
+                "status": "appetite",
+                "status_label": "Risk Appetite",
+                "status_label_th": "บรรลุเป้าหมาย",
+                "display_order": 2
+              }
+            ],
             "display_order": 999
           },
           {
             "id": "3",
             "kri_code": "S3",
             "risk_type": "Strategic",
-            "risk_name": "Green Technology Solution",
-            "kri_description": "การผลักดัน Green Technology Solution เพื่อนำมาใช้ในนิคมอุตสาหกรรมไม่เป็นไปตามเป้าหมาย",
-            "risk_appetite": "จำนวน 5 โครงการ ภายในเดือน ส.ค.70",
-            "risk_tolerance": "จำนวน 5 โครงการ ภายในเดือน ก.ย.70",
-            "risk_owner": "รผก.พย.",
-            "update": "สอดคล้องกับตัวชี้วัดบันทึกข้อตกลง :\n- ตัวชี้วัด 2.5\n- ระดับ 4 คณะกรรมการ กนอ. อนุมัติในหลักการการนำ Green Technology Solution มาใช้ในนิคมอุตสาหกรรม 5 โครงการ ภายใน ส.ค.70\n- ระดับ 3 คณะกรรมการ กนอ. อนุมัติในหลักการการนำ Green Technology Solution มาใช้ในนิคมอุตสาหกรรม 5 โครงการ ภายใน ส.ค.70",
-            "performance_level": "in_progress",
-            "performance_label": "ดำเนินงานได้ตามแผน",
+            "risk_name": "Green Transition และเทคโนโลยีดักจับคาร์บอน",
+            "kri_description": "การสร้างอุตสาหกรรมเศรษฐกิจใหม่ที่เป็นมิตรกับสิ่งแวดล้อม (Green Transition) ไม่เป็นไปตามเป้าหมาย",
+            "risk_appetite": "(ร่าง) แผนฯ เสนอผู้บริหาร กนอ.",
+            "risk_tolerance": "-",
+            "risk_owner": "พย.",
+            "update": "ผลการบริหารความเสี่ยงองค์กร ปีงบประมาณ 2569\nKRI: ความก้าวหน้าการจัดทำแผนธุรกิจและความเป็นไปได้ทางเศรษฐศาสตร์ในการติดตั้งเทคโนโลยีดักจับคาร์บอนของ กนอ.\n\nบรรลุเป้าหมายที่ยอมรับได้ (Risk Appetite : RA)\nจัดทำ (ร่าง) แผนฯ เสนอ รผก.พย. เรียบร้อยแล้ว",
+            "performance_level": "appetite",
+            "performance_label": "บรรลุเป้าหมาย Risk Appetite",
             "impact": 1,
             "likelihood": 3,
             "risk_zone": "low",
             "risk_color": "green",
             "risk_label": "ต่ำ",
             "color_hex": "",
-            "trend": "stable",
-            "last_update": "20 ตุลาคม 2569",
+            "trend": "improving",
+            "last_update": "29 กันยายน 2569",
             "actions": [
               {
-                "id": "21",
+                "id": "12",
                 "kri_code": "S3",
                 "action_type": "Existing Control",
-                "action_text": "C9: Green Transition",
+                "action_text": "C6: ระเบียบพัสดุฯ",
                 "display_order": 999
               },
               {
-                "id": "22",
+                "id": "13",
                 "kri_code": "S3",
-                "action_type": "Mitigation Plan",
-                "action_text": "M13: ฐานข้อมูลคัดเลือกโครงการ",
+                "action_type": "Existing Control",
+                "action_text": "C7: คณะทำงานขับเคลื่อนการพัฒนาอุตสาหกรรมตามแนวทางเศรษฐกิจใหม่ที่เป็นมิตรกับสิ่งแวดล้อม (Green Transition to New Economy)",
                 "display_order": 999
               },
               {
-                "id": "23",
+                "id": "14",
                 "kri_code": "S3",
-                "action_type": "Mitigation Plan",
-                "action_text": "M14: ทบทวนเป้าหมายหลักเกณฑ์",
+                "action_type": "Existing Control",
+                "action_text": "C8: โครงการศึกษาศักยภาพทางเทคโนโลยีและแผนธุรกิจในการติดตั้งเทคโนโลยีดักจับคาร์บอน (Carbon Capture) ในพื้นที่ กนอ.",
                 "display_order": 999
               },
               {
-                "id": "24",
+                "id": "15",
                 "kri_code": "S3",
                 "action_type": "Mitigation Plan",
-                "action_text": "M15: หลักเกณฑ์มิติผลประโยชน์",
+                "action_text": "M7: จัดทำ List ที่ปรึกษาที่มีความชำนาญ/เชี่ยวชาญเทคโนโลยีการดักจับคาร์บอน",
                 "display_order": 999
               },
               {
-                "id": "25",
+                "id": "16",
                 "kri_code": "S3",
                 "action_type": "Mitigation Plan",
-                "action_text": "M16: หลักเกณฑ์ Market Testing/ทดลองใช้จริง",
+                "action_text": "M8: ตั้งคณะกรรมการ Steering Committee และการกำกับติดตามการดำเนินโครงการฯ",
                 "display_order": 999
               },
               {
-                "id": "26",
+                "id": "17",
                 "kri_code": "S3",
                 "action_type": "Mitigation Plan",
-                "action_text": "M17: สื่อสารประชาสัมพันธ์",
-                "display_order": 999
-              },
-              {
-                "id": "27",
-                "kri_code": "S3",
-                "action_type": "Mitigation Plan",
-                "action_text": "M18: ข้อมูลความคืบหน้าโครงการ",
+                "action_text": "M9: เร่งรัดกระบวนการจัดซื้อจัดจ้างให้แล้วเสร็จ (เพิ่มผู้รับผิดชอบ บุคลากร และเพิ่มความถี่ในการกำกับติดตามเป็นรายสัปดาห์)",
                 "display_order": 999
               }
             ],
@@ -2411,107 +2372,86 @@
           },
           {
             "id": "4",
-            "kri_code": "S4",
-            "risk_type": "Strategic",
-            "risk_name": "ระยะเวลาอนุมัติ/อนุญาต และ ความพึงพอใจ",
-            "kri_description": "ไม่สามารถลดระยะเวลาอนุมัติอนุญาตผู้ประกอบการได้ตามเป้าหมาย",
-            "risk_appetite": "1. ระยะเวลาอนุมัติ/อนุญาตผู้ประกอบการเฉลี่ย\n- ลดลงไม่น้อยกว่าร้อยละ 15\n2. ผลคะแนนความพึงพอใจด้านระยะเวลาอนุมัติอนุญาต\n- คะแนนสูงกว่าปีก่อนหน้า",
-            "risk_tolerance": "1. ระยะเวลาอนุมัติ/อนุญาตผู้ประกอบการเฉลี่ย\n- ลดลงไม่น้อยกว่าร้อยละ 10\n2. ผลคะแนนความพึงพอใจด้านระยะเวลาอนุมัติอนุญาต\n- ไม่ลดลงกว่าปีก่อนหน้า",
-            "risk_owner": "ฝบก.",
-            "update": "สอดคล้องกับตัวชี้วัดแผนวิสาหกิจ :\n- ตัวชี้วัด 5\n- ระยะเวลาอนุมัติ/อนุญาตผู้ประกอบการเฉลี่ยลดลงไม่น้อยกว่าร้อยละ 10",
-            "performance_level": "in_progress",
-            "performance_label": "ดำเนินงานได้ตามแผน",
-            "impact": 2,
-            "likelihood": 2,
-            "risk_zone": "medium",
-            "risk_color": "yellow",
-            "risk_label": "ปานกลาง",
+            "kri_code": "O1",
+            "risk_type": "Operation",
+            "risk_name": "การขับเคลื่อนองค์กรด้วยเทคโนโลยีดิจิทัล",
+            "kri_description": "การส่งเสริมและพัฒนาขีดความสามารถด้วยเทคโนโลยีดิจิทัลเพื่อการขับเคลื่อนองค์กรอย่างมีประสิทธิภาพไม่เป็นไปตามเป้าหมาย",
+            "risk_appetite": "ทุกกระบวนการหลัก (Core process) \nใช้ Digitalized ในรูปแบบบูรณาการ \nทำให้การปฏิบัติงานเป็นไปอย่างมีประสิทธิภาพ",
+            "risk_tolerance": "-",
+            "risk_owner": "ผวก.",
+            "update": "ผลการบริหารความเสี่ยงองค์กร ปีงบประมาณ 2569\nKRI: กระบวนการหลัก (Core process) ใช้ Digitalized ในรูปแบบบูรณาการ ทำให้การปฏิบัติงานเป็นไปอย่างมีประสิทธิภาพ\n\nบรรลุเป้าหมายที่ยอมรับได้ (Risk Appetite : RA) ทุกกระบวนการหลัก (Core process) ใช้ Digitalized ในรูปแบบบูรณาการ ทำให้การปฏิบัติงานเป็นไปอย่างมีประสิทธิภาพ ประกอบด้วย\n1. กระบวนการบริหารท่าเรืออุตสาหกรรม\n2. กระบวนการอนุมัติ/อนุญาตนิคมอุตสาหกรรม\n3. กระบวนการอนุมัติ/อนุญาตท่าเรือ\n\nความสำเร็จของการดำเนินงานตามแผนการพัฒนาเทคโนโลยีดิจิทัลของกระบวนการหลักตามแผนที่กำหนด ร้อยละ 100 ทำให้ Likelihood ลดลงจาก 3 เป็น 1",
+            "performance_level": "appetite",
+            "performance_label": "บรรลุเป้าหมาย Risk Appetite",
+            "impact": 3,
+            "likelihood": 1,
+            "risk_zone": "low",
+            "risk_color": "green",
+            "risk_label": "ต่ำ",
             "color_hex": "",
-            "trend": "stable",
-            "last_update": "20 ตุลาคม 2569",
+            "trend": "improving",
+            "last_update": "29 กันยายน 2569",
             "actions": [
               {
-                "id": "28",
-                "kri_code": "S4",
+                "id": "18",
+                "kri_code": "O1",
                 "action_type": "Existing Control",
-                "action_text": "C10: กำหนด Required Field",
+                "action_text": "C9: กำหนดความรู้การใช้งานดิจิทัล สำหรับบุคลากรฯ",
                 "display_order": 999
               },
               {
-                "id": "29",
-                "kri_code": "S4",
+                "id": "19",
+                "kri_code": "O1",
                 "action_type": "Existing Control",
-                "action_text": "C11: ทดสอบระบบก่อนใช้งาน",
+                "action_text": "C10: อบรมการใช้งานระบบการใช้งานระบบงานต่างๆ ที่ได้พัฒนาขึ้น",
                 "display_order": 999
               },
               {
-                "id": "30",
-                "kri_code": "S4",
+                "id": "20",
+                "kri_code": "O1",
                 "action_type": "Existing Control",
-                "action_text": "C12: เจ้าหน้าที่ให้คำแนะนำ",
+                "action_text": "C11: กำกับดูแลผู้พัฒนาระบบในระหว่างการเก็บ Requirement",
                 "display_order": 999
               },
               {
-                "id": "31",
-                "kri_code": "S4",
+                "id": "21",
+                "kri_code": "O1",
                 "action_type": "Existing Control",
-                "action_text": "C13: หารือร่วมกับแผนแม่บท",
+                "action_text": "C12: จัดทำแผนเชื่อมโยงข้อมูลทั้งภายในและภายนอก",
                 "display_order": 999
               },
               {
-                "id": "32",
-                "kri_code": "S4",
+                "id": "22",
+                "kri_code": "O1",
                 "action_type": "Existing Control",
-                "action_text": "C14: ปรับปรุงการทำงานของแพลตฟอร์ม",
+                "action_text": "C13: ติดตามกระบวนการจัดซื้อจัดจ้างอย่างต่อเนื่อง",
                 "display_order": 999
               },
               {
-                "id": "33",
-                "kri_code": "S4",
+                "id": "23",
+                "kri_code": "O1",
                 "action_type": "Mitigation Plan",
-                "action_text": "M19: วิเคราะห์สาเหตุคำขอที่ส่งกลับแก้ไข",
+                "action_text": "M10: เพิ่มการรับรู้และเข้าใจของระบบ work system work process ใหม่ และจัดอบรม เพิ่มทักษะด้านเทคโนโลยีสารสนเทศ",
                 "display_order": 999
               },
               {
-                "id": "34",
-                "kri_code": "S4",
+                "id": "24",
+                "kri_code": "O1",
                 "action_type": "Mitigation Plan",
-                "action_text": "M20: ปรับปรุงเงื่อนไขการตรวจสอบ",
+                "action_text": "M10: จัดเก็บ requirementพร้อมทั้งกำกับดูแลผู้พัฒนาระบบให้รายงานผลการเก็บ requirement",
                 "display_order": 999
               },
               {
-                "id": "35",
-                "kri_code": "S4",
+                "id": "25",
+                "kri_code": "O1",
                 "action_type": "Mitigation Plan",
-                "action_text": "M21: นำข้อผิดพลาดมาปรับปรุง",
+                "action_text": "M11: จัดประชุมเพื่อสรุปข้อมูลที่ต้องการจะเชื่อมโยง/การจัดประชุมในระดับนโยบาย เช่น Data Government Council ของหน่วยงาน",
                 "display_order": 999
               },
               {
-                "id": "36",
-                "kri_code": "S4",
+                "id": "26",
+                "kri_code": "O1",
                 "action_type": "Mitigation Plan",
-                "action_text": "M22: จัดอบรม/Workshop",
-                "display_order": 999
-              },
-              {
-                "id": "37",
-                "kri_code": "S4",
-                "action_type": "Mitigation Plan",
-                "action_text": "M23: ทบทวนกระบวนการ",
-                "display_order": 999
-              },
-              {
-                "id": "38",
-                "kri_code": "S4",
-                "action_type": "Mitigation Plan",
-                "action_text": "M24: Transition period",
-                "display_order": 999
-              },
-              {
-                "id": "39",
-                "kri_code": "S4",
-                "action_type": "Mitigation Plan",
-                "action_text": "M25: วิเคราะห์ Sub process",
+                "action_text": "M12: การเร่งรัด Vendor",
                 "display_order": 999
               }
             ],
@@ -2520,304 +2460,548 @@
           },
           {
             "id": "5",
-            "kri_code": "O1",
+            "kri_code": "O2",
             "risk_type": "Operation",
-            "risk_name": "การพัฒนาบุคลากรศักยภาพสูง",
-            "kri_description": "การพัฒนาบุคลากรศักยภาพสูง (Talent/ Successor) ไม่เป็นไปตามเป้าหมาย",
-            "risk_appetite": "1. จำนวน Successor ในตำแหน่งงานที่สำคัญ\n- 100%\r\n2. ผลงาน Talent/การปรับปรุงกระบวนการทำงาน\n- 25 กระบวนการ (สะสม)",
-            "risk_tolerance": "1. จำนวน Successor ในตำแหน่งงานที่สำคัญ\n- 95%\n2. ผลงาน Talent/การปรับปรุงกระบวนการทำงาน\n- 20 กระบวนการ (สะสม)",
-            "risk_owner": "รผก.บร.",
-            "update": "สอดคล้องกับตัวชี้วัดแผนวิสาหกิจ :\n- ตัวชี้วัด 13\n- 1. ผลงาน Talent/การปรับปรุงกระบวนการทำงาน 20 เรื่อง (สะสม)\n- 2. พัฒนา Successor ครอบคลุมตำแหน่งที่สำคัญไม่น้อยกว่าร้อยละ 95",
-            "performance_level": "in_progress",
-            "performance_label": "ดำเนินงานได้ตามแผน",
+            "risk_name": "ความเชื่อมั่นของผู้มีส่วนได้ส่วนเสีย",
+            "kri_description": "ระดับความพึงพอใจยังไม่สะท้อนความเชื่อมั่นของผู้มีส่วนได้ส่วนเสีย",
+            "risk_appetite": "ระดับความเชื่อมั่นของผู้มีส่วนได้ส่วนเสียมากกว่า 4.6",
+            "risk_tolerance": "ระดับความเชื่อมั่นของผู้มีส่วนได้ส่วนเสียมากกว่า 4.5",
+            "risk_owner": "หลัก : สายงาน พย.\nสนับสนุน : ทุกสายงาน",
+            "update": "ผลการบริหารความเสี่ยงองค์กร ปีงบประมาณ 2569\nKRI: ระดับความเชื่อมั่นของผู้มีส่วนได้ส่วนเสีย\n\nบรรลุเป้าหมายที่ยอมรับได้ (Risk Appetite : RA) \nระดับความเชื่อมั่นของผู้มีส่วนได้ส่วนเสีย เท่ากับ 4.82",
+            "performance_level": "appetite",
+            "performance_label": "บรรลุเป้าหมาย Risk Appetite",
             "impact": 1,
-            "likelihood": 2,
+            "likelihood": 1,
             "risk_zone": "low",
             "risk_color": "green",
             "risk_label": "ต่ำ",
             "color_hex": "",
-            "trend": "stable",
-            "last_update": "20 ตุลาคม 2569",
+            "trend": "improving",
+            "last_update": "29 กันยายน 2569",
             "actions": [
               {
-                "id": "40",
-                "kri_code": "O1",
+                "id": "27",
+                "kri_code": "O2",
                 "action_type": "Existing Control",
-                "action_text": "C15: แผนงาน Talent & Successor",
+                "action_text": "C14: การสำรวจความเชื่อมั่นผู้มีส่วนได้ส่วนเสีย",
                 "display_order": 999
               },
               {
-                "id": "41",
-                "kri_code": "O1",
+                "id": "28",
+                "kri_code": "O2",
                 "action_type": "Existing Control",
-                "action_text": "C16: ผลลัพธ์การขึ้นตำแหน่ง",
+                "action_text": "C15: โครงการยกระดับการดำเนินงานด้านคุณธรรมและความโปร่งใสของ กนอ.",
                 "display_order": 999
               },
               {
-                "id": "42",
-                "kri_code": "O1",
+                "id": "29",
+                "kri_code": "O2",
                 "action_type": "Existing Control",
-                "action_text": "C17: อธิบายการระบุตำแหน่งสำคัญ",
+                "action_text": "C16.1: Customer Visit",
                 "display_order": 999
               },
               {
-                "id": "43",
-                "kri_code": "O1",
+                "id": "30",
+                "kri_code": "O2",
                 "action_type": "Existing Control",
-                "action_text": "C18: การให้ Extra Incentive",
+                "action_text": "C16.2: Partner & Factory Visit",
                 "display_order": 999
               },
               {
-                "id": "44",
-                "kri_code": "O1",
-                "action_type": "Mitigation Plan",
-                "action_text": "M26: แผนติดตามความคืบหน้า",
+                "id": "31",
+                "kri_code": "O2",
+                "action_type": "Existing Control",
+                "action_text": "C17: การตอบสนองข้อร้องเรียน",
                 "display_order": 999
               },
               {
-                "id": "45",
-                "kri_code": "O1",
-                "action_type": "Mitigation Plan",
-                "action_text": "M27: วิเคราะห์ตำแหน่งสำคัญ",
+                "id": "32",
+                "kri_code": "O2",
+                "action_type": "Existing Control",
+                "action_text": "C18.1: แผนรับมือสถานการณ์วิกฤติ การบริหารความต่อเนื่องทางธุรกิจ (BCM)",
                 "display_order": 999
               },
               {
-                "id": "46",
-                "kri_code": "O1",
-                "action_type": "Mitigation Plan",
-                "action_text": "M28: การประเมินผลศักยภาพ",
+                "id": "33",
+                "kri_code": "O2",
+                "action_type": "Existing Control",
+                "action_text": "C18.2: โครงการกำกับดูแลและบริหารจัดการด้านความปลอดภัย",
                 "display_order": 999
               },
               {
-                "id": "47",
-                "kri_code": "O1",
-                "action_type": "Mitigation Plan",
-                "action_text": "M29: สำรวจความต้องการอบรม",
+                "id": "34",
+                "kri_code": "O2",
+                "action_type": "Existing Control",
+                "action_text": "C18.3: โครงการพัฒนาศักยภาพเจ้าหน้าที่ กนอ. และผู้ประกอบการในด้านความปลอดภัย",
                 "display_order": 999
               },
               {
-                "id": "48",
-                "kri_code": "O1",
+                "id": "35",
+                "kri_code": "O2",
+                "action_type": "Existing Control",
+                "action_text": "C18.4: โครงการยกระดับการจัดการความปลอดภัยของโรงงานในนิคมอุตสาหกรรม",
+                "display_order": 999
+              },
+              {
+                "id": "36",
+                "kri_code": "O2",
                 "action_type": "Mitigation Plan",
-                "action_text": "M30: ทบทวนกระบวนการสรรหา",
+                "action_text": "M14: เพิ่มข้อคำถามมุ่งเน้นประเด็นความเชื่อมั่นของผู้มีส่วนได้ส่วนเสีย",
+                "display_order": 999
+              },
+              {
+                "id": "37",
+                "kri_code": "O2",
+                "action_type": "Mitigation Plan",
+                "action_text": "M15: เปิดเผยข้อมูลอย่างสม่ำเสมอผ่านช่องทางสาธารณะ (Proactive Disclosure)",
                 "display_order": 999
               }
             ],
-            "metrics": [],
+            "metrics": [
+              {
+                "kri_code": "O2",
+                "metric_key": "stakeholder_confidence",
+                "metric_name": "ระดับความเชื่อมั่นของผู้มีส่วนได้ส่วนเสีย",
+                "metric_group": "operation",
+                "unit": "คะแนน",
+                "actual_value": 4.82,
+                "risk_appetite_value": 4.6,
+                "risk_tolerance_value": 4.5,
+                "direction": "higher_is_better",
+                "status": "appetite",
+                "status_label": "Risk Appetite",
+                "status_label_th": "บรรลุเป้าหมาย",
+                "display_order": 1
+              }
+            ],
             "display_order": 999
           },
           {
             "id": "6",
-            "kri_code": "O2",
+            "kri_code": "O3",
             "risk_type": "Operation",
-            "risk_name": "Digital Innovation Process",
-            "kri_description": "การพัฒนา Digital Innovation Process ในกระบวนการทำงานหลัก (Core Process) ล่าช้า",
-            "risk_appetite": "1. นวัตกรรมที่นำไปใช้ประโยชน์เชิงพาณิชย์\n- จำนวน 6 ผลงาน\n2. การพัฒนา Digital Innovation Process ในกระบวนการทำงานหลัก (Core process)\n- ไม่น้อยกว่าร้อยละ 75\n3. มูลค่าเพิ่มที่เกิดจากการนำนวัตกรรมไปใช้ให้เกิดประโยชน์เชิงพาณิชย์\n- จำนวน 4 ล้านบาท\n4. พันธมิตรความร่วมมือด้านนวัตกรรม\n- จำนวน 5 ราย",
-            "risk_tolerance": "1. นวัตกรรมที่นำไปใช้ประโยชน์เชิงพาณิชย์\n- จำนวน 5 ผลงาน\n2. การพัฒนา Digital Innovation Process ในกระบวนการทำงานหลัก (Core process)\n- ไม่น้อยกว่าร้อยละ 70\n3. มูลค่าเพิ่มที่เกิดจากการนำนวัตกรรมไปใช้ให้เกิดประโยชน์เชิงพาณิชย์\n- จำนวน 3 ล้านบาท\n4. พันธมิตรความร่วมมือด้านนวัตกรรม\n- จำนวน 4 ราย",
-            "risk_owner": "รผก.บร.",
-            "update": "สอดคล้องกับตัวชี้วัดแผนวิสาหกิจ :\n- ตัวชี้วัด 15 \n- มีการพัฒนา Digital Innovation Process ในกระบวนการหลัก (Core process)",
-            "performance_level": "in_progress",
-            "performance_label": "ดำเนินงานได้ตามแผน",
-            "impact": 3,
-            "likelihood": 2,
-            "risk_zone": "medium",
-            "risk_color": "yellow",
-            "risk_label": "ปานกลาง",
+            "risk_name": "การขาย/ให้เช่าพื้นที่นิคมอุตสาหกรรม",
+            "kri_description": "การขายเช่าพื้นที่ไม่เป็นไปตามเป้าหมาย",
+            "risk_appetite": "การขาย/ให้เช่านิคมอุตสาหกรรมไม่น้อยกว่า 4,454 ไร่ และนิคมฯ Smart Park ไม่น้อยกว่า 62 ไร่ ภายใน ก.ย. 69",
+            "risk_tolerance": "การขาย/ให้เช่านิคมอุตสาหกรรมไม่น้อยกว่า 4,138 ไร่ และนิคมฯ Smart Park ไม่น้อยกว่า 62 ไร่ ภายใน ก.ย. 69",
+            "risk_owner": "บร.",
+            "update": "ผลการบริหารความเสี่ยงองค์กร ปีงบประมาณ 2569\nKRI: ความก้าวหน้าการขาย/ให้เช่านิคมฯ\n\nบรรลุเป้าหมายที่ยอมรับได้ (Risk Appetite : RA) \nความก้าวหน้าการขาย/ให้เช่านิคมฯ จำนวน 5,772 ไร่และนิคมฯ Smart Park 71.53 ไร่\n\nดำเนินงานแผนโครงการขาย/ให้เช่าพื้นที่นิคมอุตสาหกรรมครบถ้วนร้อยละ 100 จัดกิจกรรม I-EA-T Networking Camp กับหน่วยงานภาครัฐ และออกโปรโมชั่นส่งเสริมการขายเช่าพื้นที่ได้ตามระยะเวลาที่กำหนด ทำให้ Likelihood ลดลงจาก 4 เป็น 1",
+            "performance_level": "appetite",
+            "performance_label": "บรรลุเป้าหมาย Risk Appetite",
+            "impact": 1,
+            "likelihood": 1,
+            "risk_zone": "low",
+            "risk_color": "green",
+            "risk_label": "ต่ำ",
             "color_hex": "",
-            "trend": "stable",
-            "last_update": "20 ตุลาคม 2569",
+            "trend": "improving",
+            "last_update": "29 กันยายน 2569",
             "actions": [
               {
-                "id": "49",
-                "kri_code": "O2",
+                "id": "38",
+                "kri_code": "O3",
                 "action_type": "Existing Control",
-                "action_text": "C19: อบรม Digital Inno Process",
+                "action_text": "C19: แผนงานสร้างบุคลากรด้านการตลาด “ถอดรหัส Marketing DNA”",
                 "display_order": 999
               },
               {
-                "id": "50",
-                "kri_code": "O2",
+                "id": "39",
+                "kri_code": "O3",
                 "action_type": "Existing Control",
-                "action_text": "C20: สื่อสาร สร้างความตระหนัก",
+                "action_text": "C20: กิจกรรมด้านการตลาดผ่านเครือข่ายหน่วยงานด้านการส่งเสริมการลงทุนทั้งในประเทศและต่างประเทศ",
                 "display_order": 999
               },
               {
-                "id": "51",
-                "kri_code": "O2",
+                "id": "40",
+                "kri_code": "O3",
                 "action_type": "Existing Control",
-                "action_text": "C21: พัฒนาความรู้ ทักษะ",
+                "action_text": "C21: มาตรการส่งเสริมการเช่าที่ดิน (Promotion)",
                 "display_order": 999
               },
               {
-                "id": "52",
-                "kri_code": "O2",
-                "action_type": "Mitigation Plan",
-                "action_text": "M32: อบรมนำ Digital/AI มาใช้",
+                "id": "41",
+                "kri_code": "O3",
+                "action_type": "Existing Control",
+                "action_text": "C22: โครงการเพิ่มศักยภาพการแข่งขันของลูกค้า (Enhancing Customer’s Competitiveness)",
                 "display_order": 999
               },
               {
-                "id": "53",
-                "kri_code": "O2",
-                "action_type": "Mitigation Plan",
-                "action_text": "M33: พี่เลี้ยงแก่หน่วยงาน",
+                "id": "42",
+                "kri_code": "O3",
+                "action_type": "Existing Control",
+                "action_text": "C23: โครงการขาย/ให้เช่าพื้นที่นิคมอุตสาหกรรม",
                 "display_order": 999
               },
               {
-                "id": "54",
-                "kri_code": "O2",
-                "action_type": "Mitigation Plan",
-                "action_text": "M34: แผนการสื่อสารของผู้บริหาร",
+                "id": "43",
+                "kri_code": "O3",
+                "action_type": "Existing Control",
+                "action_text": "C24: การเปลี่ยนแปลงรายงาน EIA ของนิคมฯ Smart Park",
                 "display_order": 999
               },
               {
-                "id": "55",
-                "kri_code": "O2",
+                "id": "44",
+                "kri_code": "O3",
                 "action_type": "Mitigation Plan",
-                "action_text": "M35: กำหนดสิ่งจูงใจ",
+                "action_text": "M16: แผนดำเนินงานด้านการตลาดและการขาย โครงการพัฒนาแพลตฟอร์ม AI เพื่อสนับสนุนข้อมูลกลางของ กนอ.",
                 "display_order": 999
               },
               {
-                "id": "56",
-                "kri_code": "O2",
+                "id": "45",
+                "kri_code": "O3",
                 "action_type": "Mitigation Plan",
-                "action_text": "M36: เชื่อมโยงกับ PMS",
-                "display_order": 999
-              },
-              {
-                "id": "57",
-                "kri_code": "O2",
-                "action_type": "Mitigation Plan",
-                "action_text": "M37: สอบถาม และสรรหา AI",
-                "display_order": 999
-              },
-              {
-                "id": "58",
-                "kri_code": "O2",
-                "action_type": "Mitigation Plan",
-                "action_text": "M38: On-the-job Training",
-                "display_order": 999
-              },
-              {
-                "id": "59",
-                "kri_code": "O2",
-                "action_type": "Mitigation Plan",
-                "action_text": "M39: SPRINT",
-                "display_order": 999
-              },
-              {
-                "id": "60",
-                "kri_code": "O2",
-                "action_type": "Mitigation Plan",
-                "action_text": "M40: MOU กับพันธมิตร",
+                "action_text": "M17: ติดตามเร่งรัดการลงทุน",
                 "display_order": 999
               }
             ],
-            "metrics": [],
+            "metrics": [
+              {
+                "kri_code": "O3",
+                "metric_key": "land_sales_leases",
+                "metric_name": "การขาย/ให้เช่าพื้นที่นิคมอุตสาหกรรม",
+                "metric_group": "operation",
+                "unit": "ไร่",
+                "actual_value": 5772,
+                "risk_appetite_value": 4454,
+                "risk_tolerance_value": 4138,
+                "direction": "higher_is_better",
+                "status": "appetite",
+                "status_label": "Risk Appetite",
+                "status_label_th": "บรรลุเป้าหมาย",
+                "display_order": 1
+              },
+              {
+                "kri_code": "O3",
+                "metric_key": "smart_park_sales_leases",
+                "metric_name": "การขาย/ให้เช่าพื้นที่นิคมฯ Smart Park",
+                "metric_group": "operation",
+                "unit": "ไร่",
+                "actual_value": 71.53,
+                "risk_appetite_value": 62,
+                "risk_tolerance_value": 62,
+                "direction": "higher_is_better",
+                "status": "appetite",
+                "status_label": "Risk Appetite",
+                "status_label_th": "บรรลุเป้าหมาย",
+                "display_order": 2
+              }
+            ],
             "display_order": 999
           },
           {
             "id": "7",
+            "kri_code": "O4",
+            "risk_type": "Operation",
+            "risk_name": "การพัฒนาบุคลากรศักยภาพสูง (Successor/Talent)",
+            "kri_description": "การพัฒนาบุคลากรศักยภาพสูง (ระบบ Successor/ Talent) ไม่เป็นไปตามเป้าหมาย",
+            "risk_appetite": "1. Successor ครอบคลุมตำแหน่งงานที่สำคัญ 95%\n2. ผลงาน Talent/การปรับปรุงกระบวนการทำงาน 16 (สะสม) และบรรลุข้อเสนอโครงการ 10 โครงการ",
+            "risk_tolerance": "1. Successor ครอบคลุมตำแหน่งงานที่สำคัญ 90%\n2. ผลงาน Talent/การปรับปรุงกระบวนการทำงาน 15 (สะสม) และบรรลุข้อเสนอโครงการ 8 โครงการ",
+            "risk_owner": "บร.",
+            "update": "ผลการบริหารความเสี่ยงองค์กร ปีงบประมาณ 2569\nKRI: 1. จำนวน Successor ในตำแหน่งงานที่สำคัญ \n2. ผลงาน Talent /การปรับปรุงกระบวนการทำงาน และต้องบรรลุข้อเสนอโครงการ\n\nบรรลุเป้าหมายที่ยอมรับได้ (Risk Appetite : RA) \n1. Successor ครอบคลุมในตำแหน่งงานที่สำคัญ 98%\n2. ผลงาน Talent /การปรับปรุงกระบวนการทำงาน 40 (สะสม) และบรรลุข้อเสนอโครงการ 14 โครงการ\n\nความสำเร็จของการพัฒนา Talent และ Successor ตามแผนงานที่กำหนดไว้ 100% ทำให้ Likelihood ลดลงจาก 5 เป็น 1",
+            "performance_level": "appetite",
+            "performance_label": "บรรลุเป้าหมาย Risk Appetite",
+            "impact": 1,
+            "likelihood": 1,
+            "risk_zone": "low",
+            "risk_color": "green",
+            "risk_label": "ต่ำ",
+            "color_hex": "",
+            "trend": "improving",
+            "last_update": "29 กันยายน 2569",
+            "actions": [
+              {
+                "id": "46",
+                "kri_code": "O4",
+                "action_type": "Existing Control",
+                "action_text": "C25: โครงการจัดทำแผน Talent & Successor",
+                "display_order": 999
+              },
+              {
+                "id": "47",
+                "kri_code": "O4",
+                "action_type": "Mitigation Plan",
+                "action_text": "M18: ทบทวนหลักเกณฑ์ กฎ ระเบียบที่เกี่ยวข้อง",
+                "display_order": 999
+              },
+              {
+                "id": "48",
+                "kri_code": "O4",
+                "action_type": "Mitigation Plan",
+                "action_text": "M19: แผนพัฒนา Talent & Successor",
+                "display_order": 999
+              },
+              {
+                "id": "49",
+                "kri_code": "O4",
+                "action_type": "Mitigation Plan",
+                "action_text": "M20: การติดตามคุณภาพผลงาน Talent/การปรับปรุงกระบวนการ",
+                "display_order": 999
+              }
+            ],
+            "metrics": [
+              {
+                "kri_code": "O4",
+                "metric_key": "successor_coverage",
+                "metric_name": "Successor ครอบคลุมตำแหน่งงานที่สำคัญ",
+                "metric_group": "operation",
+                "unit": "%",
+                "actual_value": 98,
+                "risk_appetite_value": 95,
+                "risk_tolerance_value": 90,
+                "direction": "higher_is_better",
+                "status": "appetite",
+                "status_label": "Risk Appetite",
+                "status_label_th": "บรรลุเป้าหมาย",
+                "display_order": 1
+              },
+              {
+                "kri_code": "O4",
+                "metric_key": "talent_process_improvements",
+                "metric_name": "ผลงาน Talent/การปรับปรุงกระบวนการทำงาน (สะสม)",
+                "metric_group": "operation",
+                "unit": "ผลงาน/กระบวนการ",
+                "actual_value": 40,
+                "risk_appetite_value": 16,
+                "risk_tolerance_value": 15,
+                "direction": "higher_is_better",
+                "status": "appetite",
+                "status_label": "Risk Appetite",
+                "status_label_th": "บรรลุเป้าหมาย",
+                "display_order": 2
+              },
+              {
+                "kri_code": "O4",
+                "metric_key": "talent_project_achievements",
+                "metric_name": "การบรรลุข้อเสนอโครงการ Talent",
+                "metric_group": "operation",
+                "unit": "โครงการ",
+                "actual_value": 14,
+                "risk_appetite_value": 10,
+                "risk_tolerance_value": 8,
+                "direction": "higher_is_better",
+                "status": "appetite",
+                "status_label": "Risk Appetite",
+                "status_label_th": "บรรลุเป้าหมาย",
+                "display_order": 3
+              }
+            ],
+            "display_order": 999
+          },
+          {
+            "id": "8",
+            "kri_code": "O5",
+            "risk_type": "Operation",
+            "risk_name": "นวัตกรรมองค์กรและมูลค่าเชิงพาณิชย์",
+            "kri_description": "การพัฒนาระบบนวัตกรรมองค์กร ไม่สามารถนำไปสู่การใช้ประโยชน์เชิงพาณิชย์และสร้างมูลค่าเพิ่มได้",
+            "risk_appetite": "1. มีการพัฒนาต่อยอดนวัตกรรมองค์กร จำนวน 4 นวัตกรรม\n2. นวัตกรรมมีมูลค่าเชิงพาณิชย์มากกว่า 2 ล้านบาท",
+            "risk_tolerance": "1. มีการพัฒนาต่อยอดนวัตกรรมองค์กร จำนวน 4 นวัตกรรม\n2. นวัตกรรมมีมูลค่าเชิงพาณิชย์น้อยกว่า 2 ล้านบาท",
+            "risk_owner": "",
+            "update": "ผลการบริหารความเสี่ยงองค์กร ปีงบประมาณ 2569\nKRI: 1. การพัฒนาต่อยอดนวัตกรรมองค์กร \n2. นวัตกรรมมีมูลค่าเชิงพาณิชย์\n\nบรรลุเป้าหมายที่ยอมรับได้ (Risk Appetite : RA) 1. การพัฒนาต่อยอดนวัตกรรมองค์กร 4 นวัตกรรม\n2. นวัตกรรมมีมูลค่าเชิงพาณิชย์ 2.756 ล้านบาท",
+            "performance_level": "appetite",
+            "performance_label": "บรรลุเป้าหมาย Risk Appetite",
+            "impact": 2,
+            "likelihood": 1,
+            "risk_zone": "low",
+            "risk_color": "green",
+            "risk_label": "ต่ำ",
+            "color_hex": "",
+            "trend": "improving",
+            "last_update": "29 กันยายน 2569",
+            "actions": [
+              {
+                "id": "50",
+                "kri_code": "O5",
+                "action_type": "Existing Control",
+                "action_text": "C26: การอบรมเชิงปฏิบัติการ SPRINT และหลักสูตรการพัฒนาด้าน Innovation",
+                "display_order": 999
+              },
+              {
+                "id": "51",
+                "kri_code": "O5",
+                "action_type": "Existing Control",
+                "action_text": "C27: Clinic นวัตกรรม & Hackathon",
+                "display_order": 999
+              },
+              {
+                "id": "52",
+                "kri_code": "O5",
+                "action_type": "Existing Control",
+                "action_text": "C28: จัดเตรียมพื้นที่ Creativity & Innovation Space ไว้ทำกิจกรรมของกลุ่มนวัตกรและ Sharing ด้าน Innovation",
+                "display_order": 999
+              },
+              {
+                "id": "53",
+                "kri_code": "O5",
+                "action_type": "Existing Control",
+                "action_text": "C29: การประกวดนวัตกรรม",
+                "display_order": 999
+              },
+              {
+                "id": "54",
+                "kri_code": "O5",
+                "action_type": "Existing Control",
+                "action_text": "C30: แผนการทบทวนนวัตกรรมองค์กร (CIS)",
+                "display_order": 999
+              },
+              {
+                "id": "55",
+                "kri_code": "O5",
+                "action_type": "Mitigation Plan",
+                "action_text": "M21: จัดอบรมหลักสูตรด้านนวัตกรรมหรือแผนการทำ SPRINT",
+                "display_order": 999
+              },
+              {
+                "id": "56",
+                "kri_code": "O5",
+                "action_type": "Mitigation Plan",
+                "action_text": "M22: อบรมทักษะ ความรู้ที่สอดคล้องกับ Gap ด้านนวัตกรรมที่จำเป็นต้องพัฒนา",
+                "display_order": 999
+              },
+              {
+                "id": "57",
+                "kri_code": "O5",
+                "action_type": "Mitigation Plan",
+                "action_text": "M23: แผนงานส่งเสริมสนับสนุนกิจกรรมด้านนวัตกรรม",
+                "display_order": 999
+              },
+              {
+                "id": "58",
+                "kri_code": "O5",
+                "action_type": "Mitigation Plan",
+                "action_text": "M24: ผลักดันการประกวด Open Innovation",
+                "display_order": 999
+              },
+              {
+                "id": "59",
+                "kri_code": "O5",
+                "action_type": "Mitigation Plan",
+                "action_text": "M25: เพิ่มกิจกรรมของ CIS ในการทบทวน Eco System",
+                "display_order": 999
+              },
+              {
+                "id": "60",
+                "kri_code": "O5",
+                "action_type": "Mitigation Plan",
+                "action_text": "M26: แผนการสร้างความร่วมมือกับผู้มีส่วนได้ส่วนเสียที่สำคัญด้านนวัตกรรม",
+                "display_order": 999
+              }
+            ],
+            "metrics": [
+              {
+                "kri_code": "O5",
+                "metric_key": "innovation_development",
+                "metric_name": "การพัฒนาต่อยอดนวัตกรรมองค์กร",
+                "metric_group": "operation",
+                "unit": "นวัตกรรม",
+                "actual_value": 4,
+                "risk_appetite_value": 4,
+                "risk_tolerance_value": 4,
+                "direction": "higher_is_better",
+                "status": "appetite",
+                "status_label": "Risk Appetite",
+                "status_label_th": "บรรลุเป้าหมาย",
+                "display_order": 1
+              },
+              {
+                "kri_code": "O5",
+                "metric_key": "innovation_commercial_value",
+                "metric_name": "มูลค่าเชิงพาณิชย์ของนวัตกรรม",
+                "metric_group": "operation",
+                "unit": "ล้านบาท",
+                "actual_value": 2.756,
+                "risk_appetite_value": 2,
+                "risk_tolerance_value": 0,
+                "direction": "higher_is_better",
+                "status": "appetite",
+                "status_label": "Risk Appetite",
+                "status_label_th": "บรรลุเป้าหมาย",
+                "display_order": 2
+              }
+            ],
+            "display_order": 999
+          },
+          {
+            "id": "9",
             "kri_code": "F1",
             "risk_type": "Financial",
             "risk_name": "ผลประกอบการทางการเงิน",
             "kri_description": "ผลประกอบการทางการเงินไม่เป็นไปตามเป้าหมาย",
-            "risk_appetite": "1. กำไรสุทธิ 3,406 ล้านบาท\r\n2. EBITDA Margin = ตัวชี้วัดทางการเงินของ สคร. ที่ระดับ 4",
-            "risk_tolerance": "1. กำไรสุทธิ 3,244 ล้านบาท\r\n2. EBITDA Margin =ตัวชี้วัดทางการเงินของ สคร. ที่ระดับ 3",
+            "risk_appetite": "1. กำไรสุทธิ 2,321 ล้านบาท\n2. ผลประกอบการทางการเงิน\n- รายได้ดำเนินงาน 8,367 ล้านบาท\n- EBITDA Margin 66.33\n- Cost to income 26.40",
+            "risk_tolerance": "1. กำไรสุทธิ 2,089 ล้านบาท\n2. ผลประกอบการทางการเงิน\n- รายได้ดำเนินงาน 8,213 ล้านบาท\n- EBITDA Margin 65.33\n- Cost to income 31.21",
             "risk_owner": "ยศ. บร. ปก.1 ปก.2 ปก.3",
-            "update": "สอดคล้องกับตัวชี้วัดร่างบันทึกข้อตกลง : \n- ตัวชี้วัด 2.1 รายได้จากการดำเนินงาน\n- ตัวชี้วัด 2.2 EBITDA Margin\n\nสอดคล้องกับตัวชี้วัดแผนวิสาหกิจ :\n- ตัวชี้วัด 1 รายได้จากการดำเนินงาน ไม่น้อยกว่า 9,510.84 ล้านบาท",
-            "performance_level": "in_progress",
-            "performance_label": "ดำเนินงานได้ตามแผน",
-            "impact": 2,
-            "likelihood": 3,
+            "update": "ผลการบริหารความเสี่ยงองค์กร ปีงบประมาณ 2569\nKRI: กำไรสุทธิและผลประกอบการทางการเงิน\n\nอยู่ระหว่างสรุปผลฯ โดยผล ณ 31 ส.ค. 69\n1. กำไรสุทธิ 2,859 ล้านบาท\n2. ผลประกอบการทางการเงิน\n- รายได้ดำเนินงาน 8,206 ล้านบาท\n- EBITDA Margin 68.04\n- Cost to income 24.32\n\nคะแนนความเสี่ยงอ้างอิงแผนภาพในหัวข้อระดับความรุนแรง ณ 29 ก.ย. 69: Impact 1 × Likelihood 4 = 4 (ปานกลาง)",
+            "performance_level": "pending_confirmation",
+            "performance_label": "อยู่ระหว่างตรวจสอบ/ยืนยันผล",
+            "impact": 1,
+            "likelihood": 4,
             "risk_zone": "medium",
             "risk_color": "yellow",
             "risk_label": "ปานกลาง",
             "color_hex": "",
             "trend": "stable",
-            "last_update": "20 ตุลาคม 2569",
+            "last_update": "31 สิงหาคม 2569",
             "actions": [
               {
                 "id": "61",
                 "kri_code": "F1",
                 "action_type": "Existing Control",
-                "action_text": "C22: รายงานผลการดำเนินงาน",
+                "action_text": "C31: รายงานผลการดำเนินงานและวิเคราะห์รายไตรมาสนำเสนอต่อ คณะอนุกรรมการการเงิน งบประมาณ และการลงทุน และคณะกรรมการ กนอ.",
                 "display_order": 999
               },
               {
                 "id": "62",
                 "kri_code": "F1",
                 "action_type": "Existing Control",
-                "action_text": "C2-C6: แผนงาน/ระบบลูกค้า ตลาด",
+                "action_text": "C32: การกำกับบริษัทร่วมทุน",
                 "display_order": 999
               },
               {
                 "id": "63",
                 "kri_code": "F1",
                 "action_type": "Existing Control",
-                "action_text": "C23: การกำกับบริษัทร่วมทุน",
+                "action_text": "C33: โครงการแสวงหาพันธมิตรในขยาย / จัดตั้งนิคมฯ ร่วม",
                 "display_order": 999
               },
               {
                 "id": "64",
                 "kri_code": "F1",
                 "action_type": "Existing Control",
-                "action_text": "C24: ขยาย/จัดตั้งนิคมฯร่วม",
+                "action_text": "C34: แปลง A C เสนอ ครม. ให้ความเห็นชอบโครงการฯ",
                 "display_order": 999
               },
               {
                 "id": "65",
                 "kri_code": "F1",
-                "action_type": "Existing Control",
-                "action_text": "C25: แปลง A C เสนอ ครม.",
+                "action_type": "Mitigation Plan",
+                "action_text": "M27: มาตรการควบคุมค่าใช้จ่าย",
                 "display_order": 999
               },
               {
                 "id": "66",
                 "kri_code": "F1",
                 "action_type": "Mitigation Plan",
-                "action_text": "M41: มาตรการควบคุมค่าใช้จ่าย",
+                "action_text": "M28: การพัฒนาธุรกิจใหม่",
                 "display_order": 999
               },
               {
                 "id": "67",
                 "kri_code": "F1",
                 "action_type": "Mitigation Plan",
-                "action_text": "M42: มาตรการเพิ่มรายได้",
+                "action_text": "M29: Ease of Doing Business",
                 "display_order": 999
               },
               {
                 "id": "68",
                 "kri_code": "F1",
                 "action_type": "Mitigation Plan",
-                "action_text": "M1: วิเคราะห์ข้อมูลความต้องการ",
+                "action_text": "M30: แผนงานหารายได้เพิ่มจากท่าเรือฯ Phase 3 แปลง A และ C",
                 "display_order": 999
               },
               {
                 "id": "69",
                 "kri_code": "F1",
                 "action_type": "Mitigation Plan",
-                "action_text": "M43: พัฒนาธุรกิจใหม่/การร่วมทุน",
-                "display_order": 999
-              },
-              {
-                "id": "70",
-                "kri_code": "F1",
-                "action_type": "Mitigation Plan",
-                "action_text": "M44: คาดการณ์เงินปันผล",
-                "display_order": 999
-              },
-              {
-                "id": "71",
-                "kri_code": "F1",
-                "action_type": "Mitigation Plan",
-                "action_text": "M45: Ease of doing Business",
-                "display_order": 999
-              },
-              {
-                "id": "72",
-                "kri_code": "F1",
-                "action_type": "Mitigation Plan",
-                "action_text": "M46: แผนรายได้ท่าเรือ",
+                "action_text": "M31: พัฒนาและใช้งานระบบ Multi-Agent AI ในการติดตามสถานการณ์ผลกระทบการลงทุนในนิคมฯ",
                 "display_order": 999
               }
             ],
@@ -2828,13 +3012,13 @@
                 "metric_name": "กำไรสุทธิ",
                 "metric_group": "financial",
                 "unit": "ล้านบาท",
-                "actual_value": 0,
-                "risk_appetite_value": 3406,
-                "risk_tolerance_value": 3244,
+                "actual_value": 2859,
+                "risk_appetite_value": 2321,
+                "risk_tolerance_value": 2089,
                 "direction": "higher_is_better",
-                "status": "not_meet",
-                "status_label": "Not Meet",
-                "status_label_th": "ไม่บรรลุเป้าหมาย RA / RT",
+                "status": "appetite",
+                "status_label": "Risk Appetite",
+                "status_label_th": "บรรลุเป้าหมาย",
                 "display_order": 1
               },
               {
@@ -2842,112 +3026,137 @@
                 "metric_key": "ebitda_margin",
                 "metric_name": "EBITDA Margin",
                 "metric_group": "financial",
-                "unit": "ระดับ",
-                "actual_value": 0,
-                "risk_appetite_value": 4,
-                "risk_tolerance_value": 3,
+                "unit": "%",
+                "actual_value": 68.04,
+                "risk_appetite_value": 66.33,
+                "risk_tolerance_value": 65.33,
+                "direction": "higher_is_better",
+                "status": "appetite",
+                "status_label": "Risk Appetite",
+                "status_label_th": "บรรลุเป้าหมาย",
+                "display_order": 2
+              },
+              {
+                "kri_code": "F1",
+                "metric_key": "operating_revenue",
+                "metric_name": "รายได้ดำเนินงาน",
+                "metric_group": "financial",
+                "unit": "ล้านบาท",
+                "actual_value": 8206,
+                "risk_appetite_value": 8367,
+                "risk_tolerance_value": 8213,
                 "direction": "higher_is_better",
                 "status": "not_meet",
                 "status_label": "Not Meet",
                 "status_label_th": "ไม่บรรลุเป้าหมาย RA / RT",
-                "display_order": 2
+                "display_order": 3
+              },
+              {
+                "kri_code": "F1",
+                "metric_key": "cost_to_income",
+                "metric_name": "Cost to income",
+                "metric_group": "financial",
+                "unit": "%",
+                "actual_value": 24.32,
+                "risk_appetite_value": 26.4,
+                "risk_tolerance_value": 31.21,
+                "direction": "lower_is_better",
+                "status": "appetite",
+                "status_label": "Risk Appetite",
+                "status_label_th": "บรรลุเป้าหมาย",
+                "display_order": 4
               }
             ],
             "display_order": 999
           },
           {
-            "id": "8",
+            "id": "10",
             "kri_code": "F2",
             "risk_type": "Financial",
             "risk_name": "การเบิกจ่ายงบลงทุน",
             "kri_description": "การเบิกจ่ายงบลงทุนไม่เป็นไปตามแผน",
-            "risk_appetite": "ร้อยละ 95",
-            "risk_tolerance": "ร้อยละ 90",
-            "risk_owner": "ยศ. บร. ปก.1 ปก.2 ปก.3",
-            "update": "สอดคล้องกับตัวชี้วัดร่างบันทึกข้อตกลง : \r\n- ตัวชี้วัด 1.4 ความสามารถในการบริหารแผนลงทุน\r\n- ระดับ 4 95%\r\n- ระดับ 3 90%",
-            "performance_level": "in_progress",
-            "performance_label": "ดำเนินงานได้ตามแผน",
-            "impact": 3,
+            "risk_appetite": "92.5%",
+            "risk_tolerance": "90%",
+            "risk_owner": "สายงาน ยศ. บร. และปก.1 - ปก.3",
+            "update": "ผลการบริหารความเสี่ยงองค์กร ปีงบประมาณ 2569\nKRI: ความสามารถในการเบิกจ่ายงบลงทุน\n\nผลการเบิกจ่าย ณ 30 ก.ย. 69\nผลการเบิกจ่าย ไตรมาส 1 = 100.18\nผลการเบิกจ่าย ไตรมาส 2 = 96.23%\nผลการเบิกจ่าย ไตรมาส 3 = 95.00%\nผลการเบิกจ่าย ไตรมาส 4 = 77.55%\nผลการเบิกจ่าย รายปี = 87.01%\n\nคะแนนความเสี่ยงอ้างอิงแผนภาพในหัวข้อระดับความรุนแรง ณ 29 ก.ย. 69: Impact 4 × Likelihood 3 = 12 (สูง)",
+            "performance_level": "not_meet",
+            "performance_label": "ไม่บรรลุเป้าหมาย RA / RT",
+            "impact": 4,
             "likelihood": 3,
-            "risk_zone": "medium",
-            "risk_color": "yellow",
-            "risk_label": "ปานกลาง",
+            "risk_zone": "high",
+            "risk_color": "orange",
+            "risk_label": "สูง",
             "color_hex": "",
             "trend": "stable",
-            "last_update": "20 ตุลาคม 2569",
+            "last_update": "30 กันยายน 2569",
             "actions": [
+              {
+                "id": "70",
+                "kri_code": "F2",
+                "action_type": "Existing Control",
+                "action_text": "C35: การเตรียมความพร้อมในการขอรับงบประมาณ",
+                "display_order": 999
+              },
+              {
+                "id": "71",
+                "kri_code": "F2",
+                "action_type": "Existing Control",
+                "action_text": "C36: พิจารณาตามหลักเกณฑ์ของ สศช.",
+                "display_order": 999
+              },
+              {
+                "id": "72",
+                "kri_code": "F2",
+                "action_type": "Existing Control",
+                "action_text": "C37: คณะกรรมการกลั่นกรองฯ",
+                "display_order": 999
+              },
               {
                 "id": "73",
                 "kri_code": "F2",
                 "action_type": "Existing Control",
-                "action_text": "C26: ความพร้อมของหน่วยงาน",
+                "action_text": "C38: การติดตามและคาดการณ์ผลการเบิกจ่ายงบลงทุน ณ สิ้นปี",
                 "display_order": 999
               },
               {
                 "id": "74",
                 "kri_code": "F2",
-                "action_type": "Existing Control",
-                "action_text": "C28: I-EA-T Smart Procurement",
+                "action_type": "Mitigation Plan",
+                "action_text": "M32: เชื่อมโยงข้อมูลระบบ I-EA-T Smart Procurement กับระบบอื่นที่เกี่ยวข้อง",
                 "display_order": 999
               },
               {
                 "id": "75",
                 "kri_code": "F2",
-                "action_type": "Existing Control",
-                "action_text": "C29: กระบวนการที่เกี่ยวข้อง",
+                "action_type": "Mitigation Plan",
+                "action_text": "M33: การปรับปรุงกระบวนการทำงาน (SPRINT) กระบวนการเบิกจ่ายงบลงทุน",
                 "display_order": 999
               },
               {
                 "id": "76",
                 "kri_code": "F2",
-                "action_type": "Existing Control",
-                "action_text": "C30: การติดตามและคาดการณ์",
-                "display_order": 999
-              },
-              {
-                "id": "77",
-                "kri_code": "F2",
-                "action_type": "Existing Control",
-                "action_text": "C31: จัดตั้งคณะทำงาน",
-                "display_order": 999
-              },
-              {
-                "id": "78",
-                "kri_code": "F2",
                 "action_type": "Mitigation Plan",
-                "action_text": "M47: อบรมการจัดทำ TOR",
-                "display_order": 999
-              },
-              {
-                "id": "79",
-                "kri_code": "F2",
-                "action_type": "Mitigation Plan",
-                "action_text": "M48: เร่งรัด TOR ก่อนปีงบประมาณ",
-                "display_order": 999
-              },
-              {
-                "id": "80",
-                "kri_code": "F2",
-                "action_type": "Mitigation Plan",
-                "action_text": "M49: คุณภาพของระบบ",
-                "display_order": 999
-              },
-              {
-                "id": "81",
-                "kri_code": "F2",
-                "action_type": "Mitigation Plan",
-                "action_text": "M50: Dashboard และ EWS",
-                "display_order": 999
-              },
-              {
-                "id": "82",
-                "kri_code": "F2",
-                "action_type": "Mitigation Plan",
-                "action_text": "M51: กำกับเร่งรัดแผนงานก่อสร้าง",
+                "action_text": "M34: พัฒนา EWS การเบิกจ่ายงบลงทุน",
                 "display_order": 999
               }
             ],
-            "metrics": [],
+            "metrics": [
+              {
+                "kri_code": "F2",
+                "metric_key": "capital_budget_disbursement",
+                "metric_name": "ผลการเบิกจ่ายงบลงทุนรายปี",
+                "metric_group": "financial",
+                "unit": "%",
+                "actual_value": 87.01,
+                "risk_appetite_value": 92.5,
+                "risk_tolerance_value": 90,
+                "direction": "higher_is_better",
+                "status": "not_meet",
+                "status_label": "Not Meet",
+                "status_label_th": "ไม่บรรลุเป้าหมาย RA / RT",
+                "display_order": 1
+              }
+            ],
             "display_order": 999
           }
         ],
@@ -2957,574 +3166,532 @@
             "id": 1,
             "kri_code": "S1",
             "action_type": "Existing Control",
-            "action_text": "C1: Marketing DNA"
+            "action_text": "C1: การกำกับการจัดซื้อจัดจ้าง"
           },
           {
             "row_number": 3,
             "id": 2,
             "kri_code": "S1",
             "action_type": "Existing Control",
-            "action_text": "C2: เร่งรัดและดึงดูดการลงทุน"
+            "action_text": "C2: การกำกับติดตามที่ปรึกษา"
           },
           {
             "row_number": 4,
             "id": 3,
             "kri_code": "S1",
-            "action_type": "Existing Control",
-            "action_text": "C3: แผนการตลาดและการขาย"
+            "action_type": "Mitigation Plan",
+            "action_text": "M1: กระบวนการสื่อสาร"
           },
           {
             "row_number": 5,
             "id": 4,
             "kri_code": "S1",
-            "action_type": "Existing Control",
-            "action_text": "C4: ติดตามสถานการณ์ของอนุฯ"
+            "action_type": "Mitigation Plan",
+            "action_text": "M2: ตรวจสอบและตรวจรับงาน"
           },
           {
             "row_number": 6,
             "id": 5,
             "kri_code": "S1",
-            "action_type": "Existing Control",
-            "action_text": "C5: แผนยุทธศาสตร์ลูกค้า"
+            "action_type": "Mitigation Plan",
+            "action_text": "M3: ติดตามผลการดำเนินงานอย่างต่อเนื่อง"
           },
           {
             "row_number": 7,
             "id": 6,
-            "kri_code": "S1",
+            "kri_code": "S2",
             "action_type": "Existing Control",
-            "action_text": "C6: Salesforce Platform"
+            "action_text": "C3: กำกับติดตามการรวบรวมข้อมูล"
           },
           {
             "row_number": 8,
             "id": 7,
-            "kri_code": "S1",
-            "action_type": "Mitigation Plan",
-            "action_text": "M1: วิเคราะห์ข้อมูลความต้องการ"
+            "kri_code": "S2",
+            "action_type": "Existing Control",
+            "action_text": "C4: ตรวจทานข้อมูลและทวนสอบความน่าเชื่อถือของ CFO"
           },
           {
             "row_number": 9,
             "id": 8,
-            "kri_code": "S1",
-            "action_type": "Mitigation Plan",
-            "action_text": "M2: เป้าหมายและการแจ้งเตือน"
+            "kri_code": "S2",
+            "action_type": "Existing Control",
+            "action_text": "C5: การประเมิน Gap Analysis นิคมฯ / ท่าเรือฯ ตามเกณฑ์ตัวชี้วัด SDGs I.E."
           },
           {
             "row_number": 10,
             "id": 9,
-            "kri_code": "S1",
+            "kri_code": "S2",
             "action_type": "Mitigation Plan",
-            "action_text": "M3: สรรหาบุคลากรเพิ่ม/จัดอบรม"
+            "action_text": "M4: จัดทำบันทึกแจ้งสายงานเพื่อเร่งรัดติดตาม"
           },
           {
             "row_number": 11,
             "id": 10,
             "kri_code": "S2",
-            "action_type": "Existing Control",
-            "action_text": "C7: IEAT Smart e-Operation & Workflow Orchestration"
+            "action_type": "Mitigation Plan",
+            "action_text": "M5: จัดทำ Template รายการข้อมูล ติดตาม รวบรวมผล และจัดทำแนวทางการคำนวณ CFO"
           },
           {
             "row_number": 12,
             "id": 11,
             "kri_code": "S2",
-            "action_type": "Existing Control",
-            "action_text": "C8: REM Platform"
+            "action_type": "Mitigation Plan",
+            "action_text": "M6: อบรมเพื่อให้ความรู้ความเข้าใจเพิ่มเติม ในมาตรฐาน SDG13 และการคำนวณ CFO"
           },
           {
             "row_number": 13,
             "id": 12,
-            "kri_code": "S2",
-            "action_type": "Mitigation Plan",
-            "action_text": "M4: ออกแบบรายละเอียดโครงการ"
+            "kri_code": "S3",
+            "action_type": "Existing Control",
+            "action_text": "C6: ระเบียบพัสดุฯ"
           },
           {
             "row_number": 14,
             "id": 13,
-            "kri_code": "S2",
-            "action_type": "Mitigation Plan",
-            "action_text": "M5: วิเคราะห์ As is และ to Be"
+            "kri_code": "S3",
+            "action_type": "Existing Control",
+            "action_text": "C7: คณะทำงานขับเคลื่อนการพัฒนาอุตสาหกรรมตามแนวทางเศรษฐกิจใหม่ที่เป็นมิตรกับสิ่งแวดล้อม (Green Transition to New Economy)"
           },
           {
             "row_number": 15,
             "id": 14,
-            "kri_code": "S2",
-            "action_type": "Mitigation Plan",
-            "action_text": "M6: กำหนดเป้าหมาย"
+            "kri_code": "S3",
+            "action_type": "Existing Control",
+            "action_text": "C8: โครงการศึกษาศักยภาพทางเทคโนโลยีและแผนธุรกิจในการติดตั้งเทคโนโลยีดักจับคาร์บอน (Carbon Capture) ในพื้นที่ กนอ."
           },
           {
             "row_number": 16,
             "id": 15,
-            "kri_code": "S2",
+            "kri_code": "S3",
             "action_type": "Mitigation Plan",
-            "action_text": "M7: วิเคราะห์ Gap"
+            "action_text": "M7: จัดทำ List ที่ปรึกษาที่มีความชำนาญ/เชี่ยวชาญเทคโนโลยีการดักจับคาร์บอน"
           },
           {
             "row_number": 17,
             "id": 16,
-            "kri_code": "S2",
+            "kri_code": "S3",
             "action_type": "Mitigation Plan",
-            "action_text": "M8: วิเคราะห์เชื่อมโยง WSWP"
+            "action_text": "M8: ตั้งคณะกรรมการ Steering Committee และการกำกับติดตามการดำเนินโครงการฯ"
           },
           {
             "row_number": 18,
             "id": 17,
-            "kri_code": "S2",
+            "kri_code": "S3",
             "action_type": "Mitigation Plan",
-            "action_text": "M9: จัดลำดับความสำคัญข้อมูล"
+            "action_text": "M9: เร่งรัดกระบวนการจัดซื้อจัดจ้างให้แล้วเสร็จ (เพิ่มผู้รับผิดชอบ บุคลากร และเพิ่มความถี่ในการกำกับติดตามเป็นรายสัปดาห์)"
           },
           {
             "row_number": 19,
             "id": 18,
-            "kri_code": "S2",
-            "action_type": "Mitigation Plan",
-            "action_text": "M10: การติดตามและป้อนกลับ"
+            "kri_code": "O1",
+            "action_type": "Existing Control",
+            "action_text": "C9: กำหนดความรู้การใช้งานดิจิทัล สำหรับบุคลากรฯ"
           },
           {
             "row_number": 20,
             "id": 19,
-            "kri_code": "S2",
-            "action_type": "Mitigation Plan",
-            "action_text": "M11: สร้าง Change Management"
+            "kri_code": "O1",
+            "action_type": "Existing Control",
+            "action_text": "C10: อบรมการใช้งานระบบการใช้งานระบบงานต่างๆ ที่ได้พัฒนาขึ้น"
           },
           {
             "row_number": 21,
             "id": 20,
-            "kri_code": "S2",
-            "action_type": "Mitigation Plan",
-            "action_text": "M12: การกำหนดผลลัพธ์"
+            "kri_code": "O1",
+            "action_type": "Existing Control",
+            "action_text": "C11: กำกับดูแลผู้พัฒนาระบบในระหว่างการเก็บ Requirement"
           },
           {
             "row_number": 22,
             "id": 21,
-            "kri_code": "S3",
+            "kri_code": "O1",
             "action_type": "Existing Control",
-            "action_text": "C9: Green Transition"
+            "action_text": "C12: จัดทำแผนเชื่อมโยงข้อมูลทั้งภายในและภายนอก"
           },
           {
             "row_number": 23,
             "id": 22,
-            "kri_code": "S3",
-            "action_type": "Mitigation Plan",
-            "action_text": "M13: ฐานข้อมูลคัดเลือกโครงการ"
+            "kri_code": "O1",
+            "action_type": "Existing Control",
+            "action_text": "C13: ติดตามกระบวนการจัดซื้อจัดจ้างอย่างต่อเนื่อง"
           },
           {
             "row_number": 24,
             "id": 23,
-            "kri_code": "S3",
+            "kri_code": "O1",
             "action_type": "Mitigation Plan",
-            "action_text": "M14: ทบทวนเป้าหมายหลักเกณฑ์"
+            "action_text": "M10: เพิ่มการรับรู้และเข้าใจของระบบ work system work process ใหม่ และจัดอบรม เพิ่มทักษะด้านเทคโนโลยีสารสนเทศ"
           },
           {
             "row_number": 25,
             "id": 24,
-            "kri_code": "S3",
+            "kri_code": "O1",
             "action_type": "Mitigation Plan",
-            "action_text": "M15: หลักเกณฑ์มิติผลประโยชน์"
+            "action_text": "M10: จัดเก็บ requirementพร้อมทั้งกำกับดูแลผู้พัฒนาระบบให้รายงานผลการเก็บ requirement"
           },
           {
             "row_number": 26,
             "id": 25,
-            "kri_code": "S3",
+            "kri_code": "O1",
             "action_type": "Mitigation Plan",
-            "action_text": "M16: หลักเกณฑ์ Market Testing/ทดลองใช้จริง"
+            "action_text": "M11: จัดประชุมเพื่อสรุปข้อมูลที่ต้องการจะเชื่อมโยง/การจัดประชุมในระดับนโยบาย เช่น Data Government Council ของหน่วยงาน"
           },
           {
             "row_number": 27,
             "id": 26,
-            "kri_code": "S3",
+            "kri_code": "O1",
             "action_type": "Mitigation Plan",
-            "action_text": "M17: สื่อสารประชาสัมพันธ์"
+            "action_text": "M12: การเร่งรัด Vendor"
           },
           {
             "row_number": 28,
             "id": 27,
-            "kri_code": "S3",
-            "action_type": "Mitigation Plan",
-            "action_text": "M18: ข้อมูลความคืบหน้าโครงการ"
+            "kri_code": "O2",
+            "action_type": "Existing Control",
+            "action_text": "C14: การสำรวจความเชื่อมั่นผู้มีส่วนได้ส่วนเสีย"
           },
           {
             "row_number": 29,
             "id": 28,
-            "kri_code": "S4",
+            "kri_code": "O2",
             "action_type": "Existing Control",
-            "action_text": "C10: กำหนด Required Field"
+            "action_text": "C15: โครงการยกระดับการดำเนินงานด้านคุณธรรมและความโปร่งใสของ กนอ."
           },
           {
             "row_number": 30,
             "id": 29,
-            "kri_code": "S4",
+            "kri_code": "O2",
             "action_type": "Existing Control",
-            "action_text": "C11: ทดสอบระบบก่อนใช้งาน"
+            "action_text": "C16.1: Customer Visit"
           },
           {
             "row_number": 31,
             "id": 30,
-            "kri_code": "S4",
+            "kri_code": "O2",
             "action_type": "Existing Control",
-            "action_text": "C12: เจ้าหน้าที่ให้คำแนะนำ"
+            "action_text": "C16.2: Partner & Factory Visit"
           },
           {
             "row_number": 32,
             "id": 31,
-            "kri_code": "S4",
+            "kri_code": "O2",
             "action_type": "Existing Control",
-            "action_text": "C13: หารือร่วมกับแผนแม่บท"
+            "action_text": "C17: การตอบสนองข้อร้องเรียน"
           },
           {
             "row_number": 33,
             "id": 32,
-            "kri_code": "S4",
+            "kri_code": "O2",
             "action_type": "Existing Control",
-            "action_text": "C14: ปรับปรุงการทำงานของแพลตฟอร์ม"
+            "action_text": "C18.1: แผนรับมือสถานการณ์วิกฤติ การบริหารความต่อเนื่องทางธุรกิจ (BCM)"
           },
           {
             "row_number": 34,
             "id": 33,
-            "kri_code": "S4",
-            "action_type": "Mitigation Plan",
-            "action_text": "M19: วิเคราะห์สาเหตุคำขอที่ส่งกลับแก้ไข"
+            "kri_code": "O2",
+            "action_type": "Existing Control",
+            "action_text": "C18.2: โครงการกำกับดูแลและบริหารจัดการด้านความปลอดภัย"
           },
           {
             "row_number": 35,
             "id": 34,
-            "kri_code": "S4",
-            "action_type": "Mitigation Plan",
-            "action_text": "M20: ปรับปรุงเงื่อนไขการตรวจสอบ"
+            "kri_code": "O2",
+            "action_type": "Existing Control",
+            "action_text": "C18.3: โครงการพัฒนาศักยภาพเจ้าหน้าที่ กนอ. และผู้ประกอบการในด้านความปลอดภัย"
           },
           {
             "row_number": 36,
             "id": 35,
-            "kri_code": "S4",
-            "action_type": "Mitigation Plan",
-            "action_text": "M21: นำข้อผิดพลาดมาปรับปรุง"
+            "kri_code": "O2",
+            "action_type": "Existing Control",
+            "action_text": "C18.4: โครงการยกระดับการจัดการความปลอดภัยของโรงงานในนิคมอุตสาหกรรม"
           },
           {
             "row_number": 37,
             "id": 36,
-            "kri_code": "S4",
+            "kri_code": "O2",
             "action_type": "Mitigation Plan",
-            "action_text": "M22: จัดอบรม/Workshop"
+            "action_text": "M14: เพิ่มข้อคำถามมุ่งเน้นประเด็นความเชื่อมั่นของผู้มีส่วนได้ส่วนเสีย"
           },
           {
             "row_number": 38,
             "id": 37,
-            "kri_code": "S4",
+            "kri_code": "O2",
             "action_type": "Mitigation Plan",
-            "action_text": "M23: ทบทวนกระบวนการ"
+            "action_text": "M15: เปิดเผยข้อมูลอย่างสม่ำเสมอผ่านช่องทางสาธารณะ (Proactive Disclosure)"
           },
           {
             "row_number": 39,
             "id": 38,
-            "kri_code": "S4",
-            "action_type": "Mitigation Plan",
-            "action_text": "M24: Transition period"
+            "kri_code": "O3",
+            "action_type": "Existing Control",
+            "action_text": "C19: แผนงานสร้างบุคลากรด้านการตลาด “ถอดรหัส Marketing DNA”"
           },
           {
             "row_number": 40,
             "id": 39,
-            "kri_code": "S4",
-            "action_type": "Mitigation Plan",
-            "action_text": "M25: วิเคราะห์ Sub process"
+            "kri_code": "O3",
+            "action_type": "Existing Control",
+            "action_text": "C20: กิจกรรมด้านการตลาดผ่านเครือข่ายหน่วยงานด้านการส่งเสริมการลงทุนทั้งในประเทศและต่างประเทศ"
           },
           {
             "row_number": 41,
             "id": 40,
-            "kri_code": "O1",
+            "kri_code": "O3",
             "action_type": "Existing Control",
-            "action_text": "C15: แผนงาน Talent & Successor"
+            "action_text": "C21: มาตรการส่งเสริมการเช่าที่ดิน (Promotion)"
           },
           {
             "row_number": 42,
             "id": 41,
-            "kri_code": "O1",
+            "kri_code": "O3",
             "action_type": "Existing Control",
-            "action_text": "C16: ผลลัพธ์การขึ้นตำแหน่ง"
+            "action_text": "C22: โครงการเพิ่มศักยภาพการแข่งขันของลูกค้า (Enhancing Customer’s Competitiveness)"
           },
           {
             "row_number": 43,
             "id": 42,
-            "kri_code": "O1",
+            "kri_code": "O3",
             "action_type": "Existing Control",
-            "action_text": "C17: อธิบายการระบุตำแหน่งสำคัญ"
+            "action_text": "C23: โครงการขาย/ให้เช่าพื้นที่นิคมอุตสาหกรรม"
           },
           {
             "row_number": 44,
             "id": 43,
-            "kri_code": "O1",
+            "kri_code": "O3",
             "action_type": "Existing Control",
-            "action_text": "C18: การให้ Extra Incentive"
+            "action_text": "C24: การเปลี่ยนแปลงรายงาน EIA ของนิคมฯ Smart Park"
           },
           {
             "row_number": 45,
             "id": 44,
-            "kri_code": "O1",
+            "kri_code": "O3",
             "action_type": "Mitigation Plan",
-            "action_text": "M26: แผนติดตามความคืบหน้า"
+            "action_text": "M16: แผนดำเนินงานด้านการตลาดและการขาย โครงการพัฒนาแพลตฟอร์ม AI เพื่อสนับสนุนข้อมูลกลางของ กนอ."
           },
           {
             "row_number": 46,
             "id": 45,
-            "kri_code": "O1",
+            "kri_code": "O3",
             "action_type": "Mitigation Plan",
-            "action_text": "M27: วิเคราะห์ตำแหน่งสำคัญ"
+            "action_text": "M17: ติดตามเร่งรัดการลงทุน"
           },
           {
             "row_number": 47,
             "id": 46,
-            "kri_code": "O1",
-            "action_type": "Mitigation Plan",
-            "action_text": "M28: การประเมินผลศักยภาพ"
+            "kri_code": "O4",
+            "action_type": "Existing Control",
+            "action_text": "C25: โครงการจัดทำแผน Talent & Successor"
           },
           {
             "row_number": 48,
             "id": 47,
-            "kri_code": "O1",
+            "kri_code": "O4",
             "action_type": "Mitigation Plan",
-            "action_text": "M29: สำรวจความต้องการอบรม"
+            "action_text": "M18: ทบทวนหลักเกณฑ์ กฎ ระเบียบที่เกี่ยวข้อง"
           },
           {
             "row_number": 49,
             "id": 48,
-            "kri_code": "O1",
+            "kri_code": "O4",
             "action_type": "Mitigation Plan",
-            "action_text": "M30: ทบทวนกระบวนการสรรหา"
+            "action_text": "M19: แผนพัฒนา Talent & Successor"
           },
           {
             "row_number": 50,
             "id": 49,
-            "kri_code": "O2",
-            "action_type": "Existing Control",
-            "action_text": "C19: อบรม Digital Inno Process"
+            "kri_code": "O4",
+            "action_type": "Mitigation Plan",
+            "action_text": "M20: การติดตามคุณภาพผลงาน Talent/การปรับปรุงกระบวนการ"
           },
           {
             "row_number": 51,
             "id": 50,
-            "kri_code": "O2",
+            "kri_code": "O5",
             "action_type": "Existing Control",
-            "action_text": "C20: สื่อสาร สร้างความตระหนัก"
+            "action_text": "C26: การอบรมเชิงปฏิบัติการ SPRINT และหลักสูตรการพัฒนาด้าน Innovation"
           },
           {
             "row_number": 52,
             "id": 51,
-            "kri_code": "O2",
+            "kri_code": "O5",
             "action_type": "Existing Control",
-            "action_text": "C21: พัฒนาความรู้ ทักษะ"
+            "action_text": "C27: Clinic นวัตกรรม & Hackathon"
           },
           {
             "row_number": 53,
             "id": 52,
-            "kri_code": "O2",
-            "action_type": "Mitigation Plan",
-            "action_text": "M32: อบรมนำ Digital/AI มาใช้"
+            "kri_code": "O5",
+            "action_type": "Existing Control",
+            "action_text": "C28: จัดเตรียมพื้นที่ Creativity & Innovation Space ไว้ทำกิจกรรมของกลุ่มนวัตกรและ Sharing ด้าน Innovation"
           },
           {
             "row_number": 54,
             "id": 53,
-            "kri_code": "O2",
-            "action_type": "Mitigation Plan",
-            "action_text": "M33: พี่เลี้ยงแก่หน่วยงาน"
+            "kri_code": "O5",
+            "action_type": "Existing Control",
+            "action_text": "C29: การประกวดนวัตกรรม"
           },
           {
             "row_number": 55,
             "id": 54,
-            "kri_code": "O2",
-            "action_type": "Mitigation Plan",
-            "action_text": "M34: แผนการสื่อสารของผู้บริหาร"
+            "kri_code": "O5",
+            "action_type": "Existing Control",
+            "action_text": "C30: แผนการทบทวนนวัตกรรมองค์กร (CIS)"
           },
           {
             "row_number": 56,
             "id": 55,
-            "kri_code": "O2",
+            "kri_code": "O5",
             "action_type": "Mitigation Plan",
-            "action_text": "M35: กำหนดสิ่งจูงใจ"
+            "action_text": "M21: จัดอบรมหลักสูตรด้านนวัตกรรมหรือแผนการทำ SPRINT"
           },
           {
             "row_number": 57,
             "id": 56,
-            "kri_code": "O2",
+            "kri_code": "O5",
             "action_type": "Mitigation Plan",
-            "action_text": "M36: เชื่อมโยงกับ PMS"
+            "action_text": "M22: อบรมทักษะ ความรู้ที่สอดคล้องกับ Gap ด้านนวัตกรรมที่จำเป็นต้องพัฒนา"
           },
           {
             "row_number": 58,
             "id": 57,
-            "kri_code": "O2",
+            "kri_code": "O5",
             "action_type": "Mitigation Plan",
-            "action_text": "M37: สอบถาม และสรรหา AI"
+            "action_text": "M23: แผนงานส่งเสริมสนับสนุนกิจกรรมด้านนวัตกรรม"
           },
           {
             "row_number": 59,
             "id": 58,
-            "kri_code": "O2",
+            "kri_code": "O5",
             "action_type": "Mitigation Plan",
-            "action_text": "M38: On-the-job Training"
+            "action_text": "M24: ผลักดันการประกวด Open Innovation"
           },
           {
             "row_number": 60,
             "id": 59,
-            "kri_code": "O2",
+            "kri_code": "O5",
             "action_type": "Mitigation Plan",
-            "action_text": "M39: SPRINT"
+            "action_text": "M25: เพิ่มกิจกรรมของ CIS ในการทบทวน Eco System"
           },
           {
             "row_number": 61,
             "id": 60,
-            "kri_code": "O2",
+            "kri_code": "O5",
             "action_type": "Mitigation Plan",
-            "action_text": "M40: MOU กับพันธมิตร"
+            "action_text": "M26: แผนการสร้างความร่วมมือกับผู้มีส่วนได้ส่วนเสียที่สำคัญด้านนวัตกรรม"
           },
           {
             "row_number": 62,
             "id": 61,
             "kri_code": "F1",
             "action_type": "Existing Control",
-            "action_text": "C22: รายงานผลการดำเนินงาน"
+            "action_text": "C31: รายงานผลการดำเนินงานและวิเคราะห์รายไตรมาสนำเสนอต่อ คณะอนุกรรมการการเงิน งบประมาณ และการลงทุน และคณะกรรมการ กนอ."
           },
           {
             "row_number": 63,
             "id": 62,
             "kri_code": "F1",
             "action_type": "Existing Control",
-            "action_text": "C2-C6: แผนงาน/ระบบลูกค้า ตลาด"
+            "action_text": "C32: การกำกับบริษัทร่วมทุน"
           },
           {
             "row_number": 64,
             "id": 63,
             "kri_code": "F1",
             "action_type": "Existing Control",
-            "action_text": "C23: การกำกับบริษัทร่วมทุน"
+            "action_text": "C33: โครงการแสวงหาพันธมิตรในขยาย / จัดตั้งนิคมฯ ร่วม"
           },
           {
             "row_number": 65,
             "id": 64,
             "kri_code": "F1",
             "action_type": "Existing Control",
-            "action_text": "C24: ขยาย/จัดตั้งนิคมฯร่วม"
+            "action_text": "C34: แปลง A C เสนอ ครม. ให้ความเห็นชอบโครงการฯ"
           },
           {
             "row_number": 66,
             "id": 65,
             "kri_code": "F1",
-            "action_type": "Existing Control",
-            "action_text": "C25: แปลง A C เสนอ ครม."
+            "action_type": "Mitigation Plan",
+            "action_text": "M27: มาตรการควบคุมค่าใช้จ่าย"
           },
           {
             "row_number": 67,
             "id": 66,
             "kri_code": "F1",
             "action_type": "Mitigation Plan",
-            "action_text": "M41: มาตรการควบคุมค่าใช้จ่าย"
+            "action_text": "M28: การพัฒนาธุรกิจใหม่"
           },
           {
             "row_number": 68,
             "id": 67,
             "kri_code": "F1",
             "action_type": "Mitigation Plan",
-            "action_text": "M42: มาตรการเพิ่มรายได้"
+            "action_text": "M29: Ease of Doing Business"
           },
           {
             "row_number": 69,
             "id": 68,
             "kri_code": "F1",
             "action_type": "Mitigation Plan",
-            "action_text": "M1: วิเคราะห์ข้อมูลความต้องการ"
+            "action_text": "M30: แผนงานหารายได้เพิ่มจากท่าเรือฯ Phase 3 แปลง A และ C"
           },
           {
             "row_number": 70,
             "id": 69,
             "kri_code": "F1",
             "action_type": "Mitigation Plan",
-            "action_text": "M43: พัฒนาธุรกิจใหม่/การร่วมทุน"
+            "action_text": "M31: พัฒนาและใช้งานระบบ Multi-Agent AI ในการติดตามสถานการณ์ผลกระทบการลงทุนในนิคมฯ"
           },
           {
             "row_number": 71,
             "id": 70,
-            "kri_code": "F1",
-            "action_type": "Mitigation Plan",
-            "action_text": "M44: คาดการณ์เงินปันผล"
+            "kri_code": "F2",
+            "action_type": "Existing Control",
+            "action_text": "C35: การเตรียมความพร้อมในการขอรับงบประมาณ"
           },
           {
             "row_number": 72,
             "id": 71,
-            "kri_code": "F1",
-            "action_type": "Mitigation Plan",
-            "action_text": "M45: Ease of doing Business"
+            "kri_code": "F2",
+            "action_type": "Existing Control",
+            "action_text": "C36: พิจารณาตามหลักเกณฑ์ของ สศช."
           },
           {
             "row_number": 73,
             "id": 72,
-            "kri_code": "F1",
-            "action_type": "Mitigation Plan",
-            "action_text": "M46: แผนรายได้ท่าเรือ"
+            "kri_code": "F2",
+            "action_type": "Existing Control",
+            "action_text": "C37: คณะกรรมการกลั่นกรองฯ"
           },
           {
             "row_number": 74,
             "id": 73,
             "kri_code": "F2",
             "action_type": "Existing Control",
-            "action_text": "C26: ความพร้อมของหน่วยงาน"
+            "action_text": "C38: การติดตามและคาดการณ์ผลการเบิกจ่ายงบลงทุน ณ สิ้นปี"
           },
           {
             "row_number": 75,
             "id": 74,
             "kri_code": "F2",
-            "action_type": "Existing Control",
-            "action_text": "C28: I-EA-T Smart Procurement"
+            "action_type": "Mitigation Plan",
+            "action_text": "M32: เชื่อมโยงข้อมูลระบบ I-EA-T Smart Procurement กับระบบอื่นที่เกี่ยวข้อง"
           },
           {
             "row_number": 76,
             "id": 75,
             "kri_code": "F2",
-            "action_type": "Existing Control",
-            "action_text": "C29: กระบวนการที่เกี่ยวข้อง"
+            "action_type": "Mitigation Plan",
+            "action_text": "M33: การปรับปรุงกระบวนการทำงาน (SPRINT) กระบวนการเบิกจ่ายงบลงทุน"
           },
           {
             "row_number": 77,
             "id": 76,
             "kri_code": "F2",
-            "action_type": "Existing Control",
-            "action_text": "C30: การติดตามและคาดการณ์"
-          },
-          {
-            "row_number": 78,
-            "id": 77,
-            "kri_code": "F2",
-            "action_type": "Existing Control",
-            "action_text": "C31: จัดตั้งคณะทำงาน"
-          },
-          {
-            "row_number": 79,
-            "id": 78,
-            "kri_code": "F2",
             "action_type": "Mitigation Plan",
-            "action_text": "M47: อบรมการจัดทำ TOR"
-          },
-          {
-            "row_number": 80,
-            "id": 79,
-            "kri_code": "F2",
-            "action_type": "Mitigation Plan",
-            "action_text": "M48: เร่งรัด TOR ก่อนปีงบประมาณ"
-          },
-          {
-            "row_number": 81,
-            "id": 80,
-            "kri_code": "F2",
-            "action_type": "Mitigation Plan",
-            "action_text": "M49: คุณภาพของระบบ"
-          },
-          {
-            "row_number": 82,
-            "id": 81,
-            "kri_code": "F2",
-            "action_type": "Mitigation Plan",
-            "action_text": "M50: Dashboard และ EWS"
-          },
-          {
-            "row_number": 83,
-            "id": 82,
-            "kri_code": "F2",
-            "action_type": "Mitigation Plan",
-            "action_text": "M51: กำกับเร่งรัดแผนงานก่อสร้าง"
+            "action_text": "M34: พัฒนา EWS การเบิกจ่ายงบลงทุน"
           }
         ],
         "risk_matrix": [
@@ -3737,9 +3904,9 @@
             "metric_name": "กำไรสุทธิ",
             "metric_group": "financial",
             "unit": "ล้านบาท",
-            "actual_value": "",
-            "risk_appetite_value": 3406,
-            "risk_tolerance_value": 3244,
+            "actual_value": 2859,
+            "risk_appetite_value": 2321,
+            "risk_tolerance_value": 2089,
             "direction": "higher_is_better",
             "display_order": 1
           },
@@ -3749,32 +3916,206 @@
             "metric_key": "ebitda_margin",
             "metric_name": "EBITDA Margin",
             "metric_group": "financial",
-            "unit": "ระดับ",
-            "actual_value": "",
+            "unit": "%",
+            "actual_value": 68.04,
+            "risk_appetite_value": 66.33,
+            "risk_tolerance_value": 65.33,
+            "direction": "higher_is_better",
+            "display_order": 2
+          },
+          {
+            "row_number": 4,
+            "kri_code": "F1",
+            "metric_key": "operating_revenue",
+            "metric_name": "รายได้ดำเนินงาน",
+            "metric_group": "financial",
+            "unit": "ล้านบาท",
+            "actual_value": 8206,
+            "risk_appetite_value": 8367,
+            "risk_tolerance_value": 8213,
+            "direction": "higher_is_better",
+            "display_order": 3
+          },
+          {
+            "row_number": 5,
+            "kri_code": "F1",
+            "metric_key": "cost_to_income",
+            "metric_name": "Cost to income",
+            "metric_group": "financial",
+            "unit": "%",
+            "actual_value": 24.32,
+            "risk_appetite_value": 26.4,
+            "risk_tolerance_value": 31.21,
+            "direction": "lower_is_better",
+            "display_order": 4
+          },
+          {
+            "row_number": 6,
+            "kri_code": "F2",
+            "metric_key": "capital_budget_disbursement",
+            "metric_name": "ผลการเบิกจ่ายงบลงทุนรายปี",
+            "metric_group": "financial",
+            "unit": "%",
+            "actual_value": 87.01,
+            "risk_appetite_value": 92.5,
+            "risk_tolerance_value": 90,
+            "direction": "higher_is_better",
+            "display_order": 1
+          },
+          {
+            "row_number": 7,
+            "kri_code": "S2",
+            "metric_key": "sdgs_gap_assessment",
+            "metric_name": "การประเมิน Gap Analysis ตามเกณฑ์ SDGs I.E.",
+            "metric_group": "strategic",
+            "unit": "แห่ง",
+            "actual_value": 40,
+            "risk_appetite_value": 26,
+            "risk_tolerance_value": 24,
+            "direction": "higher_is_better",
+            "display_order": 1
+          },
+          {
+            "row_number": 8,
+            "kri_code": "S2",
+            "metric_key": "sdg13_estates",
+            "metric_name": "นิคมฯ ที่บรรลุเป้าหมาย SDG 13",
+            "metric_group": "strategic",
+            "unit": "แห่ง",
+            "actual_value": 8,
+            "risk_appetite_value": 5,
+            "risk_tolerance_value": 4,
+            "direction": "higher_is_better",
+            "display_order": 2
+          },
+          {
+            "row_number": 9,
+            "kri_code": "O2",
+            "metric_key": "stakeholder_confidence",
+            "metric_name": "ระดับความเชื่อมั่นของผู้มีส่วนได้ส่วนเสีย",
+            "metric_group": "operation",
+            "unit": "คะแนน",
+            "actual_value": 4.82,
+            "risk_appetite_value": 4.6,
+            "risk_tolerance_value": 4.5,
+            "direction": "higher_is_better",
+            "display_order": 1
+          },
+          {
+            "row_number": 10,
+            "kri_code": "O3",
+            "metric_key": "land_sales_leases",
+            "metric_name": "การขาย/ให้เช่าพื้นที่นิคมอุตสาหกรรม",
+            "metric_group": "operation",
+            "unit": "ไร่",
+            "actual_value": 5772,
+            "risk_appetite_value": 4454,
+            "risk_tolerance_value": 4138,
+            "direction": "higher_is_better",
+            "display_order": 1
+          },
+          {
+            "row_number": 11,
+            "kri_code": "O3",
+            "metric_key": "smart_park_sales_leases",
+            "metric_name": "การขาย/ให้เช่าพื้นที่นิคมฯ Smart Park",
+            "metric_group": "operation",
+            "unit": "ไร่",
+            "actual_value": 71.53,
+            "risk_appetite_value": 62,
+            "risk_tolerance_value": 62,
+            "direction": "higher_is_better",
+            "display_order": 2
+          },
+          {
+            "row_number": 12,
+            "kri_code": "O4",
+            "metric_key": "successor_coverage",
+            "metric_name": "Successor ครอบคลุมตำแหน่งงานที่สำคัญ",
+            "metric_group": "operation",
+            "unit": "%",
+            "actual_value": 98,
+            "risk_appetite_value": 95,
+            "risk_tolerance_value": 90,
+            "direction": "higher_is_better",
+            "display_order": 1
+          },
+          {
+            "row_number": 13,
+            "kri_code": "O4",
+            "metric_key": "talent_process_improvements",
+            "metric_name": "ผลงาน Talent/การปรับปรุงกระบวนการทำงาน (สะสม)",
+            "metric_group": "operation",
+            "unit": "ผลงาน/กระบวนการ",
+            "actual_value": 40,
+            "risk_appetite_value": 16,
+            "risk_tolerance_value": 15,
+            "direction": "higher_is_better",
+            "display_order": 2
+          },
+          {
+            "row_number": 14,
+            "kri_code": "O4",
+            "metric_key": "talent_project_achievements",
+            "metric_name": "การบรรลุข้อเสนอโครงการ Talent",
+            "metric_group": "operation",
+            "unit": "โครงการ",
+            "actual_value": 14,
+            "risk_appetite_value": 10,
+            "risk_tolerance_value": 8,
+            "direction": "higher_is_better",
+            "display_order": 3
+          },
+          {
+            "row_number": 15,
+            "kri_code": "O5",
+            "metric_key": "innovation_development",
+            "metric_name": "การพัฒนาต่อยอดนวัตกรรมองค์กร",
+            "metric_group": "operation",
+            "unit": "นวัตกรรม",
+            "actual_value": 4,
             "risk_appetite_value": 4,
-            "risk_tolerance_value": 3,
+            "risk_tolerance_value": 4,
+            "direction": "higher_is_better",
+            "display_order": 1
+          },
+          {
+            "row_number": 16,
+            "kri_code": "O5",
+            "metric_key": "innovation_commercial_value",
+            "metric_name": "มูลค่าเชิงพาณิชย์ของนวัตกรรม",
+            "metric_group": "operation",
+            "unit": "ล้านบาท",
+            "actual_value": 2.756,
+            "risk_appetite_value": 2,
+            "risk_tolerance_value": "",
             "direction": "higher_is_better",
             "display_order": 2
           }
         ],
         "summary": {
-          "total_kri": 8,
+          "total_kri": 10,
           "by_risk_type": {
-            "Strategic": 4,
-            "Operation": 2,
+            "Strategic": 3,
+            "Operation": 5,
             "Financial": 2
           },
           "by_performance_level": {
-            "in_progress": 8
+            "appetite": 8,
+            "pending_confirmation": 1,
+            "not_meet": 1
           },
           "by_risk_zone": {
-            "low": 4,
-            "medium": 4
+            "low": 8,
+            "medium": 1,
+            "high": 1
           },
           "by_trend": {
-            "stable": 8
+            "improving": 8,
+            "stable": 2
           },
           "by_metric_status": {
+            "appetite": 13,
             "not_meet": 2
           }
         }
